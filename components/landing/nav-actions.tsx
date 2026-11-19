@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useState } from "react";
 
 // visitor counter connected to Neon PostgreSQL
 export function VisitorCounter({ site = "stick-it-up" }: { site?: string }) {
@@ -116,87 +116,15 @@ export function NpmDownloadsBadge({ pkg = "stick-it-up" }: { pkg?: string }) {
 }
 
 /* ------------------------------------------------------------------
-   GitHub star count
-
-   The count lives outside React state on purpose: the server renders 1 and
-   the client swaps in the cached/live value after hydration. Reading
-   sessionStorage during render would make the two HTML trees differ.
+   GitHub star button — link only, no star counts
 ------------------------------------------------------------------- */
-let starsSnapshot = 1;
-const starListeners = new Set<() => void>();
-
-function subscribeStars(onChange: () => void) {
-  starListeners.add(onChange);
-  return () => {
-    starListeners.delete(onChange);
-  };
-}
-
-function getStarsSnapshot(): number {
-  try {
-    const cached = sessionStorage.getItem("stickitupp_gh_stars");
-    if (cached !== null) {
-      const val = parseInt(cached, 10);
-      if (!isNaN(val)) return val;
-    }
-  } catch {}
-  return starsSnapshot;
-}
-
-function getStarsServerSnapshot(): number {
-  return 1;
-}
-
-function publishStars(value: number) {
-  starsSnapshot = value;
-  try {
-    sessionStorage.setItem("stickitupp_gh_stars", String(value));
-  } catch {}
-  starListeners.forEach((listener) => listener());
-}
-
-// github star button
 export function GitHubStarButton() {
-  const stars = useSyncExternalStore(
-    subscribeStars,
-    getStarsSnapshot,
-    getStarsServerSnapshot,
-  );
-
-  useEffect(() => {
-    let unmounted = false;
-
-    // Fetch from internal cached API route to avoid browser CORS/rate-limits
-    fetch("/api/github-stars")
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => {
-        if (!unmounted && data && typeof data.stars === "number") {
-          publishStars(data.stars);
-        }
-      })
-      .catch(() => {
-        // Fallback to direct fetch
-        fetch("https://api.github.com/repos/Sam721166/stick-it-up")
-          .then((res) => (res.ok ? res.json() : null))
-          .then((data) => {
-            if (!unmounted && data && typeof data.stargazers_count === "number") {
-              publishStars(data.stargazers_count);
-            }
-          })
-          .catch(() => {});
-      });
-
-    return () => {
-      unmounted = true;
-    };
-  }, []);
-
   return (
     <a
       href="https://github.com/Sam721166/stick-it-up"
       target="_blank"
       rel="noreferrer"
-      aria-label="Star stick-it-up on GitHub"
+      aria-label="View stick-it-up on GitHub"
       className="group inline-flex shrink-0 items-center gap-1.5 sm:gap-2 rounded-xl
         border border-zinc-800 bg-gradient-to-b from-zinc-800 to-zinc-900
         px-2.5 sm:px-3 py-1.5 text-xs sm:text-sm font-medium text-white
@@ -219,18 +147,7 @@ export function GitHubStarButton() {
       </svg>
 
       <span className="flex items-center gap-1 font-medium">
-        Star
-        <svg
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-amber-400 drop-shadow-xs"
-        >
-          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-        </svg>
-      </span>
-
-      <span className="ml-0.5 rounded-full bg-white/10 px-1.5 py-0.5 font-mono text-[10px] sm:text-[11px] text-zinc-300">
-        {stars}
+        GitHub
       </span>
     </a>
   );

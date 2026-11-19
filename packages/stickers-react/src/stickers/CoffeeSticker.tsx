@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useId } from "react";
 import type { StickerProps } from "../types";
 import { usePeel } from "../utils/usePeel";
+
+const BODY = "M118 170H338L316 350C312 380 286 398 228 398C170 398 144 380 140 350Z";
+const HANDLE = "M336 214C406 204 414 306 324 304";
 
 export const CoffeeSticker: React.FC<StickerProps> = ({
   size = 120,
@@ -11,6 +14,10 @@ export const CoffeeSticker: React.FC<StickerProps> = ({
   style,
   ...props
 }) => {
+  const rawId = useId();
+  const id = rawId.replace(/[:]/g, "_");
+  const shadow = `coffee-shadow-${id}`;
+
   const finalWidth = width ?? size;
   const finalHeight = height ?? size;
   const { style: peelStyle, onMouseEnter, onMouseLeave } = usePeel(peel, style);
@@ -22,7 +29,7 @@ export const CoffeeSticker: React.FC<StickerProps> = ({
       viewBox="0 0 464 464"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={className}
+      className={`${id}-root ${className}`}
       style={peelStyle}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
@@ -30,229 +37,79 @@ export const CoffeeSticker: React.FC<StickerProps> = ({
       role="img"
       {...props}
     >
-      <path
-        d="M312.04 162.4C431.52 124.12 437.32 292.32 327.12 308.56L319 276.08C383.96 267.96 390.92 187.92 320.16 197.2L312.04 162.4Z"
-        fill="#090909"
-        strokeWidth="25.52"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        stroke="#090909"
-      />
-      <path
-        d="M114.84 153.12H334.08L313.2 365.4C249.013 394.787 189.467 394.787 134.56 365.4L114.84 153.12Z"
-        fill="#090909"
-        strokeWidth="25.52"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        stroke="#090909"
-      />
-      <path
-        d="M99.7601 140.36C180.187 117.933 262.16 117.547 345.68 139.2L350.32 175.16C265.253 193.72 180.187 193.72 95.1201 175.16L99.7601 140.36Z"
-        fill="#090909"
-        strokeWidth="25.52"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        stroke="#090909"
-      />
-      <path
-        d="M129.92 128.76L146.16 91.6401C197.2 78.4934 249.787 78.8801 303.92 92.8001L322.48 129.92L129.92 128.76Z"
-        fill="#090909"
-        strokeWidth="25.52"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        stroke="#090909"
-      />
-      <path
-        d="M175.16 68.44C156.6 52.2 156.987 37.12 176.32 23.2L193.72 30.16C179.027 40.9866 179.8 52.2 196.04 63.8L175.16 68.44Z"
-        fill="#090909"
-        strokeWidth="25.52"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        stroke="#090909"
-      />
-      <path
-        d="M256.36 67.2799C238.573 52.5866 238.96 37.1199 257.52 20.8799L276.08 28.9999C262.933 40.5999 263.32 51.8132 277.24 62.6399L256.36 67.2799Z"
-        fill="#090909"
-        strokeWidth="25.52"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        stroke="#090909"
-      />
-      <path
-        d="M148.722 253.234C173.444 238.803 194.163 243.207 210.878 266.446C186.156 280.877 165.437 276.473 148.722 253.234Z"
-        fill="#090909"
-        strokeWidth="21.1816"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        stroke="#090909"
-      />
-      <path
-        d="M177.939 273.225C184.181 274.552 190.495 269.724 192.043 262.443C193.591 255.161 189.786 248.182 183.544 246.856C177.303 245.529 170.988 250.357 169.441 257.638C167.893 264.92 171.698 271.898 177.939 273.225Z"
-        fill="#090909"
-        strokeWidth="21.1816"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        stroke="#090909"
-      />
-      <path
-        d="M238.042 257.166C254.757 233.927 275.476 229.523 300.198 243.954C283.483 267.193 262.764 271.597 238.042 257.166Z"
-        fill="#090909"
-        strokeWidth="21.1816"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        stroke="#090909"
-      />
-      <path
-        d="M272.864 263.545C279.106 262.218 282.911 255.239 281.363 247.958C279.815 240.676 273.501 235.849 267.259 237.175C261.018 238.502 257.213 245.48 258.761 252.762C260.309 260.044 266.623 264.871 272.864 263.545Z"
-        fill="#090909"
-        strokeWidth="21.1816"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        stroke="#090909"
-      />
-      <path
-        d="M187.92 309.72C212.667 327.507 239.347 324.413 267.96 300.44C257.133 336.013 230.453 339.107 187.92 309.72Z"
-        fill="#090909"
-        strokeWidth="25.52"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        stroke="#090909"
-      />
-      <path
-        d="M312.04 162.4C431.52 124.12 437.32 292.32 327.12 308.56L319 276.08C383.96 267.96 390.92 187.92 320.16 197.2L312.04 162.4Z"
-        fill="#FFF7DF"
-        strokeWidth="19.72"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        stroke="#FFF7DF"
-      />
-      <path
-        d="M114.84 153.12H334.08L313.2 365.4C249.013 394.787 189.467 394.787 134.56 365.4L114.84 153.12Z"
-        fill="#FFF7DF"
-        strokeWidth="19.72"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        stroke="#FFF7DF"
-      />
-      <path
-        d="M99.7601 140.36C180.187 117.933 262.16 117.547 345.68 139.2L350.32 175.16C265.253 193.72 180.187 193.72 95.1201 175.16L99.7601 140.36Z"
-        fill="#FFF7DF"
-        strokeWidth="19.72"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        stroke="#FFF7DF"
-      />
-      <path
-        d="M129.92 128.76L146.16 91.6401C197.2 78.4934 249.787 78.8801 303.92 92.8001L322.48 129.92L129.92 128.76Z"
-        fill="#FFF7DF"
-        strokeWidth="19.72"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        stroke="#FFF7DF"
-      />
-      <path
-        d="M175.16 68.44C156.6 52.2 156.987 37.12 176.32 23.2L193.72 30.16C179.027 40.9866 179.8 52.2 196.04 63.8L175.16 68.44Z"
-        fill="#FFF7DF"
-        strokeWidth="19.72"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        stroke="#FFF7DF"
-      />
-      <path
-        d="M256.36 67.2799C238.573 52.5866 238.96 37.1199 257.52 20.8799L276.08 28.9999C262.933 40.5999 263.32 51.8132 277.24 62.6399L256.36 67.2799Z"
-        fill="#FFF7DF"
-        strokeWidth="19.72"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        stroke="#FFF7DF"
-      />
-      <path
-        d="M148.722 253.234C173.444 238.803 194.163 243.207 210.878 266.446C186.156 280.877 165.437 276.473 148.722 253.234Z"
-        fill="#FFF7DF"
-        strokeWidth="16.3676"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        stroke="#FFF7DF"
-      />
-      <path
-        d="M177.939 273.225C184.181 274.552 190.495 269.724 192.043 262.443C193.591 255.161 189.786 248.182 183.544 246.856C177.303 245.529 170.988 250.357 169.441 257.638C167.893 264.92 171.698 271.898 177.939 273.225Z"
-        fill="#FFF7DF"
-        strokeWidth="16.3676"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        stroke="#FFF7DF"
-      />
-      <path
-        d="M238.042 257.166C254.757 233.927 275.476 229.523 300.198 243.954C283.483 267.193 262.764 271.597 238.042 257.166Z"
-        fill="#FFF7DF"
-        strokeWidth="16.3676"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        stroke="#FFF7DF"
-      />
-      <path
-        d="M272.864 263.545C279.106 262.218 282.911 255.239 281.363 247.958C279.815 240.676 273.501 235.849 267.259 237.175C261.018 238.502 257.213 245.48 258.761 252.762C260.309 260.044 266.623 264.871 272.864 263.545Z"
-        fill="#FFF7DF"
-        strokeWidth="16.3676"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        stroke="#FFF7DF"
-      />
-      <path
-        d="M187.92 309.72C212.667 327.507 239.347 324.413 267.96 300.44C257.133 336.013 230.453 339.107 187.92 309.72Z"
-        fill="#FFF7DF"
-        strokeWidth="19.72"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        stroke="#FFF7DF"
-      />
-      <path
-        d="M312.04 162.4C431.52 124.12 437.32 292.32 327.12 308.56L319 276.08C383.96 267.96 390.92 187.92 320.16 197.2L312.04 162.4Z"
-        fill="#533BFF"
-      />
-      <path
-        d="M114.84 153.12H334.08L313.2 365.4C249.013 394.787 189.467 394.787 134.56 365.4L114.84 153.12Z"
-        fill="#FF3028"
-      />
-      <path
-        d="M99.7601 140.36C180.187 117.933 262.16 117.547 345.68 139.2L350.32 175.16C265.253 193.72 180.187 193.72 95.1201 175.16L99.7601 140.36Z"
-        fill="#090909"
-      />
-      <path
-        d="M129.92 128.76L146.16 91.6401C197.2 78.4934 249.787 78.8801 303.92 92.8001L322.48 129.92L129.92 128.76Z"
-        fill="#FF829C"
-      />
-      <path
-        d="M175.16 68.44C156.6 52.2 156.987 37.12 176.32 23.2L193.72 30.16C179.027 40.9866 179.8 52.2 196.04 63.8L175.16 68.44Z"
-        fill="#533BFF"
-      />
-      <path
-        d="M256.36 67.2799C238.573 52.5866 238.96 37.1199 257.52 20.8799L276.08 28.9999C262.933 40.5999 263.32 51.8132 277.24 62.6399L256.36 67.2799Z"
-        fill="#533BFF"
-      />
-      <path
-        d="M148.722 253.234C173.444 238.803 194.163 243.207 210.878 266.446C186.156 280.877 165.437 276.473 148.722 253.234Z"
-        fill="white"
-      />
-      <path
-        d="M177.939 273.225C184.181 274.552 190.495 269.724 192.043 262.443C193.591 255.161 189.786 248.182 183.544 246.856C177.303 245.529 170.988 250.357 169.441 257.638C167.893 264.92 171.698 271.898 177.939 273.225Z"
-        fill="#090909"
-      />
-      <path
-        d="M238.042 257.166C254.757 233.927 275.476 229.523 300.198 243.954C283.483 267.193 262.764 271.597 238.042 257.166Z"
-        fill="white"
-      />
-      <path
-        d="M272.864 263.545C279.106 262.218 282.911 255.239 281.363 247.958C279.815 240.676 273.501 235.849 267.259 237.175C261.018 238.502 257.213 245.48 258.761 252.762C260.309 260.044 266.623 264.871 272.864 263.545Z"
-        fill="#090909"
-      />
-      <path
-        d="M187.92 309.72C212.667 327.507 239.347 324.413 267.96 300.44C257.133 336.013 230.453 339.107 187.92 309.72Z"
-        fill="white"
-      />
+      <style>{`
+        @keyframes ${id}-steam {
+          0% { transform: translateY(10px) scale(0.9); opacity: 0; }
+          30% { opacity: 0.7; }
+          100% { transform: translateY(-22px) scale(1.1); opacity: 0; }
+        }
+        @keyframes ${id}-bob {
+          0%, 100% { transform: translateY(0) rotate(0deg); }
+          50% { transform: translateY(-4px) rotate(-1deg); }
+        }
+        @keyframes ${id}-blink {
+          0%, 93%, 100% { transform: scaleY(1); }
+          97% { transform: scaleY(0.1); }
+        }
+        .${id}-mug { transform-origin: 228px 398px; }
+        .${id}-eye { transform-origin: center; }
+        @media (prefers-reduced-motion: no-preference) {
+          .${id}-mug { animation: ${id}-bob 2.6s ease-in-out infinite; }
+          .${id}-steam { animation: ${id}-steam 2.4s ease-out infinite; }
+          .${id}-eye { animation: ${id}-blink 5s ease-in-out infinite; }
+          .${id}-root:hover .${id}-mug { animation-duration: 1.1s; }
+          .${id}-root:hover .${id}-steam { animation-duration: 1.2s; }
+        }
+      `}</style>
+
+      <defs>
+        <filter id={shadow} x="60" y="20" width="380" height="420" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+          <feDropShadow dx="0" dy="8" stdDeviation="10" floodColor="#303230" floodOpacity="0.25" />
+        </filter>
+      </defs>
+
+      {/* rising steam — no stars */}
+      <g stroke="#303230" strokeWidth="10" strokeLinecap="round" fill="none">
+        <path className={`${id}-steam`} d="M190 132C174 112 206 100 190 76C180 62 192 52 196 48" style={{ animationDelay: "0s" }} />
+        <path className={`${id}-steam`} d="M228 128C212 108 244 96 228 72C218 58 230 48 234 44" style={{ animationDelay: "0.6s" }} />
+        <path className={`${id}-steam`} d="M266 134C250 114 282 102 266 78C256 64 268 54 272 50" style={{ animationDelay: "1.2s" }} />
+      </g>
+
+      {/* flat mug: die-cut border and artwork move as one */}
+      <g className={`${id}-mug`}>
+        <g filter={`url(#${shadow})`} fill="none" stroke="white" strokeWidth="40" strokeLinecap="round">
+          <path d={HANDLE} />
+          <path d={BODY} fill="white" strokeLinejoin="round" />
+          <ellipse cx="228" cy="170" rx="110" ry="30" fill="white" />
+        </g>
+
+        {/* handle */}
+        <path d={HANDLE} stroke="#303230" strokeWidth="32" strokeLinecap="round" />
+        <path d={HANDLE} stroke="#E4492F" strokeWidth="16" strokeLinecap="round" />
+
+        {/* cup */}
+        <path d={BODY} fill="#E4492F" stroke="#303230" strokeWidth="16" strokeLinejoin="round" />
+        <path d="M126 196C178 210 278 210 330 196L326 218C276 232 180 232 130 218Z" fill="#FFF2D6" />
+        <path d="M152 300C156 340 172 364 192 376" stroke="#FF9B84" strokeWidth="12" strokeLinecap="round" />
+
+        {/* cheeky face */}
+        <g className={`${id}-eye`}>
+          <ellipse cx="194" cy="262" rx="9" ry="13" fill="#303230" />
+          <ellipse cx="262" cy="262" rx="9" ry="13" fill="#303230" />
+        </g>
+        <circle cx="197" cy="258" r="3" fill="white" />
+        <circle cx="265" cy="258" r="3" fill="white" />
+        <ellipse cx="166" cy="284" rx="18" ry="10" fill="#FF8FA0" />
+        <ellipse cx="290" cy="284" rx="18" ry="10" fill="#FF8FA0" />
+        <path d="M208 292Q228 310 248 292" stroke="#303230" strokeWidth="7" strokeLinecap="round" />
+
+        {/* rim + coffee + latte heart */}
+        <ellipse cx="228" cy="170" rx="110" ry="30" fill="#FFF7E6" stroke="#303230" strokeWidth="16" />
+        <ellipse cx="228" cy="172" rx="94" ry="20" fill="#5A3626" />
+        <path d="M228 184C220 176 208 174 208 166C208 160 216 158 228 166C240 158 248 160 248 166C248 174 236 176 228 184Z" fill="#FFF2D6" />
+      </g>
     </svg>
   );
 };
 
 export default CoffeeSticker;
-

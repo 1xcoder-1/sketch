@@ -8,7 +8,7 @@ import Bento from "../components/landing/bento";
 import Sponsor from "../components/landing/sponsor";
 import GetStarted from "../components/landing/get-started";
 import Footer from "../components/landing/footer";
-import { VisitorCounter, GitHubStarButton } from "../components/landing/nav-actions";
+import { GitHubStarButton } from "../components/landing/nav-actions";
 import TerminalPreview from "../components/landing/terminal-preview";
 import HeroBackdrop from "../components/landing/hero-backdrop";
 
@@ -74,13 +74,12 @@ export default function Home() {
     <main className="landing-page relative min-h-screen w-full overflow-x-clip bg-white">
       <div className="hero-surface">
         <HeroBackdrop />
-        <div className="hero-rails" aria-hidden="true" />
         <header className="studio-header">
           <nav className="studio-navigation" aria-label="Main navigation" ref={navRef}>
             <div className="studio-navbar">
-              <Link href="/" className="studio-brand" aria-label="Stick it up home">
-                <img src="/stickers/logo.svg" alt="" width={32} height={32} />
-                <span>Stick it up</span>
+              <Link href="/" className="studio-brand" aria-label="Sketch Up home">
+                <img src="/logo.svg" alt="" width={36} height={36} />
+                <span>Sketch Up</span>
               </Link>
               <ul className="studio-links">
                 {NAV_LINKS.map((link) => (
@@ -92,7 +91,6 @@ export default function Home() {
                 ))}
               </ul>
               <div className="studio-actions">
-                <div className="studio-visitors"><VisitorCounter /></div>
                 <GitHubStarButton />
                 <button
                   type="button"

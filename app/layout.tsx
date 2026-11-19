@@ -93,7 +93,7 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/stickers/logo.svg", type: "image/svg+xml" },
+      { url: "/logo.svg", type: "image/svg+xml" },
       { url: "/favicon.ico", sizes: "any" },
     ],
     apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
