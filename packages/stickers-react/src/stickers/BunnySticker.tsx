@@ -2,6 +2,11 @@ import React, { useId } from "react";
 import type { StickerProps } from "../types";
 import { usePeel } from "../utils/usePeel";
 
+const EAR_L = "M300 290C262 180 252 96 292 78C336 58 352 160 352 268Z";
+const EAR_R = "M462 290C500 180 510 96 470 78C426 58 410 160 410 268Z";
+const HEAD = "M380 258C470 258 520 310 520 378C520 446 470 492 380 492C290 492 240 446 240 378C240 310 290 258 380 258Z";
+const BODY = "M380 452C485 452 555 525 555 615C555 690 480 720 380 720C280 720 205 690 205 615C205 525 275 452 380 452Z";
+
 export const BunnySticker: React.FC<StickerProps> = ({
   size = 120,
   width,
@@ -13,6 +18,9 @@ export const BunnySticker: React.FC<StickerProps> = ({
 }) => {
   const rawId = useId();
   const id = rawId.replace(/[:]/g, "_");
+  const shadow = `bunny-shadow-${id}`;
+  const fur = `bunny-fur-${id}`;
+  const carrot = `bunny-carrot-${id}`;
 
   const finalWidth = width ?? size;
   const finalHeight = height ?? size;
@@ -25,7 +33,7 @@ export const BunnySticker: React.FC<StickerProps> = ({
       viewBox="0 0 762 753"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={className}
+      className={`${id}-root ${className}`}
       style={peelStyle}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
@@ -33,69 +41,127 @@ export const BunnySticker: React.FC<StickerProps> = ({
       role="img"
       {...props}
     >
-      <g filter={`url(#filter0_d_bunny_${id})`}>
-        <path
-          d="M409.909 107.937C428.549 83.8362 450.686 72.3036 472.573 78.7796C492.872 84.7862 504.895 104.243 509.193 122.759C511.5 132.695 511.773 144.593 511.09 157.487C510.397 170.57 508.645 185.783 506.34 202.763C501.943 235.152 495.604 273.683 489.761 319.977C490.329 320.404 490.924 320.853 491.543 321.321C497.229 325.631 505.015 331.688 513.399 338.679C529.363 351.99 549.367 370.188 560.019 386.599L560.52 387.38L560.715 387.697C561.164 388.445 561.551 389.228 561.87 390.04C577.371 429.41 582.727 461.915 581.279 490.917C579.831 519.9 571.633 544.287 561.657 567.215C550.206 593.531 521.42 620.82 488.75 641.179C455.765 661.733 415.413 677.37 378.248 677.371C345.09 677.371 320.558 676.039 297.475 667.068C274.302 658.061 254.161 641.999 227.884 616.288C198.032 587.081 183.976 541.142 181.43 498.514C178.906 456.243 187.415 411.89 208.782 385.815C226.995 363.59 239.689 351.247 252.559 341.416C258.877 336.589 265.054 332.509 271.488 328.341C275.232 325.916 279.072 323.453 283.217 320.726C281.976 316.751 280.485 311.867 278.844 306.267C274.234 290.538 268.395 269.035 263.538 246.088C258.703 223.246 254.726 198.44 254.056 176.257C253.416 155.067 255.595 132.349 266.786 117.021C283.576 94.0228 303.154 80.4937 324.518 83.0262C345.232 85.482 359.438 102.202 367.988 119.256C371.065 125.395 372.869 133.436 374.114 141.274C375.423 149.512 376.347 159.167 377.023 169.47C378.377 190.083 378.805 214.409 379.083 237.255C379.364 260.35 379.489 281.749 380.198 297.289C380.335 300.291 380.49 302.965 380.66 305.309C384.597 304.989 388.412 304.808 391.558 304.663C392.257 304.63 392.936 304.599 393.595 304.57C393.343 301.51 393.043 298.01 392.712 294.088C391.395 278.507 389.662 257.16 388.9 234.42C388.141 211.756 388.326 187.228 390.971 165.306C393.531 144.085 398.683 122.451 409.909 107.937Z"
-          fillRule="evenodd"
-          clipRule="evenodd"
-          fill="white"
-        />
-      </g>
-      <path
-        d="M238.98 605.006C187.043 554.19 185.607 439.069 221.05 395.817C256.493 352.565 268.358 350.329 301.942 327.196C301.942 327.196 248.322 169.16 279.595 126.323C310.868 83.4874 338.388 95.5481 353.816 126.323C369.244 157.099 358.431 326.305 369.074 323.037C379.718 319.769 406.722 320.791 409.937 318.878C413.153 316.964 388.68 161.258 422.455 117.59C456.229 73.922 486.544 95.2553 493.756 126.323C500.969 157.392 485.18 226.482 472.9 327.196C472.9 327.196 529.056 367.279 547.122 395.817C576.826 471.263 566.303 516.839 547.122 560.923C527.94 605.006 444.546 661.567 378.248 661.567C311.949 661.567 290.916 655.822 238.98 605.006Z"
-        fill="white"
-        strokeWidth="10"
-        stroke="black"
-      />
-      <ellipse cx="310.282" cy="540.96" rx="11.2582" ry="12.0606" fill="black" />
-      <path
-        d="M466.229 537.195C466.229 543.856 461.188 549.255 454.971 549.255C448.753 549.255 443.712 543.856 443.712 537.195C443.712 530.534 448.753 525.134 454.971 525.134C461.188 525.134 466.229 530.534 466.229 537.195Z"
-        fill="black"
-      />
-      <path
-        d="M364.825 589.899C364.881 589.899 364.937 589.899 369.973 592.895C375.009 595.891 385.023 601.882 391.019 605.312C397.014 608.743 398.687 609.43 401.071 610.46"
-        strokeWidth="10"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        stroke="black"
-      />
-      <path
-        d="M396.905 584.949C396.883 584.992 393.794 588.448 388.068 594.472C385.516 597.158 383.293 598.709 380.242 600.621C377.191 602.533 373.28 604.662 369.958 606.302C366.635 607.943 364.019 609.031 361.13 610.314"
-        strokeWidth="10"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        stroke="black"
-      />
+      <style>{`
+        @keyframes ${id}-earL {
+          0%, 84%, 100% { transform: rotate(0deg); }
+          90% { transform: rotate(9deg); }
+          96% { transform: rotate(-4deg); }
+        }
+        @keyframes ${id}-earR {
+          0%, 84%, 100% { transform: rotate(0deg); }
+          90% { transform: rotate(-9deg); }
+          96% { transform: rotate(4deg); }
+        }
+        @keyframes ${id}-nose {
+          0%, 88%, 100% { transform: scale(1); }
+          92% { transform: scale(1.3, 0.8); }
+          96% { transform: scale(0.9, 1.15); }
+        }
+        @keyframes ${id}-hop {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-9px); }
+        }
+        @keyframes ${id}-float {
+          0%, 100% { transform: translateY(0) opacity: 0.7; }
+          50% { transform: translateY(-12px) opacity: 1; }
+        }
+        .${id}-earL { transform-origin: 320px 286px; animation: ${id}-earL 4.6s ease-in-out infinite; }
+        .${id}-earR { transform-origin: 442px 286px; animation: ${id}-earR 5.1s ease-in-out infinite; }
+        .${id}-nose { transform-origin: 380px 400px; animation: ${id}-nose 3.2s ease-in-out infinite; }
+        .${id}-whole { transform-origin: 380px 700px; animation: ${id}-hop 3.8s ease-in-out infinite; }
+        .${id}-float { animation: ${id}-float 2.8s ease-in-out infinite; }
+        .${id}-root:hover .${id}-whole { animation-duration: 1.1s; }
+        .${id}-root:hover .${id}-earL,
+        .${id}-root:hover .${id}-earR { animation-duration: 1.6s; }
+        @media (prefers-reduced-motion: reduce) {
+          .${id}-root * { animation: none !important; }
+        }
+      `}</style>
+
       <defs>
-        <filter
-          id={`filter0_d_bunny_${id}`}
-          x="161"
-          y="65"
-          width="440.506"
-          height="640.371"
-          filterUnits="userSpaceOnUse"
-          colorInterpolationFilters="sRGB"
-        >
-          <feFlood floodOpacity="0" result="BackgroundImageFix" />
-          <feColorMatrix
-            in="SourceAlpha"
-            type="matrix"
-            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-            result="hardAlpha"
-          />
-          <feOffset dy="8" />
-          <feGaussianBlur stdDeviation="10" />
-          <feColorMatrix
-            type="matrix"
-            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"
-          />
-          <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_bunny" />
-          <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_bunny" result="shape" />
+        <linearGradient id={fur} x1="250" y1="90" x2="520" y2="700" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#FFFFFF" />
+          <stop offset="1" stopColor="#E3DBFF" />
+        </linearGradient>
+        <linearGradient id={carrot} x1="360" y1="600" x2="404" y2="690" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#FFB24A" />
+          <stop offset="1" stopColor="#F07024" />
+        </linearGradient>
+        <filter id={shadow} x="170" y="45" width="460" height="700" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+          <feDropShadow dx="0" dy="9" stdDeviation="11" floodColor="#2A1A44" floodOpacity="0.24" />
         </filter>
       </defs>
+
+      {/* die-cut border */}
+      <g filter={`url(#${shadow})`} fill="white" stroke="white" strokeWidth="34" strokeLinejoin="round">
+        <path d={EAR_L} />
+        <path d={EAR_R} />
+        <circle cx="572" cy="640" r="28" />
+        <path d={BODY} />
+        <path d={HEAD} />
+      </g>
+
+      <g className={`${id}-whole`}>
+        {/* tail */}
+        <circle cx="572" cy="640" r="28" fill={`url(#${fur})`} stroke="#2A1A44" strokeWidth="12" />
+
+        {/* ears */}
+        <g className={`${id}-earL`}>
+          <path d={EAR_L} fill={`url(#${fur})`} stroke="#2A1A44" strokeWidth="14" strokeLinejoin="round" />
+          <path d="M305 130C292 158 292 214 302 254L334 246C330 190 330 142 320 118Z" fill="#FFB3C7" />
+        </g>
+        <g className={`${id}-earR`}>
+          <path d={EAR_R} fill={`url(#${fur})`} stroke="#2A1A44" strokeWidth="14" strokeLinejoin="round" />
+          <path d="M457 130C470 158 470 214 460 254L428 246C432 190 432 142 442 118Z" fill="#FFB3C7" />
+        </g>
+
+        {/* body */}
+        <path d={BODY} fill={`url(#${fur})`} stroke="#2A1A44" strokeWidth="14" strokeLinejoin="round" />
+        <path d="M270 540C252 580 250 626 262 660" stroke="white" strokeOpacity="0.8" strokeWidth="12" strokeLinecap="round" />
+
+        {/* head */}
+        <path d={HEAD} fill={`url(#${fur})`} stroke="#2A1A44" strokeWidth="14" strokeLinejoin="round" />
+
+        {/* face */}
+        <ellipse cx="330" cy="375" rx="10" ry="15" fill="#2A1A44" />
+        <ellipse cx="430" cy="375" rx="10" ry="15" fill="#2A1A44" />
+        <circle cx="333" cy="370" r="3" fill="white" />
+        <circle cx="433" cy="370" r="3" fill="white" />
+        <ellipse cx="292" cy="414" rx="24" ry="12" fill="#FFA8C0" opacity="0.65" />
+        <ellipse cx="468" cy="414" rx="24" ry="12" fill="#FFA8C0" opacity="0.65" />
+        <g className={`${id}-nose`}>
+          <path d="M370 400C370 390 390 390 390 400C390 410 370 410 370 400Z" fill="#FF6E8A" stroke="#2A1A44" strokeWidth="4" />
+        </g>
+        <path d="M380 410C380 428 362 434 352 424M380 410C380 428 398 434 408 424" stroke="#2A1A44" strokeWidth="7" strokeLinecap="round" />
+        <path d="M372 428H388V442C388 448 372 448 372 442Z" fill="white" stroke="#2A1A44" strokeWidth="4" strokeLinejoin="round" />
+
+        {/* carrot */}
+        <g style={{ transformOrigin: "380px 600px" }}>
+          <path d="M380 596C400 596 410 608 404 628L390 684C386 700 374 700 370 684L356 628C350 608 360 596 380 596Z" fill={`url(#${carrot})`} stroke="#2A1A44" strokeWidth="10" strokeLinejoin="round" />
+          <g stroke="#37B86A" strokeWidth="10" strokeLinecap="round" fill="none">
+            <path d="M380 598C372 580 356 570 344 568C356 584 360 592 366 600" />
+            <path d="M380 598C388 580 404 570 416 568C404 584 400 592 394 600" />
+            <path d="M380 598C380 578 380 566 380 556" />
+          </g>
+          <g stroke="white" strokeOpacity="0.55" strokeWidth="6" strokeLinecap="round">
+            <path d="M366 626L374 632M394 624L386 632M378 652L384 658" />
+          </g>
+        </g>
+
+        {/* paws */}
+        <ellipse cx="318" cy="662" rx="34" ry="22" fill={`url(#${fur})`} stroke="#2A1A44" strokeWidth="11" />
+        <ellipse cx="442" cy="662" rx="34" ry="22" fill={`url(#${fur})`} stroke="#2A1A44" strokeWidth="11" />
+      </g>
+
+      {/* sparkles */}
+      <g className={`${id}-float`} fill="#FFE45C" stroke="#2A1A44" strokeWidth="5" strokeLinejoin="round">
+        <path d="M210 130L217 148L235 155L217 162L210 180L203 162L185 155L203 148L210 130Z" />
+      </g>
+      <g className={`${id}-float`} style={{ animationDelay: "1.2s" }} fill="#FF9FB8" stroke="#2A1A44" strokeWidth="4" strokeLinejoin="round">
+        <path d="M552 180L558 194L572 200L558 206L552 220L546 206L532 200L546 194L552 180Z" />
+      </g>
     </svg>
   );
 };
 
 export default BunnySticker;
-
