@@ -234,7 +234,7 @@ function FaviconTile({
           }}
         >
           <img
-            src="/stickers/logo.svg"
+            src="/logo.svg"
             alt="Sketch Up logo"
             draggable={false}
             className="h-full w-full select-none rounded-[24px] transition-[rotate,scale] duration-300 group-hover:scale-105 border border-[#d9f99d]"
