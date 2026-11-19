@@ -22,6 +22,7 @@ import { PinkCatStampSticker } from "../stickers/PinkCatStampSticker";
 import { YellowCatSticker } from "../stickers/YellowCatSticker";
 import { BlackCatSticker } from "../stickers/BlackCatSticker";
 import { CatSticker } from "../stickers/CatSticker";
+import { CatbeatsSticker } from "../stickers/CatbeatsSticker";
 import { CatSeriousSticker } from "../stickers/CatSeriousSticker";
 import { DogSticker } from "../stickers/DogSticker";
 import { FaceSticker } from "../stickers/FaceSticker";
@@ -75,6 +76,38 @@ import { MochiHeartSticker } from "../stickers/MochiHeartSticker";
 import { MochiLaptopSticker } from "../stickers/MochiLaptopSticker";
 import { MochiRocketSticker } from "../stickers/MochiRocketSticker";
 
+// Quirky faces pack
+import { QuirkyOrangeHairedSticker } from "../stickers/quirky/QuirkyOrangeHairedSticker";
+import { QuirkyTealHairedSticker } from "../stickers/quirky/QuirkyTealHairedSticker";
+import { QuirkyCurlyBlueSticker } from "../stickers/quirky/QuirkyCurlyBlueSticker";
+import { QuirkySunglassesSticker } from "../stickers/quirky/QuirkySunglassesSticker";
+import { QuirkySpikyYellowSticker } from "../stickers/quirky/QuirkySpikyYellowSticker";
+import { QuirkyGreenSadSticker } from "../stickers/quirky/QuirkyGreenSadSticker";
+import { QuirkyCryingPinkSticker } from "../stickers/quirky/QuirkyCryingPinkSticker";
+import { QuirkyGreenDownSticker } from "../stickers/quirky/QuirkyGreenDownSticker";
+import { QuirkyHatFishSticker } from "../stickers/quirky/QuirkyHatFishSticker";
+import { QuirkyRedBeardSticker } from "../stickers/quirky/QuirkyRedBeardSticker";
+import { QuirkyExcitedPurpleSticker } from "../stickers/quirky/QuirkyExcitedPurpleSticker";
+import { QuirkyNeutralGreenSticker } from "../stickers/quirky/QuirkyNeutralGreenSticker";
+
+// Spooky Halloween pack
+import { SpookyWitchSticker } from "../stickers/spooky/SpookyWitchSticker";
+import { SpookyMonsterStackSticker } from "../stickers/spooky/SpookyMonsterStackSticker";
+import { SpookyBigfootSticker } from "../stickers/spooky/SpookyBigfootSticker";
+import { SpookyGhostSticker } from "../stickers/spooky/SpookyGhostSticker";
+import { SpookyReaperSticker } from "../stickers/spooky/SpookyReaperSticker";
+
+// Blob ghosts pack
+import { FunnyYellowGhostSticker } from "../stickers/funny/FunnyYellowGhostSticker";
+import { FunnyPurpleGhostSticker } from "../stickers/funny/FunnyPurpleGhostSticker";
+import { FunnyGreyGhostSticker } from "../stickers/funny/FunnyGreyGhostSticker";
+import { FunnyBlueGhostSticker } from "../stickers/funny/FunnyBlueGhostSticker";
+import { FunnyCoralFishGhostSticker } from "../stickers/funny/FunnyCoralFishGhostSticker";
+import { FunnyGreenGhostSticker } from "../stickers/funny/FunnyGreenGhostSticker";
+import { FunnyPinkGhostSticker } from "../stickers/funny/FunnyPinkGhostSticker";
+import { FunnyGlassesGhostSticker } from "../stickers/funny/FunnyGlassesGhostSticker";
+import { FunnyOrangeGhostSticker } from "../stickers/funny/FunnyOrangeGhostSticker";
+
 export const STICKER_MAP: Record<StickerName, React.FC<StickerProps>> = {
   flame: FlameSticker,
   metal: MetalSticker,
@@ -96,6 +129,7 @@ export const STICKER_MAP: Record<StickerName, React.FC<StickerProps>> = {
   "yellow-cat": YellowCatSticker,
   "black-cat": BlackCatSticker,
   cat: CatSticker,
+  "catbeats-cat": CatbeatsSticker,
   "cat-serious": CatSeriousSticker,
   dog: DogSticker,
   face: FaceSticker,
@@ -148,6 +182,38 @@ export const STICKER_MAP: Record<StickerName, React.FC<StickerProps>> = {
   "mochi-heart": MochiHeartSticker,
   "mochi-laptop": MochiLaptopSticker,
   "mochi-rocket": MochiRocketSticker,
+
+  // Quirky faces pack
+  "quirky-orange-haired": QuirkyOrangeHairedSticker,
+  "quirky-teal-haired": QuirkyTealHairedSticker,
+  "quirky-curly-blue": QuirkyCurlyBlueSticker,
+  "quirky-sunglasses": QuirkySunglassesSticker,
+  "quirky-spiky-yellow": QuirkySpikyYellowSticker,
+  "quirky-green-sad": QuirkyGreenSadSticker,
+  "quirky-crying-pink": QuirkyCryingPinkSticker,
+  "quirky-green-down": QuirkyGreenDownSticker,
+  "quirky-hat-fish": QuirkyHatFishSticker,
+  "quirky-red-beard": QuirkyRedBeardSticker,
+  "quirky-excited-purple": QuirkyExcitedPurpleSticker,
+  "quirky-neutral-green": QuirkyNeutralGreenSticker,
+
+  // Spooky Halloween pack
+  "spooky-witch": SpookyWitchSticker,
+  "spooky-monster-stack": SpookyMonsterStackSticker,
+  "spooky-bigfoot": SpookyBigfootSticker,
+  "spooky-ghost": SpookyGhostSticker,
+  "spooky-reaper": SpookyReaperSticker,
+
+  // Blob ghosts pack
+  "funny-yellow-ghost": FunnyYellowGhostSticker,
+  "funny-purple-ghost": FunnyPurpleGhostSticker,
+  "funny-grey-ghost": FunnyGreyGhostSticker,
+  "funny-blue-ghost": FunnyBlueGhostSticker,
+  "funny-coral-fish-ghost": FunnyCoralFishGhostSticker,
+  "funny-green-ghost": FunnyGreenGhostSticker,
+  "funny-pink-ghost": FunnyPinkGhostSticker,
+  "funny-glasses-ghost": FunnyGlassesGhostSticker,
+  "funny-orange-ghost": FunnyOrangeGhostSticker,
 };
 
 export interface DynamicStickerProps extends StickerProps {

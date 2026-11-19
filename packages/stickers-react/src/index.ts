@@ -24,6 +24,7 @@ export { PinkCatStampSticker } from "./stickers/PinkCatStampSticker";
 export { YellowCatSticker } from "./stickers/YellowCatSticker";
 export { BlackCatSticker } from "./stickers/BlackCatSticker";
 export { CatSticker } from "./stickers/CatSticker";
+export { CatbeatsSticker } from "./stickers/CatbeatsSticker";
 export { CatSeriousSticker } from "./stickers/CatSeriousSticker";
 export { DogSticker } from "./stickers/DogSticker";
 export { FaceSticker } from "./stickers/FaceSticker";
@@ -76,6 +77,38 @@ export { MochiHeadphonesSticker } from "./stickers/MochiHeadphonesSticker";
 export { MochiHeartSticker } from "./stickers/MochiHeartSticker";
 export { MochiLaptopSticker } from "./stickers/MochiLaptopSticker";
 export { MochiRocketSticker } from "./stickers/MochiRocketSticker";
+
+// Quirky faces pack (Dribbble: What a Quirky)
+export { QuirkyOrangeHairedSticker } from "./stickers/quirky/QuirkyOrangeHairedSticker";
+export { QuirkyTealHairedSticker } from "./stickers/quirky/QuirkyTealHairedSticker";
+export { QuirkyCurlyBlueSticker } from "./stickers/quirky/QuirkyCurlyBlueSticker";
+export { QuirkySunglassesSticker } from "./stickers/quirky/QuirkySunglassesSticker";
+export { QuirkySpikyYellowSticker } from "./stickers/quirky/QuirkySpikyYellowSticker";
+export { QuirkyGreenSadSticker } from "./stickers/quirky/QuirkyGreenSadSticker";
+export { QuirkyCryingPinkSticker } from "./stickers/quirky/QuirkyCryingPinkSticker";
+export { QuirkyGreenDownSticker } from "./stickers/quirky/QuirkyGreenDownSticker";
+export { QuirkyHatFishSticker } from "./stickers/quirky/QuirkyHatFishSticker";
+export { QuirkyRedBeardSticker } from "./stickers/quirky/QuirkyRedBeardSticker";
+export { QuirkyExcitedPurpleSticker } from "./stickers/quirky/QuirkyExcitedPurpleSticker";
+export { QuirkyNeutralGreenSticker } from "./stickers/quirky/QuirkyNeutralGreenSticker";
+
+// Spooky Halloween pack (Dribbble: Spooky Stickers)
+export { SpookyWitchSticker } from "./stickers/spooky/SpookyWitchSticker";
+export { SpookyMonsterStackSticker } from "./stickers/spooky/SpookyMonsterStackSticker";
+export { SpookyBigfootSticker } from "./stickers/spooky/SpookyBigfootSticker";
+export { SpookyGhostSticker } from "./stickers/spooky/SpookyGhostSticker";
+export { SpookyReaperSticker } from "./stickers/spooky/SpookyReaperSticker";
+
+// Blob ghosts pack (Dribbble: Funny set of stickers)
+export { FunnyYellowGhostSticker } from "./stickers/funny/FunnyYellowGhostSticker";
+export { FunnyPurpleGhostSticker } from "./stickers/funny/FunnyPurpleGhostSticker";
+export { FunnyGreyGhostSticker } from "./stickers/funny/FunnyGreyGhostSticker";
+export { FunnyBlueGhostSticker } from "./stickers/funny/FunnyBlueGhostSticker";
+export { FunnyCoralFishGhostSticker } from "./stickers/funny/FunnyCoralFishGhostSticker";
+export { FunnyGreenGhostSticker } from "./stickers/funny/FunnyGreenGhostSticker";
+export { FunnyPinkGhostSticker } from "./stickers/funny/FunnyPinkGhostSticker";
+export { FunnyGlassesGhostSticker } from "./stickers/funny/FunnyGlassesGhostSticker";
+export { FunnyOrangeGhostSticker } from "./stickers/funny/FunnyOrangeGhostSticker";
 
 import { Sticker } from "./components/Sticker";
 export default Sticker;
