@@ -121,8 +121,8 @@ export default function Home() {
 
         <section className="studio-hero" aria-labelledby="hero-heading">
           <h1 id="hero-heading" className="studio-heading">
-            <span className="hero-heading-line">Give your site personality.<img src="/stickers/Curious%20blue%20globe.svg" alt="" width={64} height={64} /></span>
-            <span className="hero-heading-line">Make people <span className="hero-highlight">stick around.</span><img src="/stickers/Peace-hand.svg" alt="" width={64} height={64} /></span>
+            <span className="hero-heading-line">Give your site personality.<img src="/stickers/face.svg" alt="" width={64} height={64} /></span>
+            <span className="hero-heading-line">Make people <span className="hero-highlight">stick around.</span><img src="/stickers/panda-bear-1.svg" alt="" width={64} height={64} /></span>
           </h1>
           <div className="hero-buttons">
             <button

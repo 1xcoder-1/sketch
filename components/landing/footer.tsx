@@ -107,38 +107,38 @@ const COLUMNS: FooterColumn[] = [
   {
     title: "Product",
     links: [
-      { label: "Stickers", href: "/stickers", sticker: "/stickers/star.svg", rot: 12 },
-      { label: "Docs", href: "/stickers#docs", sticker: "/stickers/Sparkles.svg", rot: -8 },
-      { label: "npm", href: "https://www.npmjs.com/package/stick-it-up", sticker: "/stickers/blueberry.svg", rot: 6 },
-      { label: "Releases", href: "https://github.com/Sam721166/stick-it-up/releases", sticker: "/stickers/Flame.svg", rot: -10 },
+      { label: "Stickers", href: "/stickers", sticker: "/stickers/face.svg", rot: 12 },
+      { label: "Docs", href: "/stickers#docs", sticker: "/stickers/panda-bear-1.svg", rot: -8 },
+      { label: "npm", href: "https://www.npmjs.com/package/stick-it-up", sticker: "/stickers/panda-bear-1.svg", rot: 6 },
+      { label: "Releases", href: "https://github.com/Sam721166/stick-it-up/releases", sticker: "/stickers/panda-bear-2.svg", rot: -10 },
     ],
   },
   {
     title: "Contribute",
     links: [
-      { label: "Submit a Sticker", href: "https://github.com/Sam721166/stick-it-up/pulls", sticker: "/stickers/SparkleTrio.svg", rot: -10 },
-      { label: "Contribution Guide", href: "https://github.com/Sam721166/stick-it-up/blob/main/CONTRIBUTING.md", sticker: "/stickers/dogsticker.svg", rot: 8 },
-      { label: "Request a Sticker", href: "https://github.com/Sam721166/stick-it-up/issues/new?labels=sticker-request&title=[Sticker+Request]:+", sticker: "/stickers/Curious%20blue%20globe.svg", rot: 6 },
-      { label: "Sticker Files", href: "https://github.com/Sam721166/stick-it-up/tree/main/public/stickers", sticker: "/stickers/Spiral.svg", rot: -8 },
+      { label: "Submit a Sticker", href: "https://github.com/Sam721166/stick-it-up/pulls", sticker: "/stickers/panda-garland.svg", rot: -10 },
+      { label: "Contribution Guide", href: "https://github.com/Sam721166/stick-it-up/blob/main/CONTRIBUTING.md", sticker: "/stickers/panda-bear-1.svg", rot: 8 },
+      { label: "Request a Sticker", href: "https://github.com/Sam721166/stick-it-up/issues/new?labels=sticker-request&title=[Sticker+Request]:+", sticker: "/stickers/face.svg", rot: 6 },
+      { label: "Sticker Files", href: "https://github.com/Sam721166/stick-it-up/tree/main/public/stickers", sticker: "/stickers/panda-bear-1.svg", rot: -8 },
     ],
   },
   {
     title: "Community",
     links: [
-      { label: "GitHub", href: "https://github.com/Sam721166/stick-it-up", sticker: "/stickers/cat.svg", rot: 8 },
-      { label: "Sponsor (GitHub)", href: "https://github.com/sponsors/Sam721166", sticker: "/stickers/nori-heart.svg", rot: -8 },
-      { label: "Buy Me a Coffee", href: "https://buymeacoffee.com/samirande_", sticker: "/stickers/pip-coffee.svg", rot: 10 },
-      { label: "X / Twitter", href: "https://x.com/samirande_", sticker: "/stickers/Cosmiceye.svg", rot: 10 },
+      { label: "GitHub", href: "https://github.com/Sam721166/stick-it-up", sticker: "/stickers/panda-bear-1.svg", rot: 8 },
+      { label: "Sponsor (GitHub)", href: "https://github.com/sponsors/Sam721166", sticker: "/stickers/panda-bear-2.svg", rot: -8 },
+      { label: "Buy Me a Coffee", href: "https://buymeacoffee.com/samirande_", sticker: "/stickers/panda-garland.svg", rot: 10 },
+      { label: "X / Twitter", href: "https://x.com/samirande_", sticker: "/stickers/panda-bear-1.svg", rot: 10 },
       { label: "Issues & Feedback", href: "https://github.com/Sam721166/stick-it-up/issues", sticker: "/stickers/face.svg", rot: -6 },
     ],
   },
   {
     title: "Legal",
     links: [
-      { label: "Privacy Policy", action: "privacy", sticker: "/stickers/heart.svg", rot: 8 },
-      { label: "Art Disclaimer", action: "disclaimer", sticker: "/stickers/Peace-hand.svg", rot: -10 },
+      { label: "Privacy Policy", action: "privacy", sticker: "/stickers/panda-bear-1.svg", rot: 8 },
+      { label: "Art Disclaimer", action: "disclaimer", sticker: "/stickers/panda-bear-1.svg", rot: -10 },
       { label: "Takedown Request", action: "takedown", sticker: "/stickers/face.svg", rot: 6 },
-      { label: "Community License", action: "license", sticker: "/stickers/star.svg", rot: -8 },
+      { label: "Community License", action: "license", sticker: "/stickers/panda-garland.svg", rot: -8 },
     ],
   },
 ];
@@ -290,7 +290,7 @@ export default function Footer() {
               Stick it on.
               <br />
               Ship it fun
-              <InlineSticker src="/stickers/Peace-hand.svg" />
+              <InlineSticker src="/stickers/panda-bear-1.svg" />
             </p>
           </MotionBlur>
 
@@ -420,11 +420,11 @@ export default function Footer() {
             </div>
             <span className="sr-only">Sketch Up</span>
 
-            <DraggableSticker inView={inView} delay={640} src="/stickers/star.svg" size={84} left="4%" top="-6%" rot={-12} />
-            <DraggableSticker inView={inView} delay={720} src="/stickers/blueberry.svg" size={92} left="28%" top="52%" rot={8} />
-            <DraggableSticker inView={inView} delay={800} src="/stickers/Flame.svg" size={65} left="46%" top="-10%" rot={-6} />
-            <DraggableSticker inView={inView} delay={880} src="/stickers/flower.svg" size={70} left="66%" top="32%" rot={14} />
-            <DraggableSticker inView={inView} delay={960} src="/stickers/cat.svg" size={86} left="84%" top="-4%" rot={-10} />
+            <DraggableSticker inView={inView} delay={640} src="/stickers/face.svg" size={84} left="4%" top="-6%" rot={-12} />
+            <DraggableSticker inView={inView} delay={720} src="/stickers/panda-bear-1.svg" size={92} left="28%" top="52%" rot={8} />
+            <DraggableSticker inView={inView} delay={800} src="/stickers/panda-bear-1.svg" size={65} left="46%" top="-10%" rot={-6} />
+            <DraggableSticker inView={inView} delay={880} src="/stickers/panda-bear-2.svg" size={70} left="66%" top="32%" rot={14} />
+            <DraggableSticker inView={inView} delay={960} src="/stickers/panda-garland.svg" size={86} left="84%" top="-4%" rot={-10} />
           </div>
         </MotionBlur>
       </footer>

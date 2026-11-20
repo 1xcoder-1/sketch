@@ -6,12 +6,12 @@ const EASE_OUT = "cubic-bezier(0.23, 1, 0.32, 1)";
 const DWELL = 2600;
 
 const FRAMES = [
-  { src: "/stickers/cat.svg", name: "Cat" },
-  { src: "/stickers/Flame.svg", name: "Flame" },
-  { src: "/stickers/Curious%20blue%20globe.svg", name: "Globe" },
-  { src: "/stickers/flower.svg", name: "Flower" },
-  { src: "/stickers/Peace-hand.svg", name: "Peace" },
-  { src: "/stickers/blueberry.svg", name: "Berry" },
+  { src: "/stickers/face.svg", name: "Sparkles" },
+  { src: "/stickers/panda-bear-1.svg", name: "Star" },
+  { src: "/stickers/panda-bear-1.svg", name: "Globe" },
+  { src: "/stickers/panda-bear-2.svg", name: "Flower" },
+  { src: "/stickers/panda-garland.svg", name: "Berry" },
+  { src: "/stickers/panda-bear-1.svg", name: "Cherry" },
 ];
 
 export default function FlipStickers() {

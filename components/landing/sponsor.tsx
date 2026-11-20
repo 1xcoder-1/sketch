@@ -584,7 +584,7 @@ export default function Sponsor() {
           <h2 className="flex items-center gap-3 font-sans text-4xl sm:text-4xl md:text-6xl font-normal tracking-tight text-zinc-900">
             Sponsors.
             <img
-              src="/stickers/bad-cat.svg"
+              src="/stickers/face.svg"
               alt=""
               draggable={false}
               onClick={() => setStarTurns((t) => t + 1)}

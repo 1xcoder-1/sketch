@@ -130,7 +130,7 @@ export default function TerminalPreview() {
             )}
             {stage >= 5 && (
               <div className="terminal-block terminal-success">
-                <img src="/stickers/blueberry.svg" alt="" width={48} height={48} />
+                <img src="/stickers/face.svg" alt="" width={48} height={48} />
                 <div><p className="term-green">Ready to stick around.</p><p className="term-muted">Make something that feels like you.</p></div>
                 <span className="terminal-cursor" />
               </div>

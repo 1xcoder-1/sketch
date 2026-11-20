@@ -1,16 +1,16 @@
 const NOTES = [
   {
-    sticker: "/stickers/cat.svg",
+    sticker: "/stickers/face.svg",
     place: "Heroes",
     line: "One sticker on the first screen, and the page stops looking like a template.",
   },
   {
-    sticker: "/stickers/Flame.svg",
+    sticker: "/stickers/panda-bear-1.svg",
     place: "Empty states",
     line: "The blank screen gets a face. People poke it, then they stay.",
   },
   {
-    sticker: "/stickers/flower.svg",
+    sticker: "/stickers/panda-bear-1.svg",
     place: "Cards",
     line: "A small mark on a card is enough. It does not need a paragraph under it.",
   },
