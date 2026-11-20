@@ -1,8 +1,8 @@
 <div align="center">
-  <img src="public/stickers/logo.svg" alt="Stick It Up Logo" width="88" height="88" />
+  <img src="public/stickers/face.svg" alt="Stick It Up Logo" width="88" height="88" />
   <h1>Stick It Up</h1>
   <p><strong>Give your website the kind of personality it deserves.</strong></p>
-  <p>A curated collection of 65+ handcrafted vector, metallic chrome, and pixel art sticker components for React & Next.js with realistic 3D vinyl peel physics.</p>
+  <p>A curated collection of 97 handcrafted vector sticker components for React & Next.js with realistic 3D vinyl peel physics.</p>
 
   <p>
     <a href="https://www.npmjs.com/package/stick-it-up">
@@ -39,11 +39,11 @@
 
 ## 🌟 Highlights
 
-- 🎨 **65+ Handcrafted Stickers**: Specular chrome finishes, retro halftone stars, pixel art mascots (Nori, Pip, Kuro, Mochi), playful character doodles, and tactile badges.
+- 🎨 **34 Handcrafted Stickers**: Editable vector faces, pandas, winter animals, Christmas characters, and cute kawaii designs.
 - 🪄 **3D Vinyl Peel Physics**: Realistic hover tilt, subtle drop shadows, and elevation with a single `peel` prop.
 - 🔒 **Zero ID Collisions**: Scoped SVG filter and gradient IDs powered by React's `useId()` so duplicate stickers never break each other.
 - 🌲 **Tree-Shakeable & Lightweight**: Pure ESM and CommonJS dual bundle with full TypeScript definitions and zero runtime CSS dependencies.
-- 🚀 **Dual Usage**: Use lightweight direct named component imports (`<FlameSticker />`) or dynamic name-based rendering (`<Sticker name="flame" />`).
+- 🚀 **Dual Usage**: Use lightweight direct named component imports (`<PandaBear1Sticker />`) or dynamic name-based rendering (`<Sticker name="face" />`).
 - 🖥️ **Interactive Web Showcase**: Full Next.js showcase app featuring live dragging, interactive inspection modal, quickstart code generator, and instant SVG downloads.
 
 ---
@@ -75,19 +75,14 @@ yarn add stick-it-up@latest
 Every sticker is exported as a standalone, tree-shakeable React component:
 
 ```tsx
-import { FlameSticker, MetalSticker, NoriCoffeeSticker } from "stick-it-up";
+import { FaceSticker, PandaBear1Sticker, PandaGarlandSticker } from "stick-it-up";
 
 export default function Hero() {
   return (
     <div className="flex items-center gap-6">
-      {/* Basic usage with size in pixels */}
-      <FlameSticker size={100} />
-
-      {/* Interactive 3D peel on hover */}
-      <MetalSticker size={120} peel />
-
-      {/* Pixel mascot with custom sizing */}
-      <NoriCoffeeSticker size={96} peel />
+      <FaceSticker size={100} />
+      <PandaBear1Sticker size={120} peel />
+      <PandaGarlandSticker size={96} peel />
     </div>
   );
 }
@@ -101,13 +96,12 @@ Need to dynamically display stickers based on state, props, or CMS data? Use the
 import { Sticker, type StickerName } from "stick-it-up";
 
 const featured: StickerName[] = [
-  "flame",
-  "metal",
-  "star-burst",
-  "nori-coffee",
-  "pip-rocket",
-  "kuro-cool",
-  "mochi-laptop",
+  "face",
+  "panda-bear-1",
+  "panda-garland",
+  "panda-sack",
+  "forest-animal-4",
+  "halloween-face-3",
 ];
 
 export default function StickerGrid() {
@@ -126,7 +120,7 @@ export default function StickerGrid() {
 All SVGs are also available directly in the `public/stickers/` folder for use in plain HTML or standard `<img>` tags:
 
 ```html
-<img src="/stickers/Flame.svg" alt="Flame sticker" width="96" height="96" />
+<img src="/stickers/face.svg" alt="Face sticker" width="96" height="96" />
 ```
 
 ---
@@ -148,69 +142,112 @@ All sticker components accept standard SVG element props alongside custom sticke
 
 ---
 
-## 🎨 Available Stickers (65 Total)
+## 🎨 Available Stickers (97 Total)
 
-### 👾 Pixel Mascots (24 stickers)
-Handcrafted retro pixel art characters in different activities:
-
-| Character | Available Stickers |
-| :--- | :--- |
-| **Nori** | `<NoriCoffeeSticker />`, `<NoriCoolSticker />`, `<NoriHeadphonesSticker />`, `<NoriHeartSticker />`, `<NoriLaptopSticker />`, `<NoriRocketSticker />` |
-| **Pip** | `<PipCoffeeSticker />`, `<PipDetectiveSticker />`, `<PipHeadphonesSticker />`, `<PipRocketSticker />`, `<PipThinkingSticker />`, `<PipWizardSticker />` |
-| **Kuro** | `<KuroCoffeeSticker />`, `<KuroCoolSticker />`, `<KuroHeadphonesSticker />`, `<KuroHeartSticker />`, `<KuroLaptopSticker />`, `<KuroRocketSticker />` |
-| **Mochi** | `<MochiCoffeeSticker />`, `<MochiCoolSticker />`, `<MochiHeadphonesSticker />`, `<MochiHeartSticker />`, `<MochiLaptopSticker />`, `<MochiRocketSticker />` |
-
-### 🎭 Characters (17 stickers)
-- `bad-cat` (`<BadCatSticker />`)
-- `black-cat` (`<BlackCatSticker />`)
-- `black-face` (`<BlackFaceSticker />`)
-- `bunny` (`<BunnySticker />`)
-- `cat` (`<CatSticker />`)
-- `cat-cute` (`<CatCuteSticker />`)
-- `cat-serious` (`<CatSeriousSticker />`)
-- `cat-sit` (`<CatSitSticker />`)
-- `curious-globe` (`<CuriousGlobeSticker />`)
-- `dog` (`<DogSticker />`)
+### 🎭 Characters, Pandas & Winter (20 stickers)
 - `face` (`<FaceSticker />`)
-- `fish` (`<FishSticker />`)
-- `luffy-hat` (`<LuffyHatSticker />`)
-- `pink-cat` (`<PinkCatSticker />`)
-- `pink-cat-stamp` (`<PinkCatStampSticker />`)
-- `red-cat` (`<RedCatSticker />`)
-- `yellow-cat` (`<YellowCatSticker />`)
+- `panda-bear-1` (`<PandaBear1Sticker />`)
+- `panda-bear-2` (`<PandaBear2Sticker />`)
+- `panda-garland` (`<PandaGarlandSticker />`)
+- `panda-sack` (`<PandaSackSticker />`)
+- `winter-doodle-4` (`<WinterDoodle4Sticker />`)
+- `xmas-character-1` (`<XmasCharacter1Sticker />`)
+- `xmas-character-4` (`<XmasCharacter4Sticker />`)
+- `forest-animal-4` (`<ForestAnimal4Sticker />`)
+- `samurai-boy-1` (`<SamuraiBoy1Sticker />`)
+- `ninja-airbender-1` (`<NinjaAirbender1Sticker />`)
+- `kimono-katana-boy-1` (`<KimonoKatanaBoy1Sticker />`)
+- `ninja-sitting-1` (`<NinjaSitting1Sticker />`)
+- `japanese-merchant-1` (`<JapaneseMerchant1Sticker />`)
+- `costume-kid-1` (`<CostumeKid1Sticker />`)
+- `costume-kid-2` (`<CostumeKid2Sticker />`)
+- `costume-kid-3` (`<CostumeKid3Sticker />`)
+- `costume-kid-4` (`<CostumeKid4Sticker />`)
+- `costume-kid-5` (`<CostumeKid5Sticker />`)
+- `costume-kid-6` (`<CostumeKid6Sticker />`)
 
-### ⚡ Chrome & Aesthetic Shapes (9 stickers)
-- `flame` (`<FlameSticker />`)
-- `metal` (`<MetalSticker />`)
-- `flame-star` (`<FlameStarSticker />`)
-- `blob-burst` (`<BlobBurstSticker />`)
-- `star-burst` (`<StarBurstSticker />`)
-- `devil-cone` (`<DevilConeSticker />`)
-- `folded-paper` (`<FoldedPaperSticker />`)
-- `icy-fleur` (`<IcyFleurSticker />`)
-- `goo` (`<GooSticker />`)
+### 🎃 Halloween Characters & Watercolor (48 stickers)
+- `halloween-face-3` (`<HalloweenFace3Sticker />`)
+- `halloween-sketch-1` (`<HalloweenSketch1Sticker />`)
+- `halloween-sketch-2` (`<HalloweenSketch2Sticker />`)
+- `halloween-sketch-3` (`<HalloweenSketch3Sticker />`)
+- `halloween-sketch-4` (`<HalloweenSketch4Sticker />`)
+- `halloween-prop-1` (`<HalloweenProp1Sticker />`)
+- `halloween-prop-2` (`<HalloweenProp2Sticker />`)
+- `halloween-prop-3` (`<HalloweenProp3Sticker />`)
+- `cute-monster-1` (`<CuteMonster1Sticker />`)
+- `cute-monster-2` (`<CuteMonster2Sticker />`)
+- `cute-monster-3` (`<CuteMonster3Sticker />`)
+- `cute-monster-4` (`<CuteMonster4Sticker />`)
+- `cute-monster-5` (`<CuteMonster5Sticker />`)
+- `cute-monster-6` (`<CuteMonster6Sticker />`)
+- `watercolor-character-1` (`<WatercolorCharacter1Sticker />`)
+- `watercolor-character-2` (`<WatercolorCharacter2Sticker />`)
+- `watercolor-character-3` (`<WatercolorCharacter3Sticker />`)
+- `watercolor-character-4` (`<WatercolorCharacter4Sticker />`)
+- `watercolor-character-5` (`<WatercolorCharacter5Sticker />`)
+- `watercolor-character-6` (`<WatercolorCharacter6Sticker />`)
+- `watercolor-kid-1` (`<WatercolorKid1Sticker />`)
+- `watercolor-kid-2` (`<WatercolorKid2Sticker />`)
+- `watercolor-kid-3` (`<WatercolorKid3Sticker />`)
+- `watercolor-kid-4` (`<WatercolorKid4Sticker />`)
+- `watercolor-kid-5` (`<WatercolorKid5Sticker />`)
+- `watercolor-kid-6` (`<WatercolorKid6Sticker />`)
+- `watercolor-halloween-1` (`<WatercolorHalloween1Sticker />`)
+- `watercolor-halloween-2` (`<WatercolorHalloween2Sticker />`)
+- `watercolor-halloween-3` (`<WatercolorHalloween3Sticker />`)
+- `watercolor-halloween-4` (`<WatercolorHalloween4Sticker />`)
+- `watercolor-halloween-5` (`<WatercolorHalloween5Sticker />`)
+- `watercolor-halloween-6` (`<WatercolorHalloween6Sticker />`)
+- `handdrawn-kid-1` (`<HanddrawnKid1Sticker />`)
+- `handdrawn-kid-2` (`<HanddrawnKid2Sticker />`)
+- `handdrawn-kid-3` (`<HanddrawnKid3Sticker />`)
+- `handdrawn-kid-4` (`<HanddrawnKid4Sticker />`)
+- `frankenstein-boy-1` (`<FrankensteinBoy1Sticker />`)
+- `creepy-character-1` (`<CreepyCharacter1Sticker />`)
+- `creepy-character-2` (`<CreepyCharacter2Sticker />`)
+- `creepy-character-3` (`<CreepyCharacter3Sticker />`)
+- `creepy-character-4` (`<CreepyCharacter4Sticker />`)
+- `chinese-vampire-1` (`<ChineseVampire1Sticker />`)
+- `cute-halloween-buddy-1` (`<CuteHalloweenBuddy1Sticker />`)
+- `cute-halloween-buddy-2` (`<CuteHalloweenBuddy2Sticker />`)
+- `cute-halloween-buddy-3` (`<CuteHalloweenBuddy3Sticker />`)
+- `cute-halloween-buddy-4` (`<CuteHalloweenBuddy4Sticker />`)
+- `cute-halloween-buddy-5` (`<CuteHalloweenBuddy5Sticker />`)
+- `cute-halloween-buddy-6` (`<CuteHalloweenBuddy6Sticker />`)
 
-### 💎 Symbols & Emblems (15 stickers)
-- `app-badge` (`<AppBadgeSticker />`)
-- `badge-smiley` (`<BadgeSmileySticker />`)
-- `berries` (`<BerriesSticker />`)
-- `blueberry` (`<BlueberrySticker />`)
-- `cherry` (`<CherrySticker />`)
-- `coffee` (`<CoffeeSticker />`)
-- `cone` (`<ConeSticker />`)
-- `cosmic-eye` (`<CosmicEyeSticker />`)
-- `cosmic-pill` (`<CosmicPillSticker />`)
-- `eye-splat` (`<EyeSplatSticker />`)
-- `flower` (`<FlowerSticker />`)
-- `heart` (`<HeartSticker />`)
-- `japan-badge` (`<JapanBadgeSticker />`)
-- `japan-flag` (`<JapanFlagSticker />`)
-- `nazar` (`<NazarSticker />`)
-- `peace-hand` (`<PeaceHandSticker />`)
-- `red-berry` (`<RedBerrySticker />`)
-- `sparkles` (`<SparklesSticker />`)
-- `sparkle-trio` (`<SparkleTrioSticker />`)
-- `spiral` (`<SpiralSticker />`)
+### 👹 Monster Faces & Head Icons (12 stickers)
+- `monster-face-1` (`<MonsterFace1Sticker />`)
+- `monster-face-2` (`<MonsterFace2Sticker />`)
+- `monster-face-3` (`<MonsterFace3Sticker />`)
+- `monster-face-4` (`<MonsterFace4Sticker />`)
+- `monster-face-5` (`<MonsterFace5Sticker />`)
+- `monster-face-7` (`<MonsterFace7Sticker />`)
+- `monster-face-8` (`<MonsterFace8Sticker />`)
+- `monster-face-9` (`<MonsterFace9Sticker />`)
+- `monster-icon-1` (`<MonsterIcon1Sticker />`)
+- `monster-icon-3` (`<MonsterIcon3Sticker />`)
+- `monster-icon-4` (`<MonsterIcon4Sticker />`)
+- `monster-icon-5` (`<MonsterIcon5Sticker />`)
+
+### 🕹️ Retro Videogame Characters (17 stickers)
+- `videogame-collection-1` (`<VideogameCollection1Sticker />`)
+- `videogame-collection-2` (`<VideogameCollection2Sticker />`)
+- `videogame-collection-3` (`<VideogameCollection3Sticker />`)
+- `videogame-collection-4` (`<VideogameCollection4Sticker />`)
+- `videogame-collection-5` (`<VideogameCollection5Sticker />`)
+- `videogame-collection-6` (`<VideogameCollection6Sticker />`)
+- `videogame-set-1` (`<VideogameSet1Sticker />`)
+- `videogame-set-2` (`<VideogameSet2Sticker />`)
+- `videogame-set-3` (`<VideogameSet3Sticker />`)
+- `videogame-set-4` (`<VideogameSet4Sticker />`)
+- `videogame-set-5` (`<VideogameSet5Sticker />`)
+- `videogame-set-6` (`<VideogameSet6Sticker />`)
+- `retro-game-hero-1` (`<RetroGameHero1Sticker />`)
+- `retro-game-hero-2` (`<RetroGameHero2Sticker />`)
+- `retro-game-hero-3` (`<RetroGameHero3Sticker />`)
+- `retro-game-hero-4` (`<RetroGameHero4Sticker />`)
+- `retro-game-hero-5` (`<RetroGameHero5Sticker />`)
 
 ---
 
@@ -227,7 +264,7 @@ components/
 ├── packages/
 │   └── stickers-react/       # The "stick-it-up" npm package source
 │       ├── src/
-│       │   ├── stickers/     # All 65 sticker React components
+│       │   ├── stickers/     # All 97 sticker React components
 │       │   ├── components/   # Generic <Sticker /> wrapper
 │       │   └── utils/        # usePeel hover hook
 │       └── tsup.config.ts    # Package build config (CJS, ESM, DTS)

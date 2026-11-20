@@ -2,7 +2,7 @@
 
 > Premium vector, metallic chrome, and pixel art aesthetic sticker components for React & Next.js.
 
-A curated collection of 65+ vector graphic stickers featuring specular metallic chrome reflections, retro halftone stars, pixel art mascots (Nori, Pip, Kuro, Mochi), cute character doodles, and tactile badges. Built with scoped SVG filters, responsive sizing, and realistic 3D vinyl peel hover physics.
+A curated collection of 65 vector graphic stickers featuring specular metallic chrome reflections, retro halftone stars, pixel art mascots (Nori, Pip, Kuro, Mochi), cute character doodles, and tactile badges. Built with scoped SVG filters, responsive sizing, and realistic 3D vinyl peel hover physics.
 
 ---
 
@@ -32,7 +32,6 @@ Every sticker is tree-shakeable and imports directly without pulling in unnecess
 
 ```tsx
 import {
-  FlameSticker,
   MetalSticker,
   NoriCoffeeSticker,
   PipRocketSticker,
@@ -44,7 +43,7 @@ export function App() {
   return (
     <div style={{ display: "flex", gap: "24px", alignItems: "center" }}>
       {/* Basic usage with size in pixels */}
-      <FlameSticker size={100} />
+      <StarBurstSticker size={100} />
 
       {/* Interactive vinyl peel hover effect */}
       <MetalSticker size={120} peel />
@@ -67,7 +66,7 @@ import { Sticker, type StickerName } from "stick-it-up";
 export function StickerGallery() {
   const stickers: StickerName[] = [
     "metal",
-    "flame",
+    "face",
     "star-burst",
     "nori-coffee",
     "pip-rocket",
@@ -95,12 +94,11 @@ export function StickerGallery() {
 - **Kuro**: `<KuroCoffeeSticker />`, `<KuroCoolSticker />`, `<KuroHeadphonesSticker />`, `<KuroHeartSticker />`, `<KuroLaptopSticker />`, `<KuroRocketSticker />`
 - **Mochi**: `<MochiCoffeeSticker />`, `<MochiCoolSticker />`, `<MochiHeadphonesSticker />`, `<MochiHeartSticker />`, `<MochiLaptopSticker />`, `<MochiRocketSticker />`
 
-### 🎭 Characters (17 stickers)
+### 🎭 Characters (15 stickers)
 - `bad-cat` (`<BadCatSticker />`)
 - `black-cat` (`<BlackCatSticker />`)
 - `black-face` (`<BlackFaceSticker />`)
 - `bunny` (`<BunnySticker />`)
-- `cat` (`<CatSticker />`)
 - `cat-cute` (`<CatCuteSticker />`)
 - `cat-serious` (`<CatSeriousSticker />`)
 - `cat-sit` (`<CatSitSticker />`)
@@ -108,14 +106,12 @@ export function StickerGallery() {
 - `dog` (`<DogSticker />`)
 - `face` (`<FaceSticker />`)
 - `fish` (`<FishSticker />`)
-- `luffy-hat` (`<LuffyHatSticker />`)
 - `pink-cat` (`<PinkCatSticker />`)
 - `pink-cat-stamp` (`<PinkCatStampSticker />`)
 - `red-cat` (`<RedCatSticker />`)
 - `yellow-cat` (`<YellowCatSticker />`)
 
-### ⚡ Chrome & Aesthetic Shapes (9 stickers)
-- `flame` (`<FlameSticker />`)
+### ⚡ Chrome & Aesthetic Shapes (8 stickers)
 - `metal` (`<MetalSticker />`)
 - `flame-star` (`<FlameStarSticker />`)
 - `blob-burst` (`<BlobBurstSticker />`)
@@ -125,13 +121,12 @@ export function StickerGallery() {
 - `icy-fleur` (`<IcyFleurSticker />`)
 - `goo` (`<GooSticker />`)
 
-### 💎 Symbols & Emblems (15 stickers)
+### 💎 Symbols & Emblems (13 stickers)
 - `app-badge` (`<AppBadgeSticker />`)
 - `badge-smiley` (`<BadgeSmileySticker />`)
 - `berries` (`<BerriesSticker />`)
 - `blueberry` (`<BlueberrySticker />`)
 - `cherry` (`<CherrySticker />`)
-- `coffee` (`<CoffeeSticker />`)
 - `cone` (`<ConeSticker />`)
 - `cosmic-eye` (`<CosmicEyeSticker />`)
 - `cosmic-pill` (`<CosmicPillSticker />`)
@@ -141,7 +136,6 @@ export function StickerGallery() {
 - `japan-badge` (`<JapanBadgeSticker />`)
 - `japan-flag` (`<JapanFlagSticker />`)
 - `nazar` (`<NazarSticker />`)
-- `peace-hand` (`<PeaceHandSticker />`)
 - `red-berry` (`<RedBerrySticker />`)
 - `sparkles` (`<SparklesSticker />`)
 - `sparkle-trio` (`<SparkleTrioSticker />`)
