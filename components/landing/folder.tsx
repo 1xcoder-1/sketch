@@ -111,27 +111,27 @@ const GRAIN =
   "radial-gradient(rgba(0,0,0,0.18) 0.6px, transparent 0.7px)";
 
 const WEB_AVATARS = [
-  { src: "/stickers/blueberry.svg", bg: "#fbd3e2" },
-  { src: "/stickers/star.svg", bg: "#ddd7fb" },
-  { src: "/stickers/Flame.svg", bg: "#d3f0dc" },
+  { src: "/stickers/face.svg", bg: "#fbd3e2" },
+  { src: "/stickers/panda-bear-1.svg", bg: "#ddd7fb" },
+  { src: "/stickers/panda-bear-1.svg", bg: "#d3f0dc" },
 ];
 
 const APP_AVATARS = [
-  { src: "/stickers/cat.svg", bg: "#ffe0c2" },
-  { src: "/stickers/Curious%20blue%20globe.svg", bg: "#cfe2ff" },
-  { src: "/stickers/Flame.svg", bg: "#e3d3ff" },
+  { src: "/stickers/panda-bear-2.svg", bg: "#ffe0c2" },
+  { src: "/stickers/panda-garland.svg", bg: "#cfe2ff" },
+  { src: "/stickers/panda-bear-1.svg", bg: "#e3d3ff" },
 ];
 
 const DASH_AVATARS = [
-  { src: "/stickers/star.svg", bg: "#fff0a0" },
-  { src: "/stickers/Sparkles.svg", bg: "#e8f0ff" },
+  { src: "/stickers/face.svg", bg: "#fff0a0" },
+  { src: "/stickers/panda-bear-1.svg", bg: "#e8f0ff" },
   { src: "/stickers/face.svg", bg: "#ffd0d4" },
 ];
 
 const EMPTY_AVATARS = [
-  { src: "/stickers/flower.svg", bg: "#fbd3e2" },
-  { src: "/stickers/Peace-hand.svg", bg: "#e6f9c9" },
-  { src: "/stickers/dogsticker.svg", bg: "#ffe8c2" },
+  { src: "/stickers/panda-bear-2.svg", bg: "#fbd3e2" },
+  { src: "/stickers/panda-garland.svg", bg: "#e6f9c9" },
+  { src: "/stickers/panda-bear-1.svg", bg: "#ffe8c2" },
 ];
 
 
@@ -314,9 +314,9 @@ function PhoneMock({ bg, title, hero, heroBg, chips, tiles }: PhoneProps) {
         </div>
 
         <div className="grid grid-cols-2" style={{ gap: "0.6em", marginTop: "0.7em" }}>
-          {tiles.map((t) => (
+          {tiles.map((t, i) => (
             <div
-              key={t}
+              key={`${t}-${i}`}
               className="relative bg-white"
               style={{
                 height: "4.4em",
@@ -487,7 +487,7 @@ function Folder({ title, stamp, stampRot, cards, avatars }: FolderProps) {
             <div className="absolute flex" style={{ left: "2em", bottom: "2em" }}>
               {avatars.map((a, i) => (
                 <span
-                  key={a.src}
+                  key={`${a.src}-${i}`}
                   className="relative block overflow-hidden transition-transform duration-200 hover:-translate-y-1 hover:scale-110"
                   style={{
                     width: "5em",
@@ -535,10 +535,10 @@ export default function FolderShowcase() {
       brand="Sweet Crumb"
       headline="Bakes that taste like Sunday."
       cta="Order now"
-      logo="/stickers/blueberry.svg"
+      logo="/stickers/face.svg"
       stickers={[
-        { src: "/stickers/flower.svg", size: 7.5, right: 1.2, top: 4.2, rot: 14 },
-        { src: "/stickers/Sparkles.svg", size: 3.6, right: 8.4, top: 9.4, rot: -10 },
+        { src: "/stickers/panda-bear-1.svg", size: 7.5, right: 1.2, top: 4.2, rot: 14 },
+        { src: "/stickers/panda-bear-1.svg", size: 3.6, right: 8.4, top: 9.4, rot: -10 },
       ]}
     />,
     <WebMock
@@ -548,10 +548,10 @@ export default function FolderShowcase() {
       brand="Mia Rao"
       headline="Designer with a loud personality."
       cta="See my work"
-      logo="/stickers/star.svg"
+      logo="/stickers/panda-bear-2.svg"
       stickers={[
         { src: "/stickers/face.svg", size: 7.2, right: 1.2, top: 4, rot: -12 },
-        { src: "/stickers/Curious%20blue%20globe.svg", size: 4, right: 7.6, top: 10, rot: 8 },
+        { src: "/stickers/panda-bear-1.svg", size: 4, right: 7.6, top: 10, rot: 8 },
       ]}
     />,
     <WebMock
@@ -561,10 +561,10 @@ export default function FolderShowcase() {
       brand="Shipfast"
       headline="Ship the thing. Skip the dread."
       cta="Start free"
-      logo="/stickers/Flame.svg"
+      logo="/stickers/face.svg"
       stickers={[
-        { src: "/stickers/Flame.svg", size: 7, right: 1.2, top: 4.4, rot: 10 },
-        { src: "/stickers/Peace-hand.svg", size: 4, right: 7.8, top: 9.8, rot: -14 },
+        { src: "/stickers/panda-bear-1.svg", size: 7, right: 1.2, top: 4.4, rot: 10 },
+        { src: "/stickers/panda-bear-1.svg", size: 4, right: 7.8, top: 9.8, rot: -14 },
       ]}
     />,
   ];
@@ -574,28 +574,28 @@ export default function FolderShowcase() {
       key="p1"
       bg="#fff1e4"
       title="Good morning"
-      hero="/stickers/cat.svg"
+      hero="/stickers/panda-bear-2.svg"
       heroBg="#ffe0c2"
       chips={["Today", "Pets"]}
-      tiles={["/stickers/blueberry.svg", "/stickers/star.svg"]}
+      tiles={["/stickers/panda-garland.svg", "/stickers/panda-bear-1.svg"]}
     />,
     <PhoneMock
       key="p2"
       bg="#eaf2ff"
       title="Your trips"
-      hero="/stickers/Curious%20blue%20globe.svg"
+      hero="/stickers/face.svg"
       heroBg="#cfe2ff"
       chips={["Plan", "Saved"]}
-      tiles={["/stickers/Sparkles.svg", "/stickers/flower.svg"]}
+      tiles={["/stickers/panda-bear-1.svg", "/stickers/panda-garland.svg"]}
     />,
     <PhoneMock
       key="p3"
       bg="#f3eaff"
       title="Streaks"
-      hero="/stickers/Flame.svg"
+      hero="/stickers/panda-bear-2.svg"
       heroBg="#e3d3ff"
       chips={["Daily", "Friends"]}
-      tiles={["/stickers/face.svg", "/stickers/Peace-hand.svg"]}
+      tiles={["/stickers/face.svg", "/stickers/panda-bear-1.svg"]}
     />,
   ];
 
@@ -622,9 +622,9 @@ export default function FolderShowcase() {
       brand="Northwind"
       headline="The week, on one quiet board."
       cta="Open board"
-      logo="/stickers/star.svg"
+      logo="/stickers/face.svg"
       stickers={[
-        { src: "/stickers/Sparkles.svg", size: 6.4, right: 1.4, top: 4.2, rot: 8 },
+        { src: "/stickers/panda-bear-1.svg", size: 6.4, right: 1.4, top: 4.2, rot: 8 },
         { src: "/stickers/face.svg", size: 3.8, right: 8, top: 9.6, rot: -12 },
       ]}
     />,
@@ -635,10 +635,10 @@ export default function FolderShowcase() {
       brand="Ledger"
       headline="Numbers with a little nerve."
       cta="View report"
-      logo="/stickers/blueberry.svg"
+      logo="/stickers/panda-bear-2.svg"
       stickers={[
-        { src: "/stickers/Flame.svg", size: 6.8, right: 1.2, top: 4.4, rot: -8 },
-        { src: "/stickers/star.svg", size: 3.6, right: 8.2, top: 10, rot: 10 },
+        { src: "/stickers/panda-garland.svg", size: 6.8, right: 1.2, top: 4.4, rot: -8 },
+        { src: "/stickers/panda-bear-1.svg", size: 3.6, right: 8.2, top: 10, rot: 10 },
       ]}
     />,
     <WebMock
@@ -648,10 +648,10 @@ export default function FolderShowcase() {
       brand="Orbit"
       headline="Who is shipping this week."
       cta="See team"
-      logo="/stickers/Curious%20blue%20globe.svg"
+      logo="/stickers/face.svg"
       stickers={[
-        { src: "/stickers/cat.svg", size: 7, right: 1.2, top: 4, rot: 12 },
-        { src: "/stickers/flower.svg", size: 3.8, right: 8, top: 9.8, rot: -6 },
+        { src: "/stickers/panda-bear-1.svg", size: 7, right: 1.2, top: 4, rot: 12 },
+        { src: "/stickers/panda-bear-1.svg", size: 3.8, right: 8, top: 9.8, rot: -6 },
       ]}
     />,
   ];
@@ -661,28 +661,28 @@ export default function FolderShowcase() {
       key="e1"
       bg="#fff6ea"
       title="Nothing here yet"
-      hero="/stickers/flower.svg"
+      hero="/stickers/panda-bear-2.svg"
       heroBg="#ffe0ee"
       chips={["Inbox", "Later"]}
-      tiles={["/stickers/star.svg", "/stickers/cat.svg"]}
+      tiles={["/stickers/panda-garland.svg", "/stickers/panda-bear-1.svg"]}
     />,
     <PhoneMock
       key="e2"
       bg="#f4f7ff"
       title="No trips saved"
-      hero="/stickers/Curious%20blue%20globe.svg"
+      hero="/stickers/face.svg"
       heroBg="#dce8ff"
       chips={["Explore", "Nearby"]}
-      tiles={["/stickers/Peace-hand.svg", "/stickers/Sparkles.svg"]}
+      tiles={["/stickers/panda-bear-1.svg", "/stickers/panda-sack.svg"]}
     />,
     <PhoneMock
       key="e3"
       bg="#f7f3ff"
       title="Start a streak"
-      hero="/stickers/dogsticker.svg"
+      hero="/stickers/panda-bear-2.svg"
       heroBg="#efe4ff"
       chips={["Today", "Friends"]}
-      tiles={["/stickers/Flame.svg", "/stickers/face.svg"]}
+      tiles={["/stickers/panda-garland.svg", "/stickers/face.svg"]}
     />,
   ];
 
@@ -716,7 +716,7 @@ export default function FolderShowcase() {
       avatars: WEB_AVATARS,
       stampRot: 0,
       cards: webCards,
-      stamp: "/stickers/pink-cat.svg",
+      stamp: "/stickers/face.svg",
       stampClass: "h-[80%] w-[80%] mt-11 -ml-2 object-contain",
       w: "44%",
       x: "1%",
@@ -729,7 +729,7 @@ export default function FolderShowcase() {
       avatars: APP_AVATARS,
       stampRot: -6,
       cards: phoneCards,
-      stamp: "/stickers/japan.svg",
+      stamp: "/stickers/panda-bear-1.svg",
       stampClass: "h-full w-full mt-8 -ml-2 object-contain",
       w: "38%",
       x: "50%",
@@ -742,7 +742,7 @@ export default function FolderShowcase() {
       avatars: DASH_AVATARS,
       stampRot: 4,
       cards: dashCards,
-      stamp: "/stickers/star.svg",
+      stamp: "/stickers/panda-bear-1.svg",
       stampClass: "h-[78%] w-[78%] mt-10 -ml-1 object-contain",
       w: "40%",
       x: "6%",
@@ -755,7 +755,7 @@ export default function FolderShowcase() {
       avatars: EMPTY_AVATARS,
       stampRot: -4,
       cards: emptyCards,
-      stamp: "/stickers/flower.svg",
+      stamp: "/stickers/panda-bear-2.svg",
       stampClass: "h-[82%] w-[82%] mt-9 -ml-1 object-contain",
       w: "36%",
       x: "54%",

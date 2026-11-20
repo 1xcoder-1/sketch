@@ -266,7 +266,7 @@ function PeelDemo() {
     <div className="peel-demo relative mt-auto flex h-44 items-end justify-center pb-2">
       <div aria-hidden className="peel-shadow absolute bottom-6 h-10 w-24 rounded-full bg-black/25" />
       <img
-        src="/stickers/pink-cat.svg"
+        src="/stickers/face.svg"
         alt=""
         draggable={false}
         className="peel-sticker relative h-28 w-28 select-none"
@@ -472,16 +472,16 @@ function Phone() {
     </span>
   </div>
 
-  <Sticker src="/stickers/Flame.svg" size={78} left="56%" top="14%" rot={10} />
-  <Sticker src="/stickers/Sparkles.svg" size={34} left="44%" top="62%" rot={0} />
+  <Sticker src="/stickers/panda-bear-1.svg" size={78} left="56%" top="14%" rot={10} />
+  <Sticker src="/stickers/panda-bear-2.svg" size={34} left="44%" top="62%" rot={0} />
 </div>
 
             {/* tiles */}
             <div className="mt-3 grid grid-cols-3 gap-2.5">
               {[
-                { src: "/stickers/blueberry.svg", bg: "#e4eaff" },
-                { src: "/stickers/star.svg", bg: "#fff1c2" },
-                { src: "/stickers/flower.svg", bg: "#ffe0ea" },
+                { src: "/stickers/panda-garland.svg", bg: "#e4eaff" },
+                { src: "/stickers/panda-bear-1.svg", bg: "#fff1c2" },
+                { src: "/stickers/face.svg", bg: "#ffe0ea" },
               ].map((t) => (
                 <div
                   key={t.src}
@@ -506,8 +506,8 @@ function Phone() {
       </div>
 
       {/* loose stickers around the phone */}
-      <Sticker src="/stickers/cat.svg" size={78} left="-8%" top="-21%" rot={-12} z={20} />
-      <Sticker src="/stickers/Peace-hand.svg" size={60} left="58%" top="80%" rot={14} z={20} />
+      <Sticker src="/stickers/panda-bear-1.svg" size={78} left="-8%" top="-21%" rot={-12} z={20} />
+      <Sticker src="/stickers/panda-bear-1.svg" size={60} left="58%" top="80%" rot={14} z={20} />
     </div>
   );
 }
@@ -572,7 +572,7 @@ function UiStack() {
       scale: open ? 0.88 : 0.90,
       node: (
         <Glass>
-          <Tile src="/stickers/Flame.svg" bg="#ffeed9" />
+          <Tile src="/stickers/panda-bear-2.svg" bg="#ffeed9" />
           <div className="min-w-0 flex-1">
             <p className="text-[13.5px] font-semibold text-zinc-800">Daily streak</p>
             <p className="truncate text-[11.5px] text-zinc-400">12 days in a row</p>
@@ -588,7 +588,7 @@ function UiStack() {
       scale: open ? 0.95 : 0.955,
       node: (
         <Glass>
-          <Tile src="/stickers/red_cat.svg" bg="#ffe3ec" />
+          <Tile src="/stickers/panda-garland.svg" bg="#ffe3ec" />
           <div className="min-w-0 flex-1">
             <p className="text-[13.5px] font-semibold text-zinc-800">Mochi replied</p>
             <p className="truncate text-[11.5px] text-zinc-400">this site has so much personality</p>
@@ -602,7 +602,7 @@ function UiStack() {
       scale: 1,
       node: (
         <Glass style={{ height: 76 }}>
-          <Tile src="/stickers/Cosmiceye.svg" bg="#fff0b3" />
+          <Tile src="/stickers/panda-bear-1.svg" bg="#fff0b3" />
           <div className="min-w-0 flex-1">
             <p className="text-[14px] font-semibold text-zinc-900">Welcome back</p>
             <p className="truncate text-[11.5px] text-zinc-400">3 new stickers are waiting</p>
@@ -662,7 +662,7 @@ function UiStack() {
         }}
       >
         <img
-          src="/stickers/star.svg"
+          src="/stickers/face.svg"
           alt=""
           draggable={false}
           className="h-[54px] w-[54px]"
@@ -790,9 +790,9 @@ export default function Bento() {
                       <AppleLogo />
                     </div>
                     <Sticker src="/stickers/face.svg" size={62} left="7%" top="-14%" rot={-10} />
-                    <Sticker src="/stickers/star.svg" size={56} left="66%" top="-10%" rot={12} />
-                    <Sticker src="/stickers/blueberry.svg" size={52} left="76%" top="46%" rot={-6} />
-                    <Sticker src="/stickers/Sparkles.svg" size={44} left="12%" top="52%" rot={6} />
+                    <Sticker src="/stickers/panda-bear-1.svg" size={56} left="66%" top="-10%" rot={12} />
+                    <Sticker src="/stickers/panda-bear-2.svg" size={52} left="76%" top="46%" rot={-6} />
+                    <Sticker src="/stickers/panda-garland.svg" size={44} left="12%" top="52%" rot={6} />
                   </div>
                 </div>
               </Card>
@@ -814,9 +814,9 @@ export default function Bento() {
                 <Lead>Press the keys. Everything on the page behaves like the real thing.</Lead>
 
                 <div className="mt-auto flex items-end justify-between gap-2 px-1 pb-2 pt-10">
-                  <Key label="Vector" src="/stickers/star.svg" rot={-6} />
-                  <Key label="Drag" src="/stickers/Peace-hand.svg" rot={4} />
-                  <Key label="Pop" src="/stickers/red_cat.svg" rot={0} />
+                  <Key label="Vector" src="/stickers/panda-bear-1.svg" rot={-6} />
+                  <Key label="Drag" src="/stickers/face.svg" rot={4} />
+                  <Key label="Pop" src="/stickers/panda-bear-1.svg" rot={0} />
                 </div>
               </Card>
             </MotionBlur>

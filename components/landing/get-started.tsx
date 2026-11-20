@@ -167,10 +167,10 @@ export default function GetStarted() {
       />
 
       {/* Floating draggable stickers around the CTA */}
-      <DraggableSticker src="/stickers/star.svg" size={66} left="6%" top="18%" rot={-12} />
+      <DraggableSticker src="/stickers/face.svg" size={66} left="6%" top="18%" rot={-12} />
       <DraggableSticker src="/stickers/face.svg" size={64} left="88%" top="16%" rot={10} />
-      <DraggableSticker src="/stickers/pink-cat.svg" size={58} left="10%" top="70%" rot={8} />
-      <DraggableSticker src="/stickers/Peace-hand.svg" size={56} left="86%" top="68%" rot={-10} />
+      <DraggableSticker src="/stickers/panda-bear-1.svg" size={58} left="10%" top="70%" rot={8} />
+      <DraggableSticker src="/stickers/panda-bear-2.svg" size={56} left="86%" top="68%" rot={-10} />
 
       <div
         className="get-sheet relative z-10 mx-auto max-w-3xl rounded-[32px] px-6 py-12 sm:px-12 sm:py-16"

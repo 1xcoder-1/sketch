@@ -3,13 +3,13 @@
 import { useEffect, useRef } from "react";
 
 const STICKERS = [
-  "/stickers/cat.svg",
-  "/stickers/Flame.svg",
-  "/stickers/star.svg",
-  "/stickers/flower.svg",
-  "/stickers/blueberry.svg",
-  "/stickers/Curious%20blue%20globe.svg",
-  "/stickers/Peace-hand.svg",
+  "/stickers/face.svg",
+  "/stickers/panda-bear-1.svg",
+  "/stickers/panda-bear-1.svg",
+  "/stickers/panda-bear-2.svg",
+  "/stickers/panda-garland.svg",
+  "/stickers/panda-bear-1.svg",
+  "/stickers/face.svg",
 ];
 
 const POOL = 16;

@@ -19,20 +19,22 @@ export function usePeel(peel?: boolean, userStyle?: React.CSSProperties) {
     };
   }
 
+  /* Gentle 3D tilt: less resampling keeps the traced vector edges crisp at any zoom. */
   const baseTransform = userStyle?.transform ? `${userStyle.transform} ` : "";
   const transform = hovered
-    ? `${baseTransform}perspective(600px) rotateX(10deg) rotateY(-10deg) translateY(-8px) scale(1.08)`
-    : `${baseTransform}perspective(600px) rotateX(0deg) rotateY(0deg) translateY(0) scale(1)`;
+    ? `${baseTransform}perspective(900px) rotateX(6deg) rotateY(-6deg) translateY(-6px) scale(1.05) translateZ(0)`
+    : `${baseTransform}perspective(900px) rotateX(0deg) rotateY(0deg) translateY(0) scale(1) translateZ(0)`;
 
   const baseFilter = userStyle?.filter ? `${userStyle.filter} ` : "";
   const filter = hovered
-    ? `${baseFilter}drop-shadow(0 20px 25px rgba(0, 0, 0, 0.35))`
-    : (userStyle?.filter || "drop-shadow(0 2px 4px rgba(0, 0, 0, 0.05))");
+    ? `${baseFilter}drop-shadow(0 12px 14px rgba(0, 0, 0, 0.28))`
+    : (userStyle?.filter || "drop-shadow(0 2px 3px rgba(0, 0, 0, 0.06))");
 
   const peelStyle: React.CSSProperties = {
     ...baseStyle,
     cursor: "pointer",
-    transition: "transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1), filter 350ms cubic-bezier(0.34, 1.56, 0.64, 1)",
+    backfaceVisibility: "hidden",
+    transition: "transform 220ms cubic-bezier(0.2, 0.7, 0.3, 1), filter 220ms ease-out",
     transform,
     filter,
   };

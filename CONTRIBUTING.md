@@ -17,7 +17,7 @@ Thank you for your interest in contributing to **Stick It Up**! Whether you are 
 ### 1. Prepare your SVG
 - Create or export your artwork as clean SVG with a `viewBox` (e.g. `0 0 100 100` or similar square/proportional bounds).
 - We recommend a die-cut sticker look: a white decal border around the illustration and transparent background.
-- Save the file into `public/stickers/<your-sticker-name>.svg` using lowercase kebab-case (e.g. `cosmic-cat.svg`).
+- Save the file into `public/stickers/<your-sticker-name>.svg` using lowercase kebab-case (e.g. `panda-bear-1.svg`).
 
 ### 2. (Optional) Create a React Component
 If you want to provide a dedicated lightweight React component in `@stick-it-up`:
@@ -76,9 +76,9 @@ In `app/stickers/page.tsx`, add your sticker entry to the `CATALOG` array:
   category: "characters", // "characters" | "symbols" | "components"
   format: "component",
   componentName: "cosmic-cat",
-  svgSrc: "/stickers/cosmic-cat.svg",
+  svgSrc: "/stickers/face.svg",
   description: "Playful astronaut cat floating through the neon cosmos.",
-  tags: ["cat", "space", "cosmic", "character"],
+  tags: ["cat-cute", "space", "cosmic", "character"],
   defaultRotation: 6,
 }
 ```
