@@ -77,11 +77,11 @@ export default function UsagePage() {
   }
 
   return (
-    <div className="relative min-h-screen overflow-x-clip w-full bg-white text-zinc-900 antialiased selection:bg-amber-100 selection:text-amber-900">
+    <div className="relative min-h-screen w-full overflow-x-clip bg-paper text-ink antialiased">
       {/* ------------------------------------------------------------------
           HEADER
       ------------------------------------------------------------------- */}
-      <header className="sticky top-0 z-50 border-b border-zinc-200/80 bg-white/90 backdrop-blur-md">
+      <header className="sticky top-0 z-50 border-b-2 border-ink/20 bg-paper/95 backdrop-blur-md">
         <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
           <Link href="/" className="group flex items-center gap-2.5">
             <img
@@ -89,7 +89,7 @@ export default function UsagePage() {
               alt="Sketch Up logo"
               className="h-9 w-9 rounded-lg transition-transform duration-200 group-hover:-rotate-6 group-hover:scale-110"
             />
-            <span className="text-lg font-semibold tracking-tight text-zinc-900">
+            <span className="font-hand text-xl text-ink">
               Sketch Up
             </span>
           </Link>
@@ -98,7 +98,7 @@ export default function UsagePage() {
             <li>
               <Link
                 href="/"
-                className="rounded-lg px-3.5 py-2 text-sm font-medium text-zinc-600 transition-colors duration-150 hover:bg-zinc-100 hover:text-zinc-900"
+                className="rounded-[10px_7px_11px_7px/7px_11px_7px_10px] px-3.5 py-2 text-[15px] text-ink-soft transition-colors duration-150 hover:bg-paper-deep hover:text-ink"
               >
                 Home
               </Link>
@@ -106,7 +106,7 @@ export default function UsagePage() {
             <li>
               <Link
                 href="/stickers"
-                className="rounded-lg px-3.5 py-2 text-sm font-medium text-zinc-600 transition-colors duration-150 hover:bg-zinc-100 hover:text-zinc-900"
+                className="rounded-[10px_7px_11px_7px/7px_11px_7px_10px] px-3.5 py-2 text-[15px] text-ink-soft transition-colors duration-150 hover:bg-paper-deep hover:text-ink"
               >
                 Stickers
               </Link>
@@ -115,7 +115,7 @@ export default function UsagePage() {
               <Link
                 href="/usage"
                 aria-current="page"
-                className="rounded-lg bg-zinc-100 px-3.5 py-2 text-sm font-medium text-zinc-900 transition-colors duration-150"
+                className="rounded-[10px_7px_11px_7px/7px_11px_7px_10px] border-2 border-ink/25 bg-paper-card px-3.5 py-2 text-[15px] text-ink"
               >
                 Usage
               </Link>
@@ -125,7 +125,7 @@ export default function UsagePage() {
                 href="https://www.npmjs.com/package/stick-it-up"
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-lg px-3.5 py-2 text-sm font-medium text-zinc-600 transition-colors duration-150 hover:bg-zinc-100 hover:text-zinc-900"
+                className="rounded-[10px_7px_11px_7px/7px_11px_7px_10px] px-3.5 py-2 text-[15px] text-ink-soft transition-colors duration-150 hover:bg-paper-deep hover:text-ink"
               >
                 npm
               </a>
@@ -147,21 +147,21 @@ export default function UsagePage() {
 ------------------------------------------------------------------- */}
         <section
         id="docs"
-        className="scroll-mt-24 border-t border-zinc-200 bg-white px-6 py-20"
+        className="scroll-mt-24 border-t-2 border-ink/15 px-6 py-20"
         >
         <div className="mx-auto max-w-3xl">
             {/* Header */}
             <header>
-            <h2 className="font-sans text-2xl font-semibold tracking-tight text-zinc-900">
+            <h1 className="font-display text-[2rem] font-[550] tracking-tight text-ink">
                 Usage
-            </h2>
-            <p className="mt-1.5 text-sm text-zinc-500">
+            </h1>
+            <p className="mt-1.5 text-[15px] text-ink-muted">
                 Add stickers to a React or Next.js app.
             </p>
             </header>
 
             {/* Tabs */}
-            <div role="tablist" className="mt-8 flex gap-6 border-b border-zinc-200 text-sm">
+            <div role="tablist" className="mt-8 flex gap-6 border-b-2 border-ink/15 text-[15px]">
             {(
                 [
                 { id: "react", label: "React" },
@@ -176,8 +176,8 @@ export default function UsagePage() {
                 onClick={() => setGuideTab(t.id)}
                 className={`-mb-px cursor-pointer border-b-2 pb-2.5 font-medium transition-colors ${
                     guideTab === t.id
-                    ? "border-zinc-900 text-zinc-900"
-                    : "border-transparent text-zinc-400 hover:text-zinc-700"
+                    ? "border-ink text-ink"
+                    : "border-transparent text-ink-muted hover:text-ink-soft"
                 }`}
                 >
                 {t.label}
@@ -189,12 +189,12 @@ export default function UsagePage() {
             <div className="mt-10 space-y-12">
                 {/* 1. Install */}
                 <div>
-                <h3 className="text-sm font-medium text-zinc-900">
-                    <span className="mr-2 font-mono text-zinc-400">01</span>Install
+                <h3 className="text-sm font-medium text-ink">
+                    <span className="mr-2 font-mono text-ink-muted">01</span>Install
                 </h3>
 
-                <div className="mt-4 overflow-hidden rounded-xl border border-zinc-200">
-                    <div className="flex gap-4 border-b border-zinc-200 bg-zinc-50 px-4 py-2 font-mono text-[11px]">
+                <div className="mt-4 overflow-hidden rounded-[14px_10px_16px_10px/10px_16px_10px_14px] border-2 border-ink/20">
+                    <div className="flex gap-4 border-b-2 border-ink/15 bg-paper-deep px-4 py-2 font-mono text-[11px]">
                     {(["npm", "pnpm", "bun", "yarn"] as const).map((pm) => (
                         <button
                         key={pm}
@@ -202,17 +202,17 @@ export default function UsagePage() {
                         onClick={() => setGuidePm(pm)}
                         className={`cursor-pointer transition-colors ${
                             guidePm === pm
-                            ? "font-semibold text-zinc-900"
-                            : "text-zinc-400 hover:text-zinc-700"
+                            ? "font-semibold text-ink"
+                            : "text-ink-muted hover:text-ink-soft"
                         }`}
                         >
                         {pm}
                         </button>
                     ))}
                     </div>
-                    <div className="flex items-center justify-between bg-white px-4 py-3 font-mono text-xs text-zinc-800">
+                    <div className="flex items-center justify-between bg-paper-card px-4 py-3 font-mono text-xs text-ink">
                     <span>
-                        <span className="mr-2 select-none text-zinc-400">$</span>
+                        <span className="mr-2 select-none text-ink-muted">$</span>
                         {pmCommands[guidePm]}
                     </span>
                     <button
@@ -221,7 +221,7 @@ export default function UsagePage() {
                         className={`cursor-pointer font-sans text-[11px] font-medium transition-colors  px-2 py-1 ${
                         guideCopied === "install"
                             ? "text-emerald-500"
-                            : "text-zinc-400 hover:text-zinc-600"
+                            : "text-ink-muted hover:text-ink-soft"
                         }`}
                     >
                         {guideCopied === "install" ? "Copied" : "Copy"}
@@ -233,28 +233,28 @@ export default function UsagePage() {
                 {/* 2. Use */}
                 <div>
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5">
-                  <h3 className="text-sm font-medium text-zinc-900">
-                    <span className="mr-2 font-mono text-zinc-400">02</span>Use
+                  <h3 className="text-sm font-medium text-ink">
+                    <span className="mr-2 font-mono text-ink-muted">02</span>Use
                   </h3>
-                  <p className="text-xs text-zinc-500">
-                    Choose <span className="font-medium text-zinc-800">Direct Use</span> (lightweight named import) or <span className="font-medium text-zinc-800">Dynamic</span> (generic &lt;Sticker /&gt;).
+                  <p className="text-xs text-ink-muted">
+                    Choose <span className="font-medium text-ink-soft">Direct Use</span> (lightweight named import) or <span className="font-medium text-ink-soft">Dynamic</span> (generic &lt;Sticker /&gt;).
                   </p>
                 </div>
 
                 <div className="mt-4 grid gap-4 md:grid-cols-5">
                     {/* Code */}
-                    <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white md:col-span-3">
-                    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-200 bg-zinc-50 px-3 py-2">
+                    <div className="overflow-hidden rounded-[14px_10px_16px_10px/10px_16px_10px_14px] border-2 border-ink/20 bg-paper-card md:col-span-3">
+                    <div className="flex flex-wrap items-center justify-between gap-2 border-b-2 border-ink/15 bg-paper-deep px-3 py-2">
                         <div className="flex items-center gap-2">
-                          <span className="font-mono text-[11px] text-zinc-500">Hero.tsx</span>
-                          <div className="flex items-center rounded-lg bg-zinc-200/70 p-0.5 text-[11px]">
+                          <span className="font-mono text-[11px] text-ink-muted">Hero.tsx</span>
+                          <div className="flex items-center rounded-lg bg-paper-deep p-0.5 text-[11px]">
                             <button
                               type="button"
                               onClick={() => setGuideMode("direct")}
                               className={`cursor-pointer rounded-md px-2 py-0.5 font-medium transition-all ${
                                 guideMode === "direct"
-                                  ? "bg-white text-zinc-900 shadow-xs"
-                                  : "text-zinc-500 hover:text-zinc-800"
+                                  ? "bg-paper-card text-ink shadow-xs"
+                                  : "text-ink-muted hover:text-ink"
                               }`}
                             >
                               Direct Use
@@ -264,8 +264,8 @@ export default function UsagePage() {
                               onClick={() => setGuideMode("dynamic")}
                               className={`cursor-pointer rounded-md px-2 py-0.5 font-medium transition-all ${
                                 guideMode === "dynamic"
-                                  ? "bg-white text-zinc-900 shadow-xs"
-                                  : "text-zinc-500 hover:text-zinc-800"
+                                  ? "bg-paper-card text-ink shadow-xs"
+                                  : "text-ink-muted hover:text-ink"
                               }`}
                             >
                               Dynamic
@@ -275,16 +275,16 @@ export default function UsagePage() {
                         <button
                         type="button"
                         onClick={copyGuideCode}
-                        className={`cursor-pointer rounded-md border border-zinc-200 bg-white px-2 py-0.5 text-[11px] font-medium transition-colors ${
+                        className={`cursor-pointer rounded-md border border-ink/20 bg-paper-card px-2 py-0.5 text-[11px] font-medium transition-colors ${
                             guideCopied === "code"
                             ? "border-emerald-300 bg-emerald-50 text-emerald-600"
-                            : "text-zinc-600 hover:bg-zinc-100"
+                            : "text-ink-soft hover:bg-paper-deep"
                         }`}
                         >
                         {guideCopied === "code" ? "Copied" : "Copy"}
                         </button>
                     </div>
-                    <pre className="overflow-x-auto p-4 font-mono text-xs leading-relaxed text-zinc-950">
+                    <pre className="overflow-x-auto p-4 font-mono text-xs leading-relaxed text-ink">
                         <code>{guideMode === "direct" ? `import { ${getComponentExportName(guideSticker)} } from "stick-it-up";
 
 export default function Hero() {
@@ -307,14 +307,14 @@ export default function Hero() {
                     </div>
 
                     {/* Preview + controls */}
-                    <div className="flex flex-col rounded-xl border border-zinc-200 md:col-span-2">
-                    <div className="flex min-h-[160px] flex-1 items-center justify-center rounded-t-xl bg-zinc-50 p-6">
+                    <div className="flex flex-col rounded-[14px_10px_16px_10px/10px_16px_10px_14px] border-2 border-ink/20 md:col-span-2">
+                    <div className="flex min-h-[160px] flex-1 items-center justify-center bg-paper-deep p-6">
                         <Sticker name={guideSticker} size={guideSize} peel={guidePeel} />
                     </div>
 
-                    <dl className="divide-y divide-zinc-200 rounded-b-xl border-t border-zinc-200 bg-white text-[11px]">
+                    <dl className="divide-y divide-ink/10 border-t-2 border-ink/15 bg-paper-card text-[11px]">
                         <div className="flex items-center justify-between gap-2 px-3 py-2">
-                        <dt className="text-zinc-500">Sticker</dt>
+                        <dt className="text-ink-muted">Sticker</dt>
                         <dd className="flex flex-wrap justify-end gap-1">
                             {(
                             [
@@ -474,8 +474,8 @@ export default function Hero() {
                                 onClick={() => setGuideSticker(s.id)}
                                 className={`cursor-pointer rounded-md px-1.5 py-0.5 transition-colors ${
                                 guideSticker === s.id
-                                    ? "bg-zinc-900 text-white"
-                                    : "text-zinc-500 hover:text-zinc-900"
+                                    ? "bg-ink text-white"
+                                    : "text-ink-muted hover:text-ink"
                                 }`}
                             >
                                 {s.label}
@@ -485,7 +485,7 @@ export default function Hero() {
                         </div>
 
                         <div className="flex items-center justify-between px-3 py-2">
-                        <dt className="text-zinc-500">Size</dt>
+                        <dt className="text-ink-muted">Size</dt>
                         <dd className="flex gap-1 font-mono">
                             {[64, 96, 120].map((sz) => (
                             <button
@@ -494,8 +494,8 @@ export default function Hero() {
                                 onClick={() => setGuideSize(sz)}
                                 className={`cursor-pointer rounded-md px-1.5 py-0.5 transition-colors ${
                                 guideSize === sz
-                                    ? "bg-zinc-900 text-white"
-                                    : "text-zinc-500 hover:text-zinc-900"
+                                    ? "bg-ink text-white"
+                                    : "text-ink-muted hover:text-ink"
                                 }`}
                             >
                                 {sz}
@@ -505,7 +505,7 @@ export default function Hero() {
                         </div>
 
                         <div className="flex items-center justify-between px-3 py-2">
-                        <dt className="text-zinc-500">Peel on hover</dt>
+                        <dt className="text-ink-muted">Peel on hover</dt>
                         <dd>
                             <button
                             type="button"
@@ -514,11 +514,11 @@ export default function Hero() {
                             aria-label="Peel on hover"
                             onClick={() => setGuidePeel(!guidePeel)}
                             className={`relative inline-flex h-4 w-7 cursor-pointer items-center rounded-full transition-colors ${
-                                guidePeel ? "bg-zinc-900" : "bg-zinc-300"
+                                guidePeel ? "bg-ink" : "bg-ink/25"
                             }`}
                             >
                             <span
-                                className={`inline-block h-3 w-3 rounded-full bg-white transition-transform ${
+                                className={`inline-block h-3 w-3 rounded-full bg-paper-card transition-transform ${
                                 guidePeel ? "translate-x-3.5" : "translate-x-0.5"
                                 }`}
                             />
@@ -532,11 +532,11 @@ export default function Hero() {
 
                 {/* 3. Props */}
                 <div>
-                <h3 className="text-sm font-medium text-zinc-900">
-                    <span className="mr-2 font-mono text-zinc-400">03</span>Props
+                <h3 className="text-sm font-medium text-ink">
+                    <span className="mr-2 font-mono text-ink-muted">03</span>Props
                 </h3>
 
-                <dl className="mt-4 divide-y divide-zinc-200 border-y border-zinc-200">
+                <dl className="mt-4 divide-y divide-ink/10 border-y-2 border-ink/15">
                     {[
                     { name: "name", type: "string", desc: 'Sticker ID (for generic <Sticker />), e.g. "face". Not needed when using direct component imports.' },
                     { name: "size", type: "number | string", desc: "Width and height in pixels. Default 96." },
@@ -547,9 +547,9 @@ export default function Hero() {
                         key={p.name}
                         className="grid items-baseline gap-x-4 gap-y-1 py-3 text-xs sm:grid-cols-[7rem_9rem_1fr]"
                     >
-                        <dt className="font-mono font-semibold text-zinc-900">{p.name}</dt>
-                        <dd className="font-mono text-zinc-400">{p.type}</dd>
-                        <dd className="text-zinc-600">{p.desc}</dd>
+                        <dt className="font-mono font-semibold text-ink">{p.name}</dt>
+                        <dd className="font-mono text-ink-muted">{p.type}</dd>
+                        <dd className="text-ink-soft">{p.desc}</dd>
                     </div>
                     ))}
                 </dl>
@@ -557,17 +557,17 @@ export default function Hero() {
             </div>
             ) : (
             <div className="mt-10 space-y-4">
-                <p className="text-sm text-zinc-500">
+                <p className="text-[15px] text-ink-muted">
                 Static vector files live in{" "}
-                <code className="font-mono text-xs text-zinc-800">/public/stickers/</code>. No
+                <code className="font-mono text-xs text-ink-soft">/public/stickers/</code>. No
                 dependencies needed.
                 </p>
 
-                <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white">
-                <div className="flex items-center justify-between border-b border-zinc-200 bg-zinc-50 px-4 py-2">
+                <div className="overflow-hidden rounded-[14px_10px_16px_10px/10px_16px_10px_14px] border-2 border-ink/20 bg-paper-card">
+                <div className="flex items-center justify-between border-b-2 border-ink/15 bg-paper-deep px-4 py-2">
                     <div className="flex items-center gap-2">
-                    
-                    <span className="ml-1.5 font-mono text-[11px] text-zinc-500">index.html</span>
+
+                    <span className="ml-1.5 font-mono text-[11px] text-ink-muted">index.html</span>
                     </div>
                     <button
                     type="button"
@@ -575,13 +575,13 @@ export default function Hero() {
                     className={`cursor-pointer text-[11px] font-medium transition-colors ${
                         guideCopied === "code"
                         ? "text-emerald-400 font-semibold"
-                        : "text-zinc-400 hover:text-white"
+                        : "text-ink-muted hover:text-white"
                     }`}
                     >
                     {guideCopied === "code" ? "Copied ✓" : "Copy"}
                     </button>
                 </div>
-                <pre className="overflow-x-auto p-4 font-mono text-xs leading-relaxed text-zinc-900">
+                <pre className="overflow-x-auto p-4 font-mono text-xs leading-relaxed text-ink">
                     <code>{`<img
   src="/stickers/face.svg"
   alt="Flame sticker"
