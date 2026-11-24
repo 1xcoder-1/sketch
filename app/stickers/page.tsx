@@ -2,35 +2,60 @@
 
 import React, { useState, useMemo, useEffect, useRef, useDeferredValue } from "react";
 import Link from "next/link";
-import { LuCopyCheck, LuCopy } from "react-icons/lu";
-import { Sticker, type StickerName } from "stick-it-up";
+import { LuCopyCheck, LuCopy, LuCopyX } from "react-icons/lu";
+import { Sticker, type StickerName, toSvgString, findSticker, trazoCatalog } from "stick-it-up";
 import Footer from "../../components/landing/footer";
 import { VisitorCounter, GitHubStarButton } from "../../components/landing/nav-actions";
-
-
+import { PhotoSticker } from "../../components/stickers/photo-sticker";
+import { CEO_CATALOG } from "./ceo-catalog.generated";
 
 /* ------------------------------------------------------------------
    Sticker Catalog Data
 ------------------------------------------------------------------- */
 
-type StickerFormat = "component" | "svg";
-type StickerCategory = "all" | "mascots" | "characters" | "components" | "symbols" | "die-cut" | "quirky" | "spooky" | "funny";
+type StickerFormat = "component" | "svg" | "trazo" | "photo";
+type StickerCategory = "all" | "tech-ceos" | "ocean" | "arrows" | "nature" | "hearts" | "symbols" | "characters" | "legacy";
+type CopyFeedback = "idle" | "copied" | "failed";
+
+interface StickerAttribution {
+  filePageUrl: string;
+  sourceTitle: string;
+  author: string;
+  license: string;
+}
 
 interface CatalogItem {
   id: string;
   name: string;
   title: string;
-  category: "components" | "symbols" | "characters" | "mascots" | "die-cut" | "quirky" | "spooky" | "funny";
+  category: string;
   format: StickerFormat;
   description: string;
   tags: string[];
-  componentName?: StickerName;
+  componentName?: string;
   svgSrc?: string;
+  trazoId?: string;
+  photoSrc?: string;
+  aura?: string;
+  attribution?: StickerAttribution;
   defaultRotation?: number;
   previewSize?: number;
 }
 
-const CATALOG: CatalogItem[] = [
+const TRAZO_CATALOG: CatalogItem[] = trazoCatalog.map((s) => ({
+    id: `trazo-${s.id}`,
+    name: s.id,
+    title: s.name,
+    category: s.category,
+    format: "trazo" as const,
+    description: `${s.name} Trazo sticker`,
+    tags: [...s.tags],
+    trazoId: s.id,
+    componentName: s.componentName,
+    defaultRotation: 0,
+  }))
+
+const LEGACY_CATALOG: CatalogItem[] = [
   /* Built-in React Components (stick-it-up) */
   {
     id: "svg-face",
@@ -190,30 +215,6 @@ const CATALOG: CatalogItem[] = [
     defaultRotation: 4,
   },
   {
-    id: "svg-monster-face-4",
-    name: "monster-face-4",
-    title: "Spooky Monster Face 4",
-    category: "spooky",
-    format: "component",
-    componentName: "monster-face-4",
-    svgSrc: "/stickers/monster-face-4.svg",
-    description: "High-resolution editable vector tracing of spooky monster face 4 from the Halloween monster faces collection, with a transparent background.",
-    tags: ["halloween", "monster", "spooky", "face", "vector"],
-    defaultRotation: -6,
-  },
-  {
-    id: "svg-monster-face-5",
-    name: "monster-face-5",
-    title: "Spooky Monster Face 5",
-    category: "spooky",
-    format: "component",
-    componentName: "monster-face-5",
-    svgSrc: "/stickers/monster-face-5.svg",
-    description: "High-resolution editable vector tracing of spooky monster face 5 from the Halloween monster faces collection, with a transparent background.",
-    tags: ["halloween", "monster", "spooky", "face", "vector"],
-    defaultRotation: 5,
-  },
-  {
     id: "svg-monster-face-7",
     name: "monster-face-7",
     title: "Spooky Monster Face 7",
@@ -274,18 +275,6 @@ const CATALOG: CatalogItem[] = [
     defaultRotation: -3,
   },
   {
-    id: "svg-monster-icon-4",
-    name: "monster-icon-4",
-    title: "Monster Head Icon 4",
-    category: "spooky",
-    format: "component",
-    componentName: "monster-icon-4",
-    svgSrc: "/stickers/monster-icon-4.svg",
-    description: "High-resolution editable vector tracing of monster head icon 4 from the monster head icon set, with a transparent background.",
-    tags: ["halloween", "monster", "icon", "spooky", "vector"],
-    defaultRotation: 6,
-  },
-  {
     id: "svg-monster-icon-5",
     name: "monster-icon-5",
     title: "Monster Head Icon 5",
@@ -296,42 +285,6 @@ const CATALOG: CatalogItem[] = [
     description: "High-resolution editable vector tracing of monster head icon 5 from the monster head icon set, with a transparent background.",
     tags: ["halloween", "monster", "icon", "spooky", "vector"],
     defaultRotation: -5,
-  },
-  {
-    id: "svg-halloween-sketch-1",
-    name: "halloween-sketch-1",
-    title: "Hand-Drawn Halloween Sketch 1",
-    category: "spooky",
-    format: "component",
-    componentName: "halloween-sketch-1",
-    svgSrc: "/stickers/halloween-sketch-1.svg",
-    description: "High-resolution editable vector tracing of a hand-drawn Halloween character from the Halloween characters pack, with a transparent background.",
-    tags: ["halloween", "hand-drawn", "character", "spooky", "vector"],
-    defaultRotation: 6,
-  },
-  {
-    id: "svg-halloween-sketch-2",
-    name: "halloween-sketch-2",
-    title: "Hand-Drawn Halloween Sketch 2",
-    category: "spooky",
-    format: "component",
-    componentName: "halloween-sketch-2",
-    svgSrc: "/stickers/halloween-sketch-2.svg",
-    description: "High-resolution editable vector tracing of a hand-drawn Halloween character from the Halloween characters pack, with a transparent background.",
-    tags: ["halloween", "hand-drawn", "character", "spooky", "vector"],
-    defaultRotation: -5,
-  },
-  {
-    id: "svg-halloween-sketch-3",
-    name: "halloween-sketch-3",
-    title: "Hand-Drawn Halloween Sketch 3",
-    category: "spooky",
-    format: "component",
-    componentName: "halloween-sketch-3",
-    svgSrc: "/stickers/halloween-sketch-3.svg",
-    description: "High-resolution editable vector tracing of a hand-drawn Halloween character from the Halloween characters pack, with a transparent background.",
-    tags: ["halloween", "hand-drawn", "character", "spooky", "vector"],
-    defaultRotation: 4,
   },
   {
     id: "svg-halloween-sketch-4",
@@ -356,30 +309,6 @@ const CATALOG: CatalogItem[] = [
     description: "High-resolution editable vector tracing of a carved Halloween pumpkin from the Halloween characters elements set, with a transparent background.",
     tags: ["halloween", "pumpkin", "prop", "spooky", "vector"],
     defaultRotation: 5,
-  },
-  {
-    id: "svg-halloween-prop-2",
-    name: "halloween-prop-2",
-    title: "Halloween Frankenstein Prop",
-    category: "spooky",
-    format: "component",
-    componentName: "halloween-prop-2",
-    svgSrc: "/stickers/halloween-prop-2.svg",
-    description: "High-resolution editable vector tracing of a green Frankenstein-style Halloween character from the Halloween characters elements set, with a transparent background.",
-    tags: ["halloween", "frankenstein", "prop", "spooky", "vector"],
-    defaultRotation: -3,
-  },
-  {
-    id: "svg-halloween-prop-3",
-    name: "halloween-prop-3",
-    title: "Halloween Black Cat Prop",
-    category: "spooky",
-    format: "component",
-    componentName: "halloween-prop-3",
-    svgSrc: "/stickers/halloween-prop-3.svg",
-    description: "High-resolution editable vector tracing of a black Halloween cat character from the Halloween characters elements set, with a transparent background.",
-    tags: ["halloween", "cat", "prop", "spooky", "vector"],
-    defaultRotation: 3,
   },
   {
     id: "svg-cute-monster-1",
@@ -418,18 +347,6 @@ const CATALOG: CatalogItem[] = [
     defaultRotation: 4,
   },
   {
-    id: "svg-cute-monster-4",
-    name: "cute-monster-4",
-    title: "Cute Halloween Monster 4",
-    category: "spooky",
-    format: "component",
-    componentName: "cute-monster-4",
-    svgSrc: "/stickers/cute-monster-4.svg",
-    description: "High-resolution editable vector tracing of a cute cartoon Halloween monster from the cute monster character collection, with a transparent background.",
-    tags: ["halloween", "cute", "monster", "cartoon", "vector"],
-    defaultRotation: -6,
-  },
-  {
     id: "svg-cute-monster-5",
     name: "cute-monster-5",
     title: "Cute Halloween Monster 5",
@@ -466,18 +383,6 @@ const CATALOG: CatalogItem[] = [
     defaultRotation: 6,
   },
   {
-    id: "svg-watercolor-character-2",
-    name: "watercolor-character-2",
-    title: "Watercolor Halloween Character 2",
-    category: "spooky",
-    format: "component",
-    componentName: "watercolor-character-2",
-    svgSrc: "/stickers/watercolor-character-2.svg",
-    description: "High-resolution editable vector tracing of a watercolor-style Halloween character from the watercolor character collection, with a transparent background.",
-    tags: ["halloween", "watercolor", "character", "hand-painted", "vector"],
-    defaultRotation: -5,
-  },
-  {
     id: "svg-watercolor-character-3",
     name: "watercolor-character-3",
     title: "Watercolor Halloween Character 3",
@@ -502,42 +407,6 @@ const CATALOG: CatalogItem[] = [
     defaultRotation: -6,
   },
   {
-    id: "svg-watercolor-character-5",
-    name: "watercolor-character-5",
-    title: "Watercolor Halloween Character 5",
-    category: "spooky",
-    format: "component",
-    componentName: "watercolor-character-5",
-    svgSrc: "/stickers/watercolor-character-5.svg",
-    description: "High-resolution editable vector tracing of a watercolor-style Halloween character from the watercolor character collection, with a transparent background.",
-    tags: ["halloween", "watercolor", "character", "hand-painted", "vector"],
-    defaultRotation: 5,
-  },
-  {
-    id: "svg-watercolor-character-6",
-    name: "watercolor-character-6",
-    title: "Watercolor Halloween Character 6",
-    category: "spooky",
-    format: "component",
-    componentName: "watercolor-character-6",
-    svgSrc: "/stickers/watercolor-character-6.svg",
-    description: "High-resolution editable vector tracing of a watercolor-style Halloween character from the watercolor character collection, with a transparent background.",
-    tags: ["halloween", "watercolor", "character", "hand-painted", "vector"],
-    defaultRotation: -4,
-  },
-  {
-    id: "svg-watercolor-kid-1",
-    name: "watercolor-kid-1",
-    title: "Watercolor Halloween Kid 1",
-    category: "spooky",
-    format: "component",
-    componentName: "watercolor-kid-1",
-    svgSrc: "/stickers/watercolor-kid-1.svg",
-    description: "High-resolution editable vector tracing of a watercolor-style Halloween kid character from the watercolor kid collection, with a transparent background.",
-    tags: ["halloween", "watercolor", "kid", "character", "vector"],
-    defaultRotation: 6,
-  },
-  {
     id: "svg-watercolor-kid-2",
     name: "watercolor-kid-2",
     title: "Watercolor Halloween Kid 2",
@@ -560,18 +429,6 @@ const CATALOG: CatalogItem[] = [
     description: "High-resolution editable vector tracing of a watercolor-style Halloween kid character from the watercolor kid collection, with a transparent background.",
     tags: ["halloween", "watercolor", "kid", "character", "vector"],
     defaultRotation: 4,
-  },
-  {
-    id: "svg-watercolor-kid-4",
-    name: "watercolor-kid-4",
-    title: "Watercolor Halloween Kid 4",
-    category: "spooky",
-    format: "component",
-    componentName: "watercolor-kid-4",
-    svgSrc: "/stickers/watercolor-kid-4.svg",
-    description: "High-resolution editable vector tracing of a watercolor-style Halloween kid character from the watercolor kid collection, with a transparent background.",
-    tags: ["halloween", "watercolor", "kid", "character", "vector"],
-    defaultRotation: -6,
   },
   {
     id: "svg-watercolor-kid-5",
@@ -622,78 +479,6 @@ const CATALOG: CatalogItem[] = [
     defaultRotation: -5,
   },
   {
-    id: "svg-videogame-collection-3",
-    name: "videogame-collection-3",
-    title: "Retro Videogame Character 3",
-    category: "spooky",
-    format: "component",
-    componentName: "videogame-collection-3",
-    svgSrc: "/stickers/videogame-collection-3.svg",
-    description: "High-resolution editable vector tracing of a retro videogame character from the videogame character collection, with a transparent background.",
-    tags: ["videogame", "retro", "character", "arcade", "vector"],
-    defaultRotation: 4,
-  },
-  {
-    id: "svg-videogame-collection-4",
-    name: "videogame-collection-4",
-    title: "Retro Videogame Character 4",
-    category: "spooky",
-    format: "component",
-    componentName: "videogame-collection-4",
-    svgSrc: "/stickers/videogame-collection-4.svg",
-    description: "High-resolution editable vector tracing of a retro videogame character from the videogame character collection, with a transparent background.",
-    tags: ["videogame", "retro", "character", "arcade", "vector"],
-    defaultRotation: -6,
-  },
-  {
-    id: "svg-videogame-collection-5",
-    name: "videogame-collection-5",
-    title: "Retro Videogame Character 5",
-    category: "spooky",
-    format: "component",
-    componentName: "videogame-collection-5",
-    svgSrc: "/stickers/videogame-collection-5.svg",
-    description: "High-resolution editable vector tracing of a retro videogame character from the videogame character collection, with a transparent background.",
-    tags: ["videogame", "retro", "character", "arcade", "vector"],
-    defaultRotation: 5,
-  },
-  {
-    id: "svg-videogame-collection-6",
-    name: "videogame-collection-6",
-    title: "Retro Videogame Character 6",
-    category: "spooky",
-    format: "component",
-    componentName: "videogame-collection-6",
-    svgSrc: "/stickers/videogame-collection-6.svg",
-    description: "High-resolution editable vector tracing of a retro videogame character from the videogame character collection, with a transparent background.",
-    tags: ["videogame", "retro", "character", "arcade", "vector"],
-    defaultRotation: -4,
-  },
-  {
-    id: "svg-videogame-set-1",
-    name: "videogame-set-1",
-    title: "Retro Videogame Hero 1",
-    category: "spooky",
-    format: "component",
-    componentName: "videogame-set-1",
-    svgSrc: "/stickers/videogame-set-1.svg",
-    description: "High-resolution editable vector tracing of a retro videogame hero from the videogame character set, with a transparent background.",
-    tags: ["videogame", "retro", "hero", "arcade", "vector"],
-    defaultRotation: 6,
-  },
-  {
-    id: "svg-videogame-set-2",
-    name: "videogame-set-2",
-    title: "Retro Videogame Hero 2",
-    category: "spooky",
-    format: "component",
-    componentName: "videogame-set-2",
-    svgSrc: "/stickers/videogame-set-2.svg",
-    description: "High-resolution editable vector tracing of a retro videogame hero from the videogame character set, with a transparent background.",
-    tags: ["videogame", "retro", "hero", "arcade", "vector"],
-    defaultRotation: -5,
-  },
-  {
     id: "svg-videogame-set-3",
     name: "videogame-set-3",
     title: "Retro Videogame Hero 3",
@@ -718,54 +503,6 @@ const CATALOG: CatalogItem[] = [
     defaultRotation: -6,
   },
   {
-    id: "svg-videogame-set-5",
-    name: "videogame-set-5",
-    title: "Retro Videogame Hero 5",
-    category: "spooky",
-    format: "component",
-    componentName: "videogame-set-5",
-    svgSrc: "/stickers/videogame-set-5.svg",
-    description: "High-resolution editable vector tracing of a retro videogame hero from the videogame character set, with a transparent background.",
-    tags: ["videogame", "retro", "hero", "arcade", "vector"],
-    defaultRotation: 5,
-  },
-  {
-    id: "svg-videogame-set-6",
-    name: "videogame-set-6",
-    title: "Retro Videogame Hero 6",
-    category: "spooky",
-    format: "component",
-    componentName: "videogame-set-6",
-    svgSrc: "/stickers/videogame-set-6.svg",
-    description: "High-resolution editable vector tracing of a retro videogame hero from the videogame character set, with a transparent background.",
-    tags: ["videogame", "retro", "hero", "arcade", "vector"],
-    defaultRotation: -4,
-  },
-  {
-    id: "svg-watercolor-halloween-1",
-    name: "watercolor-halloween-1",
-    title: "Watercolor Halloween Spooky 1",
-    category: "spooky",
-    format: "component",
-    componentName: "watercolor-halloween-1",
-    svgSrc: "/stickers/watercolor-halloween-1.svg",
-    description: "High-resolution editable vector tracing of a spooky watercolor Halloween character from the watercolor Halloween collection, with a transparent background.",
-    tags: ["halloween", "watercolor", "spooky", "character", "vector"],
-    defaultRotation: 6,
-  },
-  {
-    id: "svg-watercolor-halloween-2",
-    name: "watercolor-halloween-2",
-    title: "Watercolor Halloween Spooky 2",
-    category: "spooky",
-    format: "component",
-    componentName: "watercolor-halloween-2",
-    svgSrc: "/stickers/watercolor-halloween-2.svg",
-    description: "High-resolution editable vector tracing of a spooky watercolor Halloween character from the watercolor Halloween collection, with a transparent background.",
-    tags: ["halloween", "watercolor", "spooky", "character", "vector"],
-    defaultRotation: -5,
-  },
-  {
     id: "svg-watercolor-halloween-3",
     name: "watercolor-halloween-3",
     title: "Watercolor Halloween Spooky 3",
@@ -776,18 +513,6 @@ const CATALOG: CatalogItem[] = [
     description: "High-resolution editable vector tracing of a spooky watercolor Halloween character from the watercolor Halloween collection, with a transparent background.",
     tags: ["halloween", "watercolor", "spooky", "character", "vector"],
     defaultRotation: 4,
-  },
-  {
-    id: "svg-watercolor-halloween-4",
-    name: "watercolor-halloween-4",
-    title: "Watercolor Halloween Spooky 4",
-    category: "spooky",
-    format: "component",
-    componentName: "watercolor-halloween-4",
-    svgSrc: "/stickers/watercolor-halloween-4.svg",
-    description: "High-resolution editable vector tracing of a spooky watercolor Halloween character from the watercolor Halloween collection, with a transparent background.",
-    tags: ["halloween", "watercolor", "spooky", "character", "vector"],
-    defaultRotation: -6,
   },
   {
     id: "svg-watercolor-halloween-5",
@@ -802,18 +527,6 @@ const CATALOG: CatalogItem[] = [
     defaultRotation: 5,
   },
   {
-    id: "svg-watercolor-halloween-6",
-    name: "watercolor-halloween-6",
-    title: "Watercolor Halloween Spooky 6",
-    category: "spooky",
-    format: "component",
-    componentName: "watercolor-halloween-6",
-    svgSrc: "/stickers/watercolor-halloween-6.svg",
-    description: "High-resolution editable vector tracing of a spooky watercolor Halloween character from the watercolor Halloween collection, with a transparent background.",
-    tags: ["halloween", "watercolor", "spooky", "character", "vector"],
-    defaultRotation: -4,
-  },
-  {
     id: "svg-handdrawn-kid-1",
     name: "handdrawn-kid-1",
     title: "Hand-Drawn Halloween Kid 1",
@@ -824,18 +537,6 @@ const CATALOG: CatalogItem[] = [
     description: "High-resolution editable vector tracing of a hand-drawn Halloween kid character from the hand-drawn kid collection, with a transparent background.",
     tags: ["halloween", "hand-drawn", "kid", "character", "vector"],
     defaultRotation: 5,
-  },
-  {
-    id: "svg-handdrawn-kid-2",
-    name: "handdrawn-kid-2",
-    title: "Hand-Drawn Halloween Kid 2",
-    category: "spooky",
-    format: "component",
-    componentName: "handdrawn-kid-2",
-    svgSrc: "/stickers/handdrawn-kid-2.svg",
-    description: "High-resolution editable vector tracing of a hand-drawn Halloween kid character from the hand-drawn kid collection, with a transparent background.",
-    tags: ["halloween", "hand-drawn", "kid", "character", "vector"],
-    defaultRotation: -4,
   },
   {
     id: "svg-handdrawn-kid-3",
@@ -872,18 +573,6 @@ const CATALOG: CatalogItem[] = [
     description: "High-resolution editable vector tracing of a happy boy Frankenstein character wearing casual clothes, with a transparent background.",
     tags: ["halloween", "frankenstein", "boy", "cartoon", "vector"],
     defaultRotation: 4,
-  },
-  {
-    id: "svg-creepy-character-1",
-    name: "creepy-character-1",
-    title: "Creepy Halloween Character 1",
-    category: "spooky",
-    format: "component",
-    componentName: "creepy-character-1",
-    svgSrc: "/stickers/creepy-character-1.svg",
-    description: "High-resolution editable vector tracing of a creepy hand-drawn Halloween character from the creepy character collection, with a transparent background.",
-    tags: ["halloween", "creepy", "hand-drawn", "character", "vector"],
-    defaultRotation: -6,
   },
   {
     id: "svg-creepy-character-2",
@@ -994,78 +683,6 @@ const CATALOG: CatalogItem[] = [
     defaultRotation: -4,
   },
   {
-    id: "svg-retro-game-hero-1",
-    name: "retro-game-hero-1",
-    title: "Retro Game Hero 1",
-    category: "spooky",
-    format: "component",
-    componentName: "retro-game-hero-1",
-    svgSrc: "/stickers/retro-game-hero-1.svg",
-    description: "High-resolution editable vector tracing of a cartoon video game hero character from the five character collection, with a transparent background.",
-    tags: ["videogame", "retro", "hero", "cartoon", "vector"],
-    defaultRotation: 5,
-  },
-  {
-    id: "svg-retro-game-hero-2",
-    name: "retro-game-hero-2",
-    title: "Retro Game Hero 2",
-    category: "spooky",
-    format: "component",
-    componentName: "retro-game-hero-2",
-    svgSrc: "/stickers/retro-game-hero-2.svg",
-    description: "High-resolution editable vector tracing of a cartoon video game hero character from the five character collection, with a transparent background.",
-    tags: ["videogame", "retro", "hero", "cartoon", "vector"],
-    defaultRotation: -5,
-  },
-  {
-    id: "svg-retro-game-hero-3",
-    name: "retro-game-hero-3",
-    title: "Retro Game Hero 3",
-    category: "spooky",
-    format: "component",
-    componentName: "retro-game-hero-3",
-    svgSrc: "/stickers/retro-game-hero-3.svg",
-    description: "High-resolution editable vector tracing of a cartoon video game hero character from the five character collection, with a transparent background.",
-    tags: ["videogame", "retro", "hero", "cartoon", "vector"],
-    defaultRotation: 4,
-  },
-  {
-    id: "svg-retro-game-hero-4",
-    name: "retro-game-hero-4",
-    title: "Retro Game Hero 4",
-    category: "spooky",
-    format: "component",
-    componentName: "retro-game-hero-4",
-    svgSrc: "/stickers/retro-game-hero-4.svg",
-    description: "High-resolution editable vector tracing of a cartoon video game hero character from the five character collection, with a transparent background.",
-    tags: ["videogame", "retro", "hero", "cartoon", "vector"],
-    defaultRotation: -6,
-  },
-  {
-    id: "svg-retro-game-hero-5",
-    name: "retro-game-hero-5",
-    title: "Retro Game Hero 5",
-    category: "spooky",
-    format: "component",
-    componentName: "retro-game-hero-5",
-    svgSrc: "/stickers/retro-game-hero-5.svg",
-    description: "High-resolution editable vector tracing of a cartoon video game hero character from the five character collection, with a transparent background.",
-    tags: ["videogame", "retro", "hero", "cartoon", "vector"],
-    defaultRotation: 6,
-  },
-  {
-    id: "svg-costume-kid-1",
-    name: "costume-kid-1",
-    title: "Hand-Drawn Costume Kid 1",
-    category: "spooky",
-    format: "component",
-    componentName: "costume-kid-1",
-    svgSrc: "/stickers/costume-kid-1.svg",
-    description: "High-resolution editable vector tracing of a hand-drawn child in a cute costume from the children collection, with a transparent background.",
-    tags: ["kid", "hand-drawn", "costume", "character", "vector"],
-    defaultRotation: -5,
-  },
-  {
     id: "svg-costume-kid-2",
     name: "costume-kid-2",
     title: "Hand-Drawn Costume Kid 2",
@@ -1090,30 +707,6 @@ const CATALOG: CatalogItem[] = [
     defaultRotation: -4,
   },
   {
-    id: "svg-costume-kid-4",
-    name: "costume-kid-4",
-    title: "Hand-Drawn Costume Kid 4",
-    category: "spooky",
-    format: "component",
-    componentName: "costume-kid-4",
-    svgSrc: "/stickers/costume-kid-4.svg",
-    description: "High-resolution editable vector tracing of a hand-drawn child in a cute costume from the children collection, with a transparent background.",
-    tags: ["kid", "hand-drawn", "costume", "character", "vector"],
-    defaultRotation: 6,
-  },
-  {
-    id: "svg-costume-kid-5",
-    name: "costume-kid-5",
-    title: "Hand-Drawn Costume Kid 5",
-    category: "spooky",
-    format: "component",
-    componentName: "costume-kid-5",
-    svgSrc: "/stickers/costume-kid-5.svg",
-    description: "High-resolution editable vector tracing of a hand-drawn child in a cute costume from the children collection, with a transparent background.",
-    tags: ["kid", "hand-drawn", "costume", "character", "vector"],
-    defaultRotation: -6,
-  },
-  {
     id: "svg-costume-kid-6",
     name: "costume-kid-6",
     title: "Hand-Drawn Costume Kid 6",
@@ -1123,18 +716,6 @@ const CATALOG: CatalogItem[] = [
     svgSrc: "/stickers/costume-kid-6.svg",
     description: "High-resolution editable vector tracing of a hand-drawn child in a cute costume from the children collection, with a transparent background.",
     tags: ["kid", "hand-drawn", "costume", "character", "vector"],
-    defaultRotation: 4,
-  },
-  {
-    id: "svg-cute-halloween-buddy-1",
-    name: "cute-halloween-buddy-1",
-    title: "Cute Halloween Buddy 1",
-    category: "spooky",
-    format: "component",
-    componentName: "cute-halloween-buddy-1",
-    svgSrc: "/stickers/cute-halloween-buddy-1.svg",
-    description: "High-resolution editable vector tracing of a cute Halloween cartoon character from the cute Halloween characters collection, with a transparent background.",
-    tags: ["halloween", "cute", "cartoon", "character", "vector"],
     defaultRotation: 4,
   },
   {
@@ -1150,30 +731,6 @@ const CATALOG: CatalogItem[] = [
     defaultRotation: -6,
   },
   {
-    id: "svg-cute-halloween-buddy-3",
-    name: "cute-halloween-buddy-3",
-    title: "Cute Halloween Buddy 3",
-    category: "spooky",
-    format: "component",
-    componentName: "cute-halloween-buddy-3",
-    svgSrc: "/stickers/cute-halloween-buddy-3.svg",
-    description: "High-resolution editable vector tracing of a cute Halloween cartoon character from the cute Halloween characters collection, with a transparent background.",
-    tags: ["halloween", "cute", "cartoon", "character", "vector"],
-    defaultRotation: 5,
-  },
-  {
-    id: "svg-cute-halloween-buddy-4",
-    name: "cute-halloween-buddy-4",
-    title: "Cute Halloween Buddy 4",
-    category: "spooky",
-    format: "component",
-    componentName: "cute-halloween-buddy-4",
-    svgSrc: "/stickers/cute-halloween-buddy-4.svg",
-    description: "High-resolution editable vector tracing of a cute Halloween cartoon character from the cute Halloween characters collection, with a transparent background.",
-    tags: ["halloween", "cute", "cartoon", "character", "vector"],
-    defaultRotation: -4,
-  },
-  {
     id: "svg-cute-halloween-buddy-5",
     name: "cute-halloween-buddy-5",
     title: "Cute Halloween Buddy 5",
@@ -1186,18 +743,1100 @@ const CATALOG: CatalogItem[] = [
     defaultRotation: 6,
   },
   {
-    id: "svg-cute-halloween-buddy-6",
-    name: "cute-halloween-buddy-6",
-    title: "Cute Halloween Buddy 6",
+    id: "svg-gamer-man",
+    name: "gamer-man",
+    title: "Gamer Man",
+    category: "characters",
+    format: "component",
+    componentName: "gamer-man",
+    svgSrc: "/stickers/gamer-man.svg",
+    description: "HD vector tracing of a gamer character with headset and controller, traced from the original artwork.",
+    tags: ["gamer", "gaming", "controller", "headset", "character"],
+    defaultRotation: -4,
+  },
+  {
+    id: "svg-happy-halloween-3",
+    name: "happy-halloween-3",
+    title: "Happy Halloween 3",
     category: "spooky",
     format: "component",
-    componentName: "cute-halloween-buddy-6",
-    svgSrc: "/stickers/cute-halloween-buddy-6.svg",
-    description: "High-resolution editable vector tracing of a cute Halloween cartoon character from the cute Halloween characters collection, with a transparent background.",
-    tags: ["halloween", "cute", "cartoon", "character", "vector"],
+    componentName: "happy-halloween-3",
+    svgSrc: "/stickers/happy-halloween-3.svg",
+    description: "HD vector tracing of a happy Halloween character from the original artwork.",
+    tags: ["halloween", "cute", "character"],
+    defaultRotation: -3,
+  },
+  {
+    id: "svg-happy-halloween-4",
+    name: "happy-halloween-4",
+    title: "Happy Halloween 4",
+    category: "spooky",
+    format: "component",
+    componentName: "happy-halloween-4",
+    svgSrc: "/stickers/happy-halloween-4.svg",
+    description: "HD vector tracing of a happy Halloween character from the original artwork.",
+    tags: ["halloween", "cute", "character"],
+    defaultRotation: 5,
+  },
+  {
+    id: "svg-happy-halloween-5",
+    name: "happy-halloween-5",
+    title: "Happy Halloween 5",
+    category: "spooky",
+    format: "component",
+    componentName: "happy-halloween-5",
+    svgSrc: "/stickers/happy-halloween-5.svg",
+    description: "HD vector tracing of a happy Halloween character from the original artwork.",
+    tags: ["halloween", "cute", "character"],
+    defaultRotation: -4,
+  },
+  {
+    id: "svg-happy-halloween-8",
+    name: "happy-halloween-8",
+    title: "Happy Halloween 8",
+    category: "spooky",
+    format: "component",
+    componentName: "happy-halloween-8",
+    svgSrc: "/stickers/happy-halloween-8.svg",
+    description: "HD vector tracing of a happy Halloween character from the original artwork.",
+    tags: ["halloween", "cute", "character"],
+    defaultRotation: 4,
+  },
+  {
+    id: "svg-retro-basketball-1",
+    name: "retro-basketball-1",
+    title: "Retro Basketball 1",
+    category: "characters",
+    format: "component",
+    componentName: "retro-basketball-1",
+    svgSrc: "/stickers/retro-basketball-1.svg",
+    description: "HD vector tracing of retro basketball character 1 from the original artwork.",
+    tags: ["retro", "basketball", "cartoon", "sport", "character"],
+    defaultRotation: -4,
+  },
+  {
+    id: "svg-retro-basketball-2",
+    name: "retro-basketball-2",
+    title: "Retro Basketball 2",
+    category: "characters",
+    format: "component",
+    componentName: "retro-basketball-2",
+    svgSrc: "/stickers/retro-basketball-2.svg",
+    description: "HD vector tracing of retro basketball character 2 from the original artwork.",
+    tags: ["retro", "basketball", "cartoon", "sport", "character"],
+    defaultRotation: 4,
+  },
+  {
+    id: "svg-retro-basketball-4",
+    name: "retro-basketball-4",
+    title: "Retro Basketball 4",
+    category: "characters",
+    format: "component",
+    componentName: "retro-basketball-4",
+    svgSrc: "/stickers/retro-basketball-4.svg",
+    description: "HD vector tracing of retro basketball character 4 from the original artwork.",
+    tags: ["retro", "basketball", "cartoon", "sport", "character"],
+    defaultRotation: 5,
+  },
+  {
+    id: "svg-retro-cartoon-1",
+    name: "retro-cartoon-1",
+    title: "Retro Cartoon 1",
+    category: "characters",
+    format: "component",
+    componentName: "retro-cartoon-1",
+    svgSrc: "/stickers/retro-cartoon-1.svg",
+    description: "HD vector tracing of retro cartoon character 1 from the original artwork.",
+    tags: ["retro", "cartoon", "vintage", "character"],
+    defaultRotation: 3,
+  },
+  {
+    id: "svg-retro-cartoon-2",
+    name: "retro-cartoon-2",
+    title: "Retro Cartoon 2",
+    category: "characters",
+    format: "component",
+    componentName: "retro-cartoon-2",
+    svgSrc: "/stickers/retro-cartoon-2.svg",
+    description: "HD vector tracing of retro cartoon character 2 from the original artwork.",
+    tags: ["retro", "cartoon", "vintage", "character"],
+    defaultRotation: -4,
+  },
+  {
+    id: "svg-retro-cartoon-3",
+    name: "retro-cartoon-3",
+    title: "Retro Cartoon 3",
+    category: "characters",
+    format: "component",
+    componentName: "retro-cartoon-3",
+    svgSrc: "/stickers/retro-cartoon-3.svg",
+    description: "HD vector tracing of retro cartoon character 3 from the original artwork.",
+    tags: ["retro", "cartoon", "vintage", "character"],
+    defaultRotation: 5,
+  },
+  {
+    id: "svg-retro-military-1",
+    name: "retro-military-1",
+    title: "Retro Military 1",
+    category: "characters",
+    format: "component",
+    componentName: "retro-military-1",
+    svgSrc: "/stickers/retro-military-1.svg",
+    description: "HD vector tracing of retro military character 1 from the original artwork.",
+    tags: ["retro", "military", "cartoon", "character"],
+    defaultRotation: -4,
+  },
+  {
+    id: "svg-retro-military-2",
+    name: "retro-military-2",
+    title: "Retro Military 2",
+    category: "characters",
+    format: "component",
+    componentName: "retro-military-2",
+    svgSrc: "/stickers/retro-military-2.svg",
+    description: "HD vector tracing of retro military character 2 from the original artwork.",
+    tags: ["retro", "military", "cartoon", "character"],
+    defaultRotation: 3,
+  },
+  {
+    id: "svg-retro-military-3",
+    name: "retro-military-3",
+    title: "Retro Military 3",
+    category: "characters",
+    format: "component",
+    componentName: "retro-military-3",
+    svgSrc: "/stickers/retro-military-3.svg",
+    description: "HD vector tracing of retro military character 3 from the original artwork.",
+    tags: ["retro", "military", "cartoon", "character"],
+    defaultRotation: 5,
+  },
+  {
+    id: "svg-retro-military-4",
+    name: "retro-military-4",
+    title: "Retro Military 4",
+    category: "characters",
+    format: "component",
+    componentName: "retro-military-4",
+    svgSrc: "/stickers/retro-military-4.svg",
+    description: "HD vector tracing of retro military character 4 from the original artwork.",
+    tags: ["retro", "military", "cartoon", "character"],
+    defaultRotation: -3,
+  },
+  {
+    id: "svg-retro-military-5",
+    name: "retro-military-5",
+    title: "Retro Military 5",
+    category: "characters",
+    format: "component",
+    componentName: "retro-military-5",
+    svgSrc: "/stickers/retro-military-5.svg",
+    description: "HD vector tracing of retro military character 5 from the original artwork.",
+    tags: ["retro", "military", "cartoon", "character"],
+    defaultRotation: 4,
+  },
+  {
+    id: "svg-retro-military-6",
+    name: "retro-military-6",
+    title: "Retro Military 6",
+    category: "characters",
+    format: "component",
+    componentName: "retro-military-6",
+    svgSrc: "/stickers/retro-military-6.svg",
+    description: "HD vector tracing of retro military character 6 from the original artwork.",
+    tags: ["retro", "military", "cartoon", "character"],
+    defaultRotation: -5,
+  },
+  {
+    id: "svg-retro-military-7",
+    name: "retro-military-7",
+    title: "Retro Military 7",
+    category: "characters",
+    format: "component",
+    componentName: "retro-military-7",
+    svgSrc: "/stickers/retro-military-7.svg",
+    description: "HD vector tracing of retro military character 7 from the original artwork.",
+    tags: ["retro", "military", "cartoon", "character"],
+    defaultRotation: 3,
+  },
+  {
+    id: "svg-retro-military-8",
+    name: "retro-military-8",
+    title: "Retro Military 8",
+    category: "characters",
+    format: "component",
+    componentName: "retro-military-8",
+    svgSrc: "/stickers/retro-military-8.svg",
+    description: "HD vector tracing of retro military character 8 from the original artwork.",
+    tags: ["retro", "military", "cartoon", "character"],
+    defaultRotation: -4,
+  },
+  {
+    id: "svg-rock-sticker-2",
+    name: "rock-sticker-2",
+    title: "Rock Sticker 2",
+    category: "characters",
+    format: "component",
+    componentName: "rock-sticker-2",
+    svgSrc: "/stickers/rock-sticker-2.svg",
+    description: "HD vector tracing of rock sticker character 2 from the original artwork.",
+    tags: ["rock", "music", "cartoon", "sticker"],
+    defaultRotation: 4,
+  },
+  {
+    id: "svg-rock-sticker-3",
+    name: "rock-sticker-3",
+    title: "Rock Sticker 3",
+    category: "characters",
+    format: "component",
+    componentName: "rock-sticker-3",
+    svgSrc: "/stickers/rock-sticker-3.svg",
+    description: "HD vector tracing of rock sticker character 3 from the original artwork.",
+    tags: ["rock", "music", "cartoon", "sticker"],
+    defaultRotation: -3,
+  },
+  {
+    id: "svg-rock-sticker-4",
+    name: "rock-sticker-4",
+    title: "Rock Sticker 4",
+    category: "characters",
+    format: "component",
+    componentName: "rock-sticker-4",
+    svgSrc: "/stickers/rock-sticker-4.svg",
+    description: "HD vector tracing of rock sticker character 4 from the original artwork.",
+    tags: ["rock", "music", "cartoon", "sticker"],
+    defaultRotation: 5,
+  },
+  {
+    id: "svg-young-action-2",
+    name: "young-action-2",
+    title: "Young Action 2",
+    category: "characters",
+    format: "component",
+    componentName: "young-action-2",
+    svgSrc: "/stickers/young-action-2.svg",
+    description: "HD vector tracing of young action character 2 from the original artwork.",
+    tags: ["people", "action", "cartoon", "character"],
+    defaultRotation: -4,
+  },
+  {
+    id: "svg-young-action-3",
+    name: "young-action-3",
+    title: "Young Action 3",
+    category: "characters",
+    format: "component",
+    componentName: "young-action-3",
+    svgSrc: "/stickers/young-action-3.svg",
+    description: "HD vector tracing of young action character 3 from the original artwork.",
+    tags: ["people", "action", "cartoon", "character"],
+    defaultRotation: 5,
+  },
+  {
+    id: "svg-young-action-4",
+    name: "young-action-4",
+    title: "Young Action 4",
+    category: "characters",
+    format: "component",
+    componentName: "young-action-4",
+    svgSrc: "/stickers/young-action-4.svg",
+    description: "HD vector tracing of young action character 4 from the original artwork.",
+    tags: ["people", "action", "cartoon", "character"],
+    defaultRotation: -3,
+  },
+  {
+    id: "svg-young-action-5",
+    name: "young-action-5",
+    title: "Young Action 5",
+    category: "characters",
+    format: "component",
+    componentName: "young-action-5",
+    svgSrc: "/stickers/young-action-5.svg",
+    description: "HD vector tracing of young action character 5 from the original artwork.",
+    tags: ["people", "action", "cartoon", "character"],
+    defaultRotation: 4,
+  },
+  {
+    id: "svg-young-action-6",
+    name: "young-action-6",
+    title: "Young Action 6",
+    category: "characters",
+    format: "component",
+    componentName: "young-action-6",
+    svgSrc: "/stickers/young-action-6.svg",
+    description: "HD vector tracing of young action character 6 from the original artwork.",
+    tags: ["people", "action", "cartoon", "character"],
+    defaultRotation: -5,
+  },
+  {
+    id: "svg-funny-character-3",
+    name: "funny-character-3",
+    title: "Funny Character 3",
+    category: "characters",
+    format: "component",
+    componentName: "funny-character-3",
+    svgSrc: "/stickers/funny-character-3.svg",
+    description: "HD vector tracing of funny character character 3 from the original artwork.",
+    tags: ["funny", "cool", "cartoon", "character"],
+    defaultRotation: -3,
+  },
+  {
+    id: "svg-funny-character-4",
+    name: "funny-character-4",
+    title: "Funny Character 4",
+    category: "characters",
+    format: "component",
+    componentName: "funny-character-4",
+    svgSrc: "/stickers/funny-character-4.svg",
+    description: "HD vector tracing of funny character character 4 from the original artwork.",
+    tags: ["funny", "cool", "cartoon", "character"],
+    defaultRotation: 5,
+  },
+  {
+    id: "svg-funny-character-5",
+    name: "funny-character-5",
+    title: "Funny Character 5",
+    category: "characters",
+    format: "component",
+    componentName: "funny-character-5",
+    svgSrc: "/stickers/funny-character-5.svg",
+    description: "HD vector tracing of funny character character 5 from the original artwork.",
+    tags: ["funny", "cool", "cartoon", "character"],
+    defaultRotation: -5,
+  },
+  {
+    id: "svg-funny-character-6",
+    name: "funny-character-6",
+    title: "Funny Character 6",
+    category: "characters",
+    format: "component",
+    componentName: "funny-character-6",
+    svgSrc: "/stickers/funny-character-6.svg",
+    description: "HD vector tracing of funny character character 6 from the original artwork.",
+    tags: ["funny", "cool", "cartoon", "character"],
+    defaultRotation: 3,
+  },
+  {
+    id: "svg-funny-character-7",
+    name: "funny-character-7",
+    title: "Funny Character 7",
+    category: "characters",
+    format: "component",
+    componentName: "funny-character-7",
+    svgSrc: "/stickers/funny-character-7.svg",
+    description: "HD vector tracing of funny character character 7 from the original artwork.",
+    tags: ["funny", "cool", "cartoon", "character"],
+    defaultRotation: -2,
+  },
+  {
+    id: "svg-funny-character-8",
+    name: "funny-character-8",
+    title: "Funny Character 8",
+    category: "characters",
+    format: "component",
+    componentName: "funny-character-8",
+    svgSrc: "/stickers/funny-character-8.svg",
+    description: "HD vector tracing of funny character character 8 from the original artwork.",
+    tags: ["funny", "cool", "cartoon", "character"],
+    defaultRotation: 4,
+  },
+  {
+    id: "svg-rock-sticker-5",
+    name: "rock-sticker-5",
+    title: "Rock Sticker 5",
+    category: "characters",
+    format: "component",
+    componentName: "rock-sticker-5",
+    svgSrc: "/stickers/rock-sticker-5.svg",
+    description: "HD vector tracing of rock sticker character 5 from the original artwork.",
+    tags: ["rock", "music", "cartoon", "sticker"],
+    defaultRotation: 5,
+  },
+  {
+    id: "svg-rock-sticker-6",
+    name: "rock-sticker-6",
+    title: "Rock Sticker 6",
+    category: "characters",
+    format: "component",
+    componentName: "rock-sticker-6",
+    svgSrc: "/stickers/rock-sticker-6.svg",
+    description: "HD vector tracing of rock sticker character 6 from the original artwork.",
+    tags: ["rock", "music", "cartoon", "sticker"],
+    defaultRotation: -4,
+  },
+  {
+    id: "svg-rock-sticker-7",
+    name: "rock-sticker-7",
+    title: "Rock Sticker 7",
+    category: "characters",
+    format: "component",
+    componentName: "rock-sticker-7",
+    svgSrc: "/stickers/rock-sticker-7.svg",
+    description: "HD vector tracing of rock sticker character 7 from the original artwork.",
+    tags: ["rock", "music", "cartoon", "sticker"],
+    defaultRotation: 3,
+  },
+  {
+    id: "svg-rock-sticker-8",
+    name: "rock-sticker-8",
+    title: "Rock Sticker 8",
+    category: "characters",
+    format: "component",
+    componentName: "rock-sticker-8",
+    svgSrc: "/stickers/rock-sticker-8.svg",
+    description: "HD vector tracing of rock sticker character 8 from the original artwork.",
+    tags: ["rock", "music", "cartoon", "sticker"],
+    defaultRotation: -5,
+  },
+  {
+    id: "svg-wrestler-4",
+    name: "wrestler-4",
+    title: "Wrestler 4",
+    category: "characters",
+    format: "component",
+    componentName: "wrestler-4",
+    svgSrc: "/stickers/wrestler-4.svg",
+    description: "HD vector tracing of wrestler character 4 from the original artwork.",
+    tags: ["wrestler", "fighter", "mask", "cartoon", "character"],
+    defaultRotation: -3,
+  },
+  {
+    id: "svg-wrestler-6",
+    name: "wrestler-6",
+    title: "Wrestler 6",
+    category: "characters",
+    format: "component",
+    componentName: "wrestler-6",
+    svgSrc: "/stickers/wrestler-6.svg",
+    description: "HD vector tracing of wrestler character 6 from the original artwork.",
+    tags: ["wrestler", "fighter", "mask", "cartoon", "character"],
+    defaultRotation: -5,
+  },
+  {
+    id: "svg-funny-doodle-1",
+    name: "funny-doodle-1",
+    title: "Funny Doodle 1",
+    category: "characters",
+    format: "component",
+    componentName: "funny-doodle-1",
+    svgSrc: "/stickers/funny-doodle-1.svg",
+    description: "HD vector tracing of funny doodle character 1 from the original artwork.",
+    tags: ["funny", "doodle", "hand-drawn", "sticker"],
+    defaultRotation: -4,
+  },
+  {
+    id: "svg-funny-doodle-2",
+    name: "funny-doodle-2",
+    title: "Funny Doodle 2",
+    category: "characters",
+    format: "component",
+    componentName: "funny-doodle-2",
+    svgSrc: "/stickers/funny-doodle-2.svg",
+    description: "HD vector tracing of funny doodle character 2 from the original artwork.",
+    tags: ["funny", "doodle", "hand-drawn", "sticker"],
+    defaultRotation: 4,
+  },
+  {
+    id: "svg-funny-doodle-3",
+    name: "funny-doodle-3",
+    title: "Funny Doodle 3",
+    category: "characters",
+    format: "component",
+    componentName: "funny-doodle-3",
+    svgSrc: "/stickers/funny-doodle-3.svg",
+    description: "HD vector tracing of funny doodle character 3 from the original artwork.",
+    tags: ["funny", "doodle", "hand-drawn", "sticker"],
+    defaultRotation: -3,
+  },
+  {
+    id: "svg-funny-doodle-4",
+    name: "funny-doodle-4",
+    title: "Funny Doodle 4",
+    category: "characters",
+    format: "component",
+    componentName: "funny-doodle-4",
+    svgSrc: "/stickers/funny-doodle-4.svg",
+    description: "HD vector tracing of funny doodle character 4 from the original artwork.",
+    tags: ["funny", "doodle", "hand-drawn", "sticker"],
+    defaultRotation: 5,
+  },
+  {
+    id: "svg-graffiti-tag-1",
+    name: "graffiti-tag-1",
+    title: "Graffiti Tag 1",
+    category: "characters",
+    format: "component",
+    componentName: "graffiti-tag-1",
+    svgSrc: "/stickers/graffiti-tag-1.svg",
+    description: "HD vector tracing of graffiti tag character 1 from the original artwork.",
+    tags: ["graffiti", "street", "cartoon", "sticker"],
+    defaultRotation: -4,
+  },
+  {
+    id: "svg-graffiti-tag-4",
+    name: "graffiti-tag-4",
+    title: "Graffiti Tag 4",
+    category: "characters",
+    format: "component",
+    componentName: "graffiti-tag-4",
+    svgSrc: "/stickers/graffiti-tag-4.svg",
+    description: "HD vector tracing of graffiti tag character 4 from the original artwork.",
+    tags: ["graffiti", "street", "cartoon", "sticker"],
+    defaultRotation: 5,
+  },
+  {
+    id: "svg-graffiti-tag-16",
+    name: "graffiti-tag-16",
+    title: "Graffiti Tag 16",
+    category: "characters",
+    format: "component",
+    componentName: "graffiti-tag-16",
+    svgSrc: "/stickers/graffiti-tag-16.svg",
+    description: "HD vector tracing of graffiti tag character 16 from the original artwork.",
+    tags: ["graffiti", "street", "cartoon", "sticker"],
+    defaultRotation: -2,
+  },
+  {
+    id: "svg-cute-pop-1",
+    name: "cute-pop-1",
+    title: "Cute Pop 1",
+    category: "characters",
+    format: "component",
+    componentName: "cute-pop-1",
+    svgSrc: "/stickers/cute-pop-1.svg",
+    description: "HD vector tracing of cute pop character 1 from the original artwork.",
+    tags: ["cute", "colorful", "cartoon", "sticker"],
+    defaultRotation: -4,
+  },
+  {
+    id: "svg-doodle-beast-1",
+    name: "doodle-beast-1",
+    title: "Doodle Beast 1",
+    category: "characters",
+    format: "component",
+    componentName: "doodle-beast-1",
+    svgSrc: "/stickers/doodle-beast-1.svg",
+    description: "HD vector tracing of doodle beast character 1 from the original artwork.",
+    tags: ["monster", "doodle", "cute", "sticker"],
+    defaultRotation: -4,
+  },
+  {
+    id: "svg-doodle-beast-2",
+    name: "doodle-beast-2",
+    title: "Doodle Beast 2",
+    category: "characters",
+    format: "component",
+    componentName: "doodle-beast-2",
+    svgSrc: "/stickers/doodle-beast-2.svg",
+    description: "HD vector tracing of doodle beast character 2 from the original artwork.",
+    tags: ["monster", "doodle", "cute", "sticker"],
+    defaultRotation: 4,
+  },
+  {
+    id: "svg-doodle-beast-3",
+    name: "doodle-beast-3",
+    title: "Doodle Beast 3",
+    category: "characters",
+    format: "component",
+    componentName: "doodle-beast-3",
+    svgSrc: "/stickers/doodle-beast-3.svg",
+    description: "HD vector tracing of doodle beast character 3 from the original artwork.",
+    tags: ["monster", "doodle", "cute", "sticker"],
+    defaultRotation: -3,
+  },
+  {
+    id: "svg-doodle-beast-4",
+    name: "doodle-beast-4",
+    title: "Doodle Beast 4",
+    category: "characters",
+    format: "component",
+    componentName: "doodle-beast-4",
+    svgSrc: "/stickers/doodle-beast-4.svg",
+    description: "HD vector tracing of doodle beast character 4 from the original artwork.",
+    tags: ["monster", "doodle", "cute", "sticker"],
+    defaultRotation: 5,
+  },
+  {
+    id: "svg-doodle-beast-5",
+    name: "doodle-beast-5",
+    title: "Doodle Beast 5",
+    category: "characters",
+    format: "component",
+    componentName: "doodle-beast-5",
+    svgSrc: "/stickers/doodle-beast-5.svg",
+    description: "HD vector tracing of doodle beast character 5 from the original artwork.",
+    tags: ["monster", "doodle", "cute", "sticker"],
+    defaultRotation: 3,
+  },
+  {
+    id: "svg-doodle-beast-6",
+    name: "doodle-beast-6",
+    title: "Doodle Beast 6",
+    category: "characters",
+    format: "component",
+    componentName: "doodle-beast-6",
+    svgSrc: "/stickers/doodle-beast-6.svg",
+    description: "HD vector tracing of doodle beast character 6 from the original artwork.",
+    tags: ["monster", "doodle", "cute", "sticker"],
+    defaultRotation: -5,
+  },
+  {
+    id: "svg-doodle-beast-7",
+    name: "doodle-beast-7",
+    title: "Doodle Beast 7",
+    category: "characters",
+    format: "component",
+    componentName: "doodle-beast-7",
+    svgSrc: "/stickers/doodle-beast-7.svg",
+    description: "HD vector tracing of doodle beast character 7 from the original artwork.",
+    tags: ["monster", "doodle", "cute", "sticker"],
+    defaultRotation: 2,
+  },
+  {
+    id: "svg-doodle-beast-8",
+    name: "doodle-beast-8",
+    title: "Doodle Beast 8",
+    category: "characters",
+    format: "component",
+    componentName: "doodle-beast-8",
+    svgSrc: "/stickers/doodle-beast-8.svg",
+    description: "HD vector tracing of doodle beast character 8 from the original artwork.",
+    tags: ["monster", "doodle", "cute", "sticker"],
+    defaultRotation: -2,
+  },
+  {
+    id: "svg-doodle-beast-9",
+    name: "doodle-beast-9",
+    title: "Doodle Beast 9",
+    category: "characters",
+    format: "component",
+    componentName: "doodle-beast-9",
+    svgSrc: "/stickers/doodle-beast-9.svg",
+    description: "HD vector tracing of doodle beast character 9 from the original artwork.",
+    tags: ["monster", "doodle", "cute", "sticker"],
+    defaultRotation: -4,
+  },
+  {
+    id: "svg-pattern-monster-1",
+    name: "pattern-monster-1",
+    title: "Pattern Monster 1",
+    category: "characters",
+    format: "component",
+    componentName: "pattern-monster-1",
+    svgSrc: "/stickers/pattern-monster-1.svg",
+    description: "HD vector tracing of pattern monster character 1 from the original artwork.",
+    tags: ["monster", "pattern", "cute", "sticker"],
+    defaultRotation: -4,
+  },
+  {
+    id: "svg-pattern-monster-2",
+    name: "pattern-monster-2",
+    title: "Pattern Monster 2",
+    category: "characters",
+    format: "component",
+    componentName: "pattern-monster-2",
+    svgSrc: "/stickers/pattern-monster-2.svg",
+    description: "HD vector tracing of pattern monster character 2 from the original artwork.",
+    tags: ["monster", "pattern", "cute", "sticker"],
+    defaultRotation: 4,
+  },
+  {
+    id: "svg-pattern-monster-3",
+    name: "pattern-monster-3",
+    title: "Pattern Monster 3",
+    category: "characters",
+    format: "component",
+    componentName: "pattern-monster-3",
+    svgSrc: "/stickers/pattern-monster-3.svg",
+    description: "HD vector tracing of pattern monster character 3 from the original artwork.",
+    tags: ["monster", "pattern", "cute", "sticker"],
+    defaultRotation: -3,
+  },
+  {
+    id: "svg-pattern-monster-4",
+    name: "pattern-monster-4",
+    title: "Pattern Monster 4",
+    category: "characters",
+    format: "component",
+    componentName: "pattern-monster-4",
+    svgSrc: "/stickers/pattern-monster-4.svg",
+    description: "HD vector tracing of pattern monster character 4 from the original artwork.",
+    tags: ["monster", "pattern", "cute", "sticker"],
+    defaultRotation: 5,
+  },
+  {
+    id: "svg-pattern-monster-5",
+    name: "pattern-monster-5",
+    title: "Pattern Monster 5",
+    category: "characters",
+    format: "component",
+    componentName: "pattern-monster-5",
+    svgSrc: "/stickers/pattern-monster-5.svg",
+    description: "HD vector tracing of pattern monster character 5 from the original artwork.",
+    tags: ["monster", "pattern", "cute", "sticker"],
+    defaultRotation: 3,
+  },
+  {
+    id: "svg-pattern-monster-6",
+    name: "pattern-monster-6",
+    title: "Pattern Monster 6",
+    category: "characters",
+    format: "component",
+    componentName: "pattern-monster-6",
+    svgSrc: "/stickers/pattern-monster-6.svg",
+    description: "HD vector tracing of pattern monster character 6 from the original artwork.",
+    tags: ["monster", "pattern", "cute", "sticker"],
+    defaultRotation: -5,
+  },
+  {
+    id: "svg-retro-badge-1",
+    name: "retro-badge-1",
+    title: "Retro Badge 1",
+    category: "characters",
+    format: "component",
+    componentName: "retro-badge-1",
+    svgSrc: "/stickers/retro-badge-1.svg",
+    description: "HD vector tracing of retro badge character 1 from the original artwork.",
+    tags: ["retro", "vintage", "cartoon", "sticker"],
+    defaultRotation: -4,
+  },
+  {
+    id: "svg-retro-badge-2",
+    name: "retro-badge-2",
+    title: "Retro Badge 2",
+    category: "characters",
+    format: "component",
+    componentName: "retro-badge-2",
+    svgSrc: "/stickers/retro-badge-2.svg",
+    description: "HD vector tracing of retro badge character 2 from the original artwork.",
+    tags: ["retro", "vintage", "cartoon", "sticker"],
+    defaultRotation: 4,
+  },
+  {
+    id: "svg-retro-badge-3",
+    name: "retro-badge-3",
+    title: "Retro Badge 3",
+    category: "characters",
+    format: "component",
+    componentName: "retro-badge-3",
+    svgSrc: "/stickers/retro-badge-3.svg",
+    description: "HD vector tracing of retro badge character 3 from the original artwork.",
+    tags: ["retro", "vintage", "cartoon", "sticker"],
+    defaultRotation: -3,
+  },
+  {
+    id: "svg-retro-badge-4",
+    name: "retro-badge-4",
+    title: "Retro Badge 4",
+    category: "characters",
+    format: "component",
+    componentName: "retro-badge-4",
+    svgSrc: "/stickers/retro-badge-4.svg",
+    description: "HD vector tracing of retro badge character 4 from the original artwork.",
+    tags: ["retro", "vintage", "cartoon", "sticker"],
+    defaultRotation: 5,
+  },
+  {
+    id: "svg-retro-badge-5",
+    name: "retro-badge-5",
+    title: "Retro Badge 5",
+    category: "characters",
+    format: "component",
+    componentName: "retro-badge-5",
+    svgSrc: "/stickers/retro-badge-5.svg",
+    description: "HD vector tracing of retro badge character 5 from the original artwork.",
+    tags: ["retro", "vintage", "cartoon", "sticker"],
+    defaultRotation: 3,
+  },
+  {
+    id: "svg-retro-badge-6",
+    name: "retro-badge-6",
+    title: "Retro Badge 6",
+    category: "characters",
+    format: "component",
+    componentName: "retro-badge-6",
+    svgSrc: "/stickers/retro-badge-6.svg",
+    description: "HD vector tracing of retro badge character 6 from the original artwork.",
+    tags: ["retro", "vintage", "cartoon", "sticker"],
+    defaultRotation: -5,
+  },
+  {
+    id: "svg-plant-buddy-1",
+    name: "plant-buddy-1",
+    title: "Plant Buddy 1",
+    category: "characters",
+    format: "component",
+    componentName: "plant-buddy-1",
+    svgSrc: "/stickers/plant-buddy-1.svg",
+    description: "HD vector tracing of plant buddy character 1 from the original artwork.",
+    tags: ["plant", "funny", "hand-drawn", "sticker"],
+    defaultRotation: -4,
+  },
+  {
+    id: "svg-plant-buddy-2",
+    name: "plant-buddy-2",
+    title: "Plant Buddy 2",
+    category: "characters",
+    format: "component",
+    componentName: "plant-buddy-2",
+    svgSrc: "/stickers/plant-buddy-2.svg",
+    description: "HD vector tracing of plant buddy character 2 from the original artwork.",
+    tags: ["plant", "funny", "hand-drawn", "sticker"],
+    defaultRotation: 4,
+  },
+  {
+    id: "svg-plant-buddy-3",
+    name: "plant-buddy-3",
+    title: "Plant Buddy 3",
+    category: "characters",
+    format: "component",
+    componentName: "plant-buddy-3",
+    svgSrc: "/stickers/plant-buddy-3.svg",
+    description: "HD vector tracing of plant buddy character 3 from the original artwork.",
+    tags: ["plant", "funny", "hand-drawn", "sticker"],
+    defaultRotation: -3,
+  },
+  {
+    id: "svg-funny-sketch-3",
+    name: "funny-sketch-3",
+    title: "Funny Sketch 3",
+    category: "characters",
+    format: "component",
+    componentName: "funny-sketch-3",
+    svgSrc: "/stickers/funny-sketch-3.svg",
+    description: "HD vector tracing of funny sketch character 3 from the original artwork.",
+    tags: ["funny", "sketch", "hand-drawn", "sticker"],
+    defaultRotation: -3,
+  },
+  {
+    id: "svg-funny-sketch-4",
+    name: "funny-sketch-4",
+    title: "Funny Sketch 4",
+    category: "characters",
+    format: "component",
+    componentName: "funny-sketch-4",
+    svgSrc: "/stickers/funny-sketch-4.svg",
+    description: "HD vector tracing of funny sketch character 4 from the original artwork.",
+    tags: ["funny", "sketch", "hand-drawn", "sticker"],
+    defaultRotation: 5,
+  },
+  {
+    id: "svg-happy-doodle-1",
+    name: "happy-doodle-1",
+    title: "Happy Doodle 1",
+    category: "characters",
+    format: "component",
+    componentName: "happy-doodle-1",
+    svgSrc: "/stickers/happy-doodle-1.svg",
+    description: "HD vector tracing of happy doodle character 1 from the original artwork.",
+    tags: ["happy", "doodle", "cartoon", "sticker"],
+    defaultRotation: -4,
+  },
+  {
+    id: "svg-happy-doodle-2",
+    name: "happy-doodle-2",
+    title: "Happy Doodle 2",
+    category: "characters",
+    format: "component",
+    componentName: "happy-doodle-2",
+    svgSrc: "/stickers/happy-doodle-2.svg",
+    description: "HD vector tracing of happy doodle character 2 from the original artwork.",
+    tags: ["happy", "doodle", "cartoon", "sticker"],
+    defaultRotation: 4,
+  },
+  {
+    id: "svg-happy-doodle-4",
+    name: "happy-doodle-4",
+    title: "Happy Doodle 4",
+    category: "characters",
+    format: "component",
+    componentName: "happy-doodle-4",
+    svgSrc: "/stickers/happy-doodle-4.svg",
+    description: "HD vector tracing of happy doodle character 4 from the original artwork.",
+    tags: ["happy", "doodle", "cartoon", "sticker"],
+    defaultRotation: 5,
+  },
+  {
+    id: "svg-mad-beast-1",
+    name: "mad-beast-1",
+    title: "Mad Beast 1",
+    category: "characters",
+    format: "component",
+    componentName: "mad-beast-1",
+    svgSrc: "/stickers/mad-beast-1.svg",
+    description: "HD vector tracing of mad beast character 1 from the original artwork.",
+    tags: ["monster", "mad", "cartoon", "sticker"],
+    defaultRotation: -4,
+  },
+  {
+    id: "svg-mad-beast-2",
+    name: "mad-beast-2",
+    title: "Mad Beast 2",
+    category: "characters",
+    format: "component",
+    componentName: "mad-beast-2",
+    svgSrc: "/stickers/mad-beast-2.svg",
+    description: "HD vector tracing of mad beast character 2 from the original artwork.",
+    tags: ["monster", "mad", "cartoon", "sticker"],
+    defaultRotation: 4,
+  },
+  {
+    id: "svg-mad-beast-3",
+    name: "mad-beast-3",
+    title: "Mad Beast 3",
+    category: "characters",
+    format: "component",
+    componentName: "mad-beast-3",
+    svgSrc: "/stickers/mad-beast-3.svg",
+    description: "HD vector tracing of mad beast character 3 from the original artwork.",
+    tags: ["monster", "mad", "cartoon", "sticker"],
+    defaultRotation: -3,
+  },
+  {
+    id: "svg-mad-beast-4",
+    name: "mad-beast-4",
+    title: "Mad Beast 4",
+    category: "characters",
+    format: "component",
+    componentName: "mad-beast-4",
+    svgSrc: "/stickers/mad-beast-4.svg",
+    description: "HD vector tracing of mad beast character 4 from the original artwork.",
+    tags: ["monster", "mad", "cartoon", "sticker"],
+    defaultRotation: 5,
+  },
+  {
+    id: "svg-decor-sticker-1",
+    name: "decor-sticker-1",
+    title: "Decor Sticker 1",
+    category: "characters",
+    format: "component",
+    componentName: "decor-sticker-1",
+    svgSrc: "/stickers/decor-sticker-1.svg",
+    description: "HD vector tracing of decor sticker character 1 from the original artwork.",
+    tags: ["decorative", "funny", "cartoon", "sticker"],
+    defaultRotation: -4,
+  },
+  {
+    id: "svg-decor-sticker-2",
+    name: "decor-sticker-2",
+    title: "Decor Sticker 2",
+    category: "characters",
+    format: "component",
+    componentName: "decor-sticker-2",
+    svgSrc: "/stickers/decor-sticker-2.svg",
+    description: "HD vector tracing of decor sticker character 2 from the original artwork.",
+    tags: ["decorative", "funny", "cartoon", "sticker"],
+    defaultRotation: 4,
+  },
+  {
+    id: "svg-decor-sticker-3",
+    name: "decor-sticker-3",
+    title: "Decor Sticker 3",
+    category: "characters",
+    format: "component",
+    componentName: "decor-sticker-3",
+    svgSrc: "/stickers/decor-sticker-3.svg",
+    description: "HD vector tracing of decor sticker character 3 from the original artwork.",
+    tags: ["decorative", "funny", "cartoon", "sticker"],
+    defaultRotation: -3,
+  },
+  {
+    id: "svg-decor-sticker-5",
+    name: "decor-sticker-5",
+    title: "Decor Sticker 5",
+    category: "characters",
+    format: "component",
+    componentName: "decor-sticker-5",
+    svgSrc: "/stickers/decor-sticker-5.svg",
+    description: "HD vector tracing of decor sticker character 5 from the original artwork.",
+    tags: ["decorative", "funny", "cartoon", "sticker"],
+    defaultRotation: 3,
+  },
+  {
+    id: "svg-decor-sticker-6",
+    name: "decor-sticker-6",
+    title: "Decor Sticker 6",
+    category: "characters",
+    format: "component",
+    componentName: "decor-sticker-6",
+    svgSrc: "/stickers/decor-sticker-6.svg",
+    description: "HD vector tracing of decor sticker character 6 from the original artwork.",
+    tags: ["decorative", "funny", "cartoon", "sticker"],
+    defaultRotation: -5,
+  },
+  {
+    id: "svg-lol-fun-1",
+    name: "lol-fun-1",
+    title: "Lol Fun 1",
+    category: "characters",
+    format: "component",
+    componentName: "lol-fun-1",
+    svgSrc: "/stickers/lol-fun-1.svg",
+    description: "HD vector tracing of lol fun character 1 from the original artwork.",
+    tags: ["lol", "funny", "expression", "sticker"],
+    defaultRotation: -4,
+  },
+  {
+    id: "svg-lol-fun-2",
+    name: "lol-fun-2",
+    title: "Lol Fun 2",
+    category: "characters",
+    format: "component",
+    componentName: "lol-fun-2",
+    svgSrc: "/stickers/lol-fun-2.svg",
+    description: "HD vector tracing of lol fun character 2 from the original artwork.",
+    tags: ["lol", "funny", "expression", "sticker"],
+    defaultRotation: 4,
+  },
+  {
+    id: "svg-lol-fun-3",
+    name: "lol-fun-3",
+    title: "Lol Fun 3",
+    category: "characters",
+    format: "component",
+    componentName: "lol-fun-3",
+    svgSrc: "/stickers/lol-fun-3.svg",
+    description: "HD vector tracing of lol fun character 3 from the original artwork.",
+    tags: ["lol", "funny", "expression", "sticker"],
+    defaultRotation: -3,
+  },
+  {
+    id: "svg-lol-fun-4",
+    name: "lol-fun-4",
+    title: "Lol Fun 4",
+    category: "characters",
+    format: "component",
+    componentName: "lol-fun-4",
+    svgSrc: "/stickers/lol-fun-4.svg",
+    description: "HD vector tracing of lol fun character 4 from the original artwork.",
+    tags: ["lol", "funny", "expression", "sticker"],
+    defaultRotation: 5,
+  },
+  {
+    id: "svg-lol-fun-5",
+    name: "lol-fun-5",
+    title: "Lol Fun 5",
+    category: "characters",
+    format: "component",
+    componentName: "lol-fun-5",
+    svgSrc: "/stickers/lol-fun-5.svg",
+    description: "HD vector tracing of lol fun character 5 from the original artwork.",
+    tags: ["lol", "funny", "expression", "sticker"],
+    defaultRotation: 3,
+  },
+  {
+    id: "svg-lol-fun-6",
+    name: "lol-fun-6",
+    title: "Lol Fun 6",
+    category: "characters",
+    format: "component",
+    componentName: "lol-fun-6",
+    svgSrc: "/stickers/lol-fun-6.svg",
+    description: "HD vector tracing of lol fun character 6 from the original artwork.",
+    tags: ["lol", "funny", "expression", "sticker"],
     defaultRotation: -5,
   },
 ];
+
+const CATALOG: CatalogItem[] = [...CEO_CATALOG, ...TRAZO_CATALOG, ...LEGACY_CATALOG.map((i)=>({ ...i, category: "legacy" as const }))];
 
 /* ------------------------------------------------------------------
    Sticker Visual Renderer & Helpers
@@ -1217,12 +1856,31 @@ function StickerVisual({
   size = 80,
   peel = false,
   className = "",
+  color,
+  rotate,
 }: {
   item: CatalogItem;
   size?: number;
   peel?: boolean;
   className?: string;
+  color?: string;
+  rotate?: number;
 }) {
+  if (item.format === "trazo" && item.trazoId) {
+    const def = findSticker(item.trazoId);
+    if (def) return <Sticker def={def} size={size} peel={peel} color={color} rotate={rotate} className={className} />;
+  }
+  if (item.format === "photo" && item.photoSrc) {
+    return (
+      <PhotoSticker
+        src={item.photoSrc}
+        alt={`${item.title} sticker`}
+        size={size}
+        aura={item.aura}
+        className={className}
+      />
+    );
+  }
   if (item.format === "svg" && item.svgSrc) {
     return (
       <img
@@ -1232,19 +1890,12 @@ function StickerVisual({
         height={size}
         draggable={false}
         className={className}
-        style={{ width: size, height: size, objectFit: "contain" }}
+        style={{ width: size, height: size, objectFit: "contain", transform: rotate ? `rotate(${rotate}deg)` : undefined }}
       />
     );
   }
   const stickerName = (item.componentName || item.name) as StickerName;
-  return (
-    <Sticker
-      name={stickerName}
-      size={size}
-      peel={peel}
-      className={className}
-    />
-  );
+  return <Sticker name={stickerName} size={size} peel={peel} className={className} />;
 }
 
 /* ------------------------------------------------------------------
@@ -1258,7 +1909,7 @@ export default function StickersCatalogPage() {
 
   const [activeItem, setActiveItem] = useState<CatalogItem | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
-  const [installCopied, setInstallCopied] = useState(false);
+  const [installCopyState, setInstallCopyState] = useState<CopyFeedback>("idle");
 
   // Progressive rendering & batching for 500-1,000+ items
   const BATCH_SIZE = 100;
@@ -1270,6 +1921,8 @@ export default function StickersCatalogPage() {
   const [inspectorPeel, setInspectorPeel] = useState(true);
   const [inspectorBg, setInspectorBg] = useState<"white" | "zinc" | "warm" | "blue">("white");
   const [snippetTab, setSnippetTab] = useState<"named" | "dynamic">("named");
+  const [inspectorColor, setInspectorColor] = useState<string>("mix");
+  const [inspectorRotate, setInspectorRotate] = useState<number>(0);
 
   // Smart scroll navbar: intentional, jitter-free scroll direction tracking
   const [navVisible, setNavVisible] = useState(true);
@@ -1324,89 +1977,6 @@ export default function StickersCatalogPage() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Quickstart guide interactive state
-  const [guideTab, setGuideTab] = useState<"react" | "svg">("react");
-  const [guidePm, setGuidePm] = useState<"npm" | "pnpm" | "bun" | "yarn">("npm");
-  const [guideSticker, setGuideSticker] = useState<StickerName>("face");
-  const [guideMode, setGuideMode] = useState<"direct" | "dynamic">("direct");
-  const [guidePeel, setGuidePeel] = useState(true);
-  const [guideSize, setGuideSize] = useState(96);
-  const [guideCopied, setGuideCopied] = useState<"install" | "code" | null>(null);
-
-  useEffect(() => {
-    if (!guideCopied) return;
-    const t = setTimeout(() => setGuideCopied(null), 1800);
-    return () => clearTimeout(t);
-  }, [guideCopied]);
-
-  // Scroll to #docs when requested by URL hash or navigation
-  useEffect(() => {
-    function scrollToDocs(behavior: ScrollBehavior = "smooth") {
-      if (window.location.hash === "#docs") {
-        const el = document.getElementById("docs");
-        if (el) {
-          el.scrollIntoView({ behavior });
-        }
-      }
-    }
-
-    if (window.location.hash === "#docs") {
-      setVisibleCount(CATALOG.length);
-      const t1 = setTimeout(() => scrollToDocs("smooth"), 100);
-      const t2 = setTimeout(() => scrollToDocs("smooth"), 350);
-      return () => {
-        clearTimeout(t1);
-        clearTimeout(t2);
-      };
-    }
-
-    window.addEventListener("hashchange", () => scrollToDocs("smooth"));
-    return () => {
-      window.removeEventListener("hashchange", () => scrollToDocs("smooth"));
-    };
-  }, []);
-
-  const pmCommands = {
-    npm: "npm i stick-it-up@latest",
-    pnpm: "pnpm add stick-it-up@latest",
-    bun: "bun add stick-it-up@latest",
-    yarn: "yarn add stick-it-up@latest",
-  };
-
-  async function copyGuideInstall() {
-    try {
-      await navigator.clipboard.writeText(pmCommands[guidePm]);
-      setGuideCopied("install");
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  async function copyGuideCode() {
-    const exportName = getComponentExportName(guideSticker);
-    const directCode = `import { ${exportName} } from "stick-it-up";\n\nexport default function Hero() {\n  return (\n    <${exportName} \n      size={${guideSize}}${
-      guidePeel ? " \n      peel" : ""
-    } \n    />\n  );\n}`;
-
-    const dynamicCode = `import { Sticker } from "stick-it-up";\n\nexport default function Hero() {\n  return (\n    <Sticker \n      name="${guideSticker}" \n      size={${guideSize}}${
-      guidePeel ? " \n      peel" : ""
-    } \n    />\n  );\n}`;
-
-    const code =
-      guideTab === "react"
-        ? guideMode === "direct"
-          ? directCode
-          : dynamicCode
-        : `<img src="/stickers/face.svg" alt="Coffee sticker" width={${guideSize}} height={${guideSize}} />`;
-
-    try {
-      await navigator.clipboard.writeText(code);
-      setGuideCopied("code");
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
   // Copy feedback reset
   useEffect(() => {
     if (!copiedId) return;
@@ -1415,10 +1985,10 @@ export default function StickersCatalogPage() {
   }, [copiedId]);
 
   useEffect(() => {
-    if (!installCopied) return;
-    const t = setTimeout(() => setInstallCopied(false), 1800);
+    if (installCopyState === "idle") return;
+    const t = setTimeout(() => setInstallCopyState("idle"), 1800);
     return () => clearTimeout(t);
-  }, [installCopied]);
+  }, [installCopyState]);
 
   // Escape key closes modal
   useEffect(() => {
@@ -1479,13 +2049,37 @@ export default function StickersCatalogPage() {
     return filteredStickers.slice(0, visibleCount);
   }, [filteredStickers, visibleCount]);
 
-  async function copyInstall() {
+  // Modern Clipboard API first; the legacy path is a last-resort fallback for
+  // embedded or non-secure contexts where writeText is unavailable or denied.
+  function legacyCopy(text: string): boolean {
+    const previousFocus = document.activeElement as HTMLElement | null;
+    const field = Object.assign(document.createElement("textarea"), { value: text });
+    field.setAttribute("readonly", "");
+    field.style.cssText = "position:fixed;inset-block-start:0;opacity:0;pointer-events:none";
+    document.body.append(field);
+    field.select();
     try {
-      await navigator.clipboard.writeText("npm i stick-it-up@latest");
-      setInstallCopied(true);
-    } catch (err) {
-      console.error(err);
+      return document.execCommand("copy");
+    } catch {
+      return false;
+    } finally {
+      field.remove();
+      previousFocus?.focus({ preventScroll: true });
     }
+  }
+
+  async function copyText(text: string): Promise<boolean> {
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+        return true;
+      }
+    } catch {}
+    return legacyCopy(text);
+  }
+
+  async function copyInstall() {
+    setInstallCopyState((await copyText("npm i stick-it-up@latest")) ? "copied" : "failed");
   }
 
   async function copyCode(item: CatalogItem, e?: React.MouseEvent) {
@@ -1493,33 +2087,23 @@ export default function StickersCatalogPage() {
     const stickerName = item.componentName || item.name;
     const compName = getComponentExportName(stickerName);
     const code =
-      item.format === "svg" && item.svgSrc
+      item.format === "photo" && item.photoSrc
+        ? `<img src="${item.photoSrc}" alt="${item.name} sticker" width={96} height={96} style={{ objectFit: "contain", filter: "drop-shadow(0 0 2px #fff) drop-shadow(0 0 4px rgba(255,255,255,.9)) drop-shadow(0 6px 10px rgba(0,0,0,.22))" }} />`
+        : item.format === "svg" && item.svgSrc
         ? `<img src="${item.svgSrc}" alt="${item.name} sticker" width={96} height={96} />`
         : `import { ${compName} } from "stick-it-up";\n\n<${compName} size={96} peel />`;
 
-    try {
-      await navigator.clipboard.writeText(code);
-      setCopiedId(item.id);
-    } catch (err) {
-      console.error(err);
-    }
+    if (await copyText(code)) setCopiedId(item.id);
   }
 
   const categoryCounts = useMemo(() => {
-    return {
-      all: CATALOG.length,
-      characters: CATALOG.filter((c) => c.category === "characters").length,
-      components: CATALOG.filter((c) => c.category === "components").length,
-      symbols: CATALOG.filter((c) => c.category === "symbols").length,
-      "die-cut": CATALOG.filter((c) => c.category === "die-cut").length,
-      quirky: CATALOG.filter((c) => c.category === "quirky").length,
-      spooky: CATALOG.filter((c) => c.category === "spooky").length,
-      funny: CATALOG.filter((c) => c.category === "funny").length,
-    };
+    const counts: Record<string, number> = { all: CATALOG.length, "tech-ceos": 0, ocean:0, arrows:0, nature:0, hearts:0, symbols:0, characters:0, legacy:0 };
+    CATALOG.forEach((item) => { counts[item.category] = (counts[item.category] || 0) + 1; });
+    return counts as Record<StickerCategory, number>;
   }, []);
 
   return (
-    <div className="relative min-h-screen overflow-x-clip w-full bg-white text-zinc-900 antialiased selection:bg-amber-100 selection:text-amber-900">
+    <div className="relative min-h-screen w-full overflow-x-clip bg-paper text-ink antialiased">
       <style>{`
         @keyframes headerRise {
           from { opacity: 0; transform: translateY(-10px); filter: blur(6px); }
@@ -1541,8 +2125,8 @@ export default function StickersCatalogPage() {
       <header
         className={`fixed top-0 left-0 right-0 z-50 w-full px-4 py-2 transition-[background-color,border-color,box-shadow] duration-200 ${
           isAtTop
-            ? "backdrop-blur-md bg-white/80 border-b border-zinc-100"
-            : "backdrop-blur-md bg-white/90 border-b border-zinc-200/80 shadow-[0_2px_8px_-2px_rgba(0,0,0,0.05),0_1px_2px_rgba(0,0,0,0.02)]"
+            ? "backdrop-blur-md bg-paper/85 border-b-2 border-ink/15"
+            : "backdrop-blur-md bg-paper/95 border-b-2 border-ink/25 shadow-[0_4px_0_rgba(36,36,42,0.06)]"
         }`}
         style={{
           transform: navVisible ? "translate3d(0, 0, 0)" : "translate3d(0, -100%, 0)",
@@ -1560,7 +2144,7 @@ export default function StickersCatalogPage() {
               alt="Sketch Up logo"
               className="h-9 w-9 rounded-lg transition-transform duration-200 group-hover:-rotate-6 group-hover:scale-110"
             />
-            <span className="text-lg font-semibold tracking-tight text-zinc-900">
+            <span className="font-hand text-xl text-ink">
               Sketch Up
             </span>
           </Link>
@@ -1570,7 +2154,7 @@ export default function StickersCatalogPage() {
             <li>
               <Link
                 href="/"
-                className="rounded-lg px-3.5 py-2 text-sm font-medium text-zinc-600 transition-colors duration-150 hover:bg-zinc-100 hover:text-zinc-900"
+                className="rounded-[10px_7px_11px_7px/7px_11px_7px_10px] px-3.5 py-2 text-[15px] text-ink-soft transition-colors duration-150 hover:bg-paper-deep hover:text-ink"
               >
                 Home
               </Link>
@@ -1578,33 +2162,28 @@ export default function StickersCatalogPage() {
             <li>
               <Link
                 href="/stickers"
-                className="rounded-lg bg-zinc-100 px-3.5 py-2 text-sm font-medium text-zinc-900 transition-colors duration-150"
+                className="rounded-[10px_7px_11px_7px/7px_11px_7px_10px] border-2 border-ink/25 bg-paper-card px-3.5 py-2 text-[15px] text-ink"
               >
                 Stickers
-                <span className="ml-1.5 rounded-full bg-zinc-900 px-1.5 py-0.5 text-[10px] font-semibold text-white">
+                <span className="ml-1.5 rounded-full bg-pen px-1.5 py-0.5 font-mono text-[10px] font-semibold text-white">
                   {CATALOG.length}
                 </span>
               </Link>
             </li>
             <li>
-              <a
-                href="#docs"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById("docs")?.scrollIntoView({ behavior: "smooth" });
-                  window.history.pushState(null, "", "#docs");
-                }}
-                className="rounded-lg px-3.5 py-2 text-sm font-medium text-zinc-600 transition-colors duration-150 hover:bg-zinc-100 hover:text-zinc-900"
+              <Link
+                href="/usage"
+                className="rounded-[10px_7px_11px_7px/7px_11px_7px_10px] px-3.5 py-2 text-[15px] text-ink-soft transition-colors duration-150 hover:bg-paper-deep hover:text-ink"
               >
-                Docs
-              </a>
+                Usage
+              </Link>
             </li>
             <li>
               <a
                 href="https://www.npmjs.com/package/stick-it-up"
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-lg px-3.5 py-2 text-sm font-medium text-zinc-600 transition-colors duration-150 hover:bg-zinc-100 hover:text-zinc-900"
+                className="rounded-[10px_7px_11px_7px/7px_11px_7px_10px] px-3.5 py-2 text-[15px] text-ink-soft transition-colors duration-150 hover:bg-paper-deep hover:text-ink"
               >
                 npm
               </a>
@@ -1622,76 +2201,97 @@ export default function StickersCatalogPage() {
       {/* ------------------------------------------------------------------
           HERO / INTRO SECTION
       ------------------------------------------------------------------- */}
-      <section className="relative mx-auto max-w-6xl px-6 pt-24 pb-12 sm:pt-28 sm:pb-16 text-center">
-        
+      <section className="catalog-intro" aria-labelledby="catalog-heading">
+        <div className="catalog-doodles" aria-hidden="true">
+          <span className="catalog-doodle catalog-doodle-peel">peel</span>
+          <span className="catalog-doodle catalog-doodle-stick">stick</span>
+          <svg className="catalog-mark catalog-mark-star" viewBox="0 0 64 64">
+            <path d="M32 7c1.4 8.5 5 13.5 14 15.5-9 2-12.6 7-14 16-1.4-9-5.6-14-15-16 9.4-2 12.6-7 15-15.5z" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinejoin="round" strokeLinecap="round" />
+          </svg>
+          <svg className="catalog-mark catalog-mark-arrow" viewBox="0 0 96 40">
+            <path d="M6 24c18-12 34-9 52-4 10 2.5 16 1 26-3" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
+            <path d="M70 8c5 5 9 8 14 9-7 1.5-10 5-14 11" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </div>
+        <div className="catalog-intro-inner relative mx-auto max-w-6xl px-6 text-center">
+        <div className="mx-auto max-w-3xl">
+          <span className="catalog-eyebrow">
+            <span className="catalog-eyebrow-dot" aria-hidden="true" />
+            The sticker library for React
+          </span>
 
-        {/* Title */}
-        <h1
-          className=" font-sans text-4xl font-normal leading-[1.08] tracking-tight text-zinc-900 sm:text-6xl"
-          style={{ animation: "rise 700ms cubic-bezier(0.2, 0.8, 0.2, 1) 80ms both" }}
-        >
-          Sketch Up.
-          <br />
-          <span className="text-zinc-500">Pick any sticker, drop it in.</span>
-        </h1>
+          <h1
+            id="catalog-heading"
+            className="catalog-title"
+            style={{ animation: "rise 700ms cubic-bezier(0.2, 0.8, 0.2, 1) 80ms both" }}
+          >
+            <span className="catalog-title-strong">
+              Sketch Up.
+              <svg className="catalog-underline" viewBox="0 0 320 18" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M6 11c32-7 58 5 92-2s52-6 86 3 48 2 78-3 36-3 52 2" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+              </svg>
+            </span>
+            <span className="catalog-title-soft">
+              Pick any sticker, <span className="catalog-ink-mark">drop it in.</span>
+            </span>
+          </h1>
+          <p className="catalog-subtitle">
+            Browse the full pack, copy the code, and make any interface feel less generic.
+          </p>
+        </div>
 
-        
-        {/* Quick Install Bar */}
+        {/* Quick install bar */}
         <div
-          className="mt-8 flex items-center justify-center gap-2"
+          className="catalog-install-row"
           style={{ animation: "rise 700ms cubic-bezier(0.2, 0.8, 0.2, 1) 240ms both" }}
         >
-          {/* Install command pill */}
           <button
             onClick={copyInstall}
             type="button"
-            aria-label={installCopied ? "Copied to clipboard" : "Copy npm i stick-it-up@latest"}
-            className={`group inline-flex items-center gap-3 rounded-full border px-3.5 py-2 shadow-[0_1px_2px_rgba(0,0,0,0.04)] outline-none transition-all duration-200 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-zinc-900/20 focus-visible:ring-offset-2 ${
-              installCopied
-                ? "border-emerald-200 bg-emerald-50 text-emerald-800 hover:border-emerald-300 hover:bg-emerald-100/60"
-                : "border-zinc-200/90 bg-white hover:border-zinc-300 hover:bg-zinc-50/60"
+            aria-label={
+              installCopyState === "copied"
+                ? "Install command copied to clipboard"
+                : installCopyState === "failed"
+                ? "Copy failed. Try again"
+                : "Copy npm i stick-it-up@latest"
+            }
+            className={`catalog-install ${installCopyState === "copied" ? "is-copied" : ""} ${
+              installCopyState === "failed" ? "is-failed" : ""
             }`}
           >
-            {/* Text swap: both states share one grid cell so the button width remains precise and never jumps */}
-            <span className="relative grid place-items-center font-mono text-xs text-center" aria-live="polite">
-              <span
-                className={`col-start-1 row-start-1 flex items-center justify-center text-center transition-all duration-200 ease-out ${
-                  installCopied
-                    ? "-translate-y-1 opacity-0 blur-[1px] pointer-events-none"
-                    : "translate-y-0 opacity-100 blur-0 text-zinc-500 group-hover:text-zinc-700"
-                }`}
-              >
-                <span className="mr-1.5 select-none text-zinc-400">$</span>npm i stick-it-up@latest
-              </span>
-
-              <span
-                className={`col-start-1 row-start-1 flex items-center justify-center text-center font-medium text-emerald-700 transition-all duration-200 ease-out ${
-                  installCopied
-                    ? "translate-y-0 opacity-100 blur-0"
-                    : "translate-y-1 opacity-0 blur-[1px] pointer-events-none"
-                }`}
-              >
-                Copied!
+            <span className="catalog-install-prompt" aria-hidden="true">$</span>
+            {/* Both states share one grid cell so the button width never jumps */}
+            <span className="catalog-install-label">
+              <span className="catalog-install-command">npm i stick-it-up@latest</span>
+              <span className="catalog-install-copied" aria-hidden="true">
+                {installCopyState === "failed" ? "Copy failed" : "Copied to clipboard"}
               </span>
             </span>
-
-            <span className="flex items-center">
-              {installCopied ? (
-                <LuCopyCheck className="h-3.5 w-3.5 text-emerald-600 transition-transform duration-200 scale-110" />
+            <span className="catalog-install-icon" aria-hidden="true">
+              {installCopyState === "copied" ? (
+                <LuCopyCheck className="h-4 w-4" />
+              ) : installCopyState === "failed" ? (
+                <LuCopyX className="h-4 w-4" />
               ) : (
-                <LuCopy className="h-3.5 w-3.5 text-zinc-400 transition-colors group-hover:text-zinc-600" />
+                <LuCopy className="h-4 w-4" />
               )}
             </span>
           </button>
 
-          {/* GitHub button (icon-only circular) */}
+          <span className="catalog-copy-status" role="status" aria-live="polite">
+            {installCopyState === "copied"
+              ? "Install command copied to clipboard"
+              : installCopyState === "failed"
+              ? "Copy failed. Select the command and copy it manually."
+              : ""}
+          </span>
+
           <a
             href="https://github.com/Sam721166/stick-it-up"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex h-[34px] w-[34px] items-center justify-center rounded-full border border-zinc-200/90 bg-white text-zinc-600 shadow-[0_1px_2px_rgba(0,0,0,0.04)] outline-none transition-all duration-200 hover:border-zinc-300 hover:bg-zinc-50/60 hover:text-zinc-900 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-zinc-900/20 focus-visible:ring-offset-2"
-            title="View on GitHub"
-            aria-label="View on GitHub"
+            className="catalog-github"
+            aria-label="View stick-it-up on GitHub (opens in a new tab)"
           >
             <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4" aria-hidden="true">
               <path
@@ -1702,80 +2302,86 @@ export default function StickersCatalogPage() {
             </svg>
           </a>
         </div>
+        </div>
       </section>
 
       {/* ------------------------------------------------------------------
-          CONTROLS: SEARCH & CATEGORY FILTER TABS
+          CONTROLS: CATEGORY FILTERS + SEARCH
       ------------------------------------------------------------------- */}
-      <section className=" top-[68px] z-30 mx-auto max-w-6xl px-6 pb-6">
-        <div className="flex flex-col gap-3 rounded-2xl border border-zinc-200/90 bg-white/95 p-2 shadow-sm backdrop-blur-md sm:flex-row sm:items-center sm:justify-between">
-          {/* Filter tabs */}
-          <div className="flex flex-wrap items-center gap-1">
+      <section className="catalog-controls top-[68px] z-30 mx-auto max-w-6xl px-6 pb-8">
+        <fieldset className="catalog-filter-bar">
+          <legend className="sr-only">Filter stickers by category</legend>
+
+          <div className="catalog-filters">
             {(
               [
                 { id: "all", label: "All Stickers", count: categoryCounts.all },
+                { id: "tech-ceos", label: "Tech CEOs", count: categoryCounts["tech-ceos"] },
+                { id: "ocean", label: "Ocean", count: categoryCounts.ocean },
+                { id: "arrows", label: "Arrows", count: categoryCounts.arrows },
+                { id: "nature", label: "Nature", count: categoryCounts.nature },
+                { id: "hearts", label: "Hearts", count: categoryCounts.hearts },
+                { id: "symbols", label: "Symbols", count: categoryCounts.symbols },
                 { id: "characters", label: "Characters", count: categoryCounts.characters },
-                { id: "components", label: "Chrome & Badges", count: categoryCounts.components },
-                { id: "symbols", label: "Symbols & Badges", count: categoryCounts.symbols },
-                { id: "die-cut", label: "Die-cut", count: categoryCounts["die-cut"] },
-                { id: "quirky", label: "Quirky", count: categoryCounts.quirky },
-                { id: "spooky", label: "Spooky", count: categoryCounts.spooky },
-                { id: "funny", label: "Funny Ghosts", count: categoryCounts.funny },
+                { id: "legacy", label: "Legacy", count: categoryCounts.legacy },
               ] as const
             ).filter((tab) => tab.count > 0).map((tab) => {
               const active = selectedCategory === tab.id;
               return (
                 <button
                   key={tab.id}
+                  type="button"
                   onClick={() => setSelectedCategory(tab.id)}
-                  className={`cursor-pointer rounded-xl px-3.5 py-2 text-xs font-medium transition-all duration-150 ${
-                    active
-                      ? "bg-zinc-900 text-white shadow-sm"
-                      : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"
-                  }`}
+                  aria-pressed={active}
+                  className={`catalog-chip ${active ? "is-active" : ""}`}
                 >
-                  <span>{tab.label}</span>
-                  <span
-                    className={`ml-1.5 rounded-full px-1.5 py-0.5 text-[10px] ${
-                      active ? "bg-zinc-700 text-zinc-200" : "bg-zinc-100 text-zinc-500"
-                    }`}
-                  >
-                    {tab.count}
-                  </span>
+                  <span className="catalog-chip-label">{tab.label}</span>
+                  <span className="catalog-chip-count">{tab.count}</span>
                 </button>
               );
             })}
           </div>
 
-          {/* Search bar */}
-          <div className="relative min-w-[220px]">
+          <search className="catalog-search">
+            <label htmlFor="sticker-search" className="sr-only">Search stickers</label>
             <svg
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="2"
-              className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-zinc-400"
+              strokeWidth="1.8"
+              className="catalog-search-icon"
+              aria-hidden="true"
             >
-              <circle cx="11" cy="11" r="8" />
-              <path d="m21 21-4.3-4.3" />
+              <circle cx="11" cy="11" r="7" />
+              <path d="m20 20-4-4" strokeLinecap="round" />
             </svg>
             <input
-              type="text"
+              id="sticker-search"
+              type="search"
+              name="q"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search stickers..."
-              className="w-full rounded-xl border border-zinc-200 bg-zinc-50/70 py-1.5 pl-8 pr-8 text-xs text-zinc-900 placeholder-zinc-400 outline-none transition-all focus:border-zinc-400 focus:bg-white"
+              placeholder="Search stickers…"
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="none"
+              spellCheck={false}
+              className="catalog-search-input"
             />
             {searchQuery && (
               <button
+                type="button"
                 onClick={() => setSearchQuery("")}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-zinc-400 hover:text-zinc-700"
+                className="catalog-search-clear"
+                aria-label="Clear search"
               >
-                ✕
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+                  <path d="M6 6l12 12M18 6 6 18" />
+                </svg>
               </button>
             )}
-          </div>
-        </div>
+          </search>
+        </fieldset>
       </section>
 
       {/* ------------------------------------------------------------------
@@ -1783,9 +2389,9 @@ export default function StickersCatalogPage() {
       ------------------------------------------------------------------- */}
       <main className="mx-auto max-w-6xl px-6 pb-24">
         {filteredStickers.length === 0 ? (
-          <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-zinc-200 py-20 text-center">
-            <p className="font-sans text-xl font-medium text-zinc-700">No stickers found</p>
-            <p className="mt-1 text-sm text-zinc-400">
+          <div className="flex flex-col items-center justify-center rounded-[20px_14px_22px_14px/14px_22px_14px_20px] border-2 border-dashed border-ink/30 py-20 text-center">
+            <p className="font-sans text-xl font-medium text-ink-soft">No stickers found</p>
+            <p className="mt-1 text-sm text-ink-muted">
               Try searching for &ldquo;face&rdquo;, &ldquo;metal&rdquo;, or &ldquo;sparkles&rdquo;.
             </p>
             <button
@@ -1793,7 +2399,7 @@ export default function StickersCatalogPage() {
                 setSelectedCategory("all");
                 setSearchQuery("");
               }}
-              className="mt-4 cursor-pointer rounded-xl bg-zinc-900 px-4 py-2 text-xs font-medium text-white transition-all hover:bg-zinc-800"
+              className="mt-4 cursor-pointer rounded-xl bg-pen px-4 py-2 text-xs font-medium text-white transition-all hover:bg-pen-deep"
             >
               Reset Filters
             </button>
@@ -1811,7 +2417,7 @@ export default function StickersCatalogPage() {
                       contentVisibility: "auto",
                       containIntrinsicSize: "168px",
                     }}
-                    className="group relative flex min-h-[168px] flex-col items-center justify-between rounded-2xl border border-zinc-200/80 bg-white p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-zinc-300 hover:shadow-[0_6px_20px_rgba(0,0,0,0.04)] cursor-pointer"
+                    className="hand-card group relative flex min-h-[168px] cursor-pointer flex-col items-center justify-between p-4 hover:-translate-y-1"
                   >
                     {/* Subtle top-right copy button on hover */}
                     <button
@@ -1821,13 +2427,13 @@ export default function StickersCatalogPage() {
                       className={`absolute right-2.5 top-2.5 rounded-lg p-1.5 transition-all ${
                         isCopied
                           ? "opacity-100 bg-emerald-50 text-emerald-600"
-                          : "opacity-0 group-hover:opacity-100 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700"
+                          : "opacity-0 group-hover:opacity-100 text-ink-muted hover:bg-paper-deep hover:text-ink-soft"
                       }`}
                     >
                       {isCopied ? (
                         <LuCopyCheck className="h-3.5 w-3.5 text-emerald-600" />
                       ) : (
-                        <LuCopy className="h-3.5 w-3.5 text-zinc-400 group-hover:text-zinc-600" />
+                        <LuCopy className="h-3.5 w-3.5 text-ink-muted group-hover:text-ink-soft" />
                       )}
                     </button>
 
@@ -1839,12 +2445,12 @@ export default function StickersCatalogPage() {
                           transform: `rotate(${item.defaultRotation || 0}deg)`,
                         }}
                       >
-                        <StickerVisual item={item} size={item.previewSize || 74} peel={false} />
+                        <StickerVisual item={item} size={74} peel={false} />
                       </div>
                     </div>
 
                     {/* Name matches code prop */}
-                    <span className="w-full truncate text-center font-sans text-xs font-medium text-zinc-600  transition-colors duration-150 group-hover:text-zinc-950">
+                    <span className="w-full truncate text-center font-hand text-[15px] text-ink-soft transition-colors duration-150 group-hover:text-ink">
                       {item.name}
                     </span>
                   </div>
@@ -1856,9 +2462,9 @@ export default function StickersCatalogPage() {
             {visibleCount < filteredStickers.length && (
               <div
                 ref={loadMoreRef}
-                className="mt-8 flex items-center justify-center py-4 text-xs text-zinc-400"
+                className="mt-8 flex items-center justify-center py-4 text-xs text-ink-muted"
               >
-                <span className="inline-flex items-center gap-2 rounded-full border border-zinc-200/80 bg-zinc-50 px-3.5 py-1.5 font-medium text-zinc-600 shadow-sm">
+                <span className="inline-flex items-center gap-2 rounded-full border-2 border-ink/20 bg-paper-card px-3.5 py-1.5 text-[15px] text-ink-soft">
                   <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
                   Showing {visibleStickers.length} of {filteredStickers.length} stickers — scroll for more
                 </span>
@@ -1867,411 +2473,6 @@ export default function StickersCatalogPage() {
           </>
         )}
       </main>
-
-   {/* ------------------------------------------------------------------
-    DEVELOPER GUIDE (minimal)
-    Drop-in replacement. Uses the state/handlers already in the page:
-    guideTab, guidePm, guideSticker, guidePeel, guideSize, guideCopied,
-    pmCommands, copyGuideInstall, copyGuideCode
-------------------------------------------------------------------- */}
-        <section
-        id="docs"
-        className="scroll-mt-24 border-t border-zinc-200 bg-white px-6 py-20"
-        >
-        <div className="mx-auto max-w-3xl">
-            {/* Header */}
-            <header>
-            <h2 className="font-sans text-2xl font-semibold tracking-tight text-zinc-900">
-                Usage
-            </h2>
-            <p className="mt-1.5 text-sm text-zinc-500">
-                Add stickers to a React or Next.js app.
-            </p>
-            </header>
-
-            {/* Tabs */}
-            <div role="tablist" className="mt-8 flex gap-6 border-b border-zinc-200 text-sm">
-            {(
-                [
-                { id: "react", label: "React" },
-                { id: "svg", label: "SVG" },
-                ] as const
-            ).map((t) => (
-                <button
-                key={t.id}
-                type="button"
-                role="tab"
-                aria-selected={guideTab === t.id}
-                onClick={() => setGuideTab(t.id)}
-                className={`-mb-px cursor-pointer border-b-2 pb-2.5 font-medium transition-colors ${
-                    guideTab === t.id
-                    ? "border-zinc-900 text-zinc-900"
-                    : "border-transparent text-zinc-400 hover:text-zinc-700"
-                }`}
-                >
-                {t.label}
-                </button>
-            ))}
-            </div>
-
-            {guideTab === "react" ? (
-            <div className="mt-10 space-y-12">
-                {/* 1. Install */}
-                <div>
-                <h3 className="text-sm font-medium text-zinc-900">
-                    <span className="mr-2 font-mono text-zinc-400">01</span>Install
-                </h3>
-
-                <div className="mt-4 overflow-hidden rounded-xl border border-zinc-200">
-                    <div className="flex gap-4 border-b border-zinc-200 bg-zinc-50 px-4 py-2 font-mono text-[11px]">
-                    {(["npm", "pnpm", "bun", "yarn"] as const).map((pm) => (
-                        <button
-                        key={pm}
-                        type="button"
-                        onClick={() => setGuidePm(pm)}
-                        className={`cursor-pointer transition-colors ${
-                            guidePm === pm
-                            ? "font-semibold text-zinc-900"
-                            : "text-zinc-400 hover:text-zinc-700"
-                        }`}
-                        >
-                        {pm}
-                        </button>
-                    ))}
-                    </div>
-                    <div className="flex items-center justify-between bg-white px-4 py-3 font-mono text-xs text-zinc-800">
-                    <span>
-                        <span className="mr-2 select-none text-zinc-400">$</span>
-                        {pmCommands[guidePm]}
-                    </span>
-                    <button
-                        type="button"
-                        onClick={copyGuideInstall}
-                        className={`cursor-pointer font-sans text-[11px] font-medium transition-colors  px-2 py-1 ${
-                        guideCopied === "install"
-                            ? "text-emerald-500"
-                            : "text-zinc-400 hover:text-zinc-600"
-                        }`}
-                    >
-                        {guideCopied === "install" ? "Copied" : "Copy"}
-                    </button>
-                    </div>
-                </div>
-                </div>
-
-                {/* 2. Use */}
-                <div>
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5">
-                  <h3 className="text-sm font-medium text-zinc-900">
-                    <span className="mr-2 font-mono text-zinc-400">02</span>Use
-                  </h3>
-                  <p className="text-xs text-zinc-500">
-                    Choose <span className="font-medium text-zinc-800">Direct Use</span> (lightweight named import) or <span className="font-medium text-zinc-800">Dynamic</span> (generic &lt;Sticker /&gt;).
-                  </p>
-                </div>
-
-                <div className="mt-4 grid gap-4 md:grid-cols-5">
-                    {/* Code */}
-                    <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white md:col-span-3">
-                    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-200 bg-zinc-50 px-3 py-2">
-                        <div className="flex items-center gap-2">
-                          <span className="font-mono text-[11px] text-zinc-500">Hero.tsx</span>
-                          <div className="flex items-center rounded-lg bg-zinc-200/70 p-0.5 text-[11px]">
-                            <button
-                              type="button"
-                              onClick={() => setGuideMode("direct")}
-                              className={`cursor-pointer rounded-md px-2 py-0.5 font-medium transition-all ${
-                                guideMode === "direct"
-                                  ? "bg-white text-zinc-900 shadow-xs"
-                                  : "text-zinc-500 hover:text-zinc-800"
-                              }`}
-                            >
-                              Direct Use
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => setGuideMode("dynamic")}
-                              className={`cursor-pointer rounded-md px-2 py-0.5 font-medium transition-all ${
-                                guideMode === "dynamic"
-                                  ? "bg-white text-zinc-900 shadow-xs"
-                                  : "text-zinc-500 hover:text-zinc-800"
-                              }`}
-                            >
-                              Dynamic
-                            </button>
-                          </div>
-                        </div>
-                        <button
-                        type="button"
-                        onClick={copyGuideCode}
-                        className={`cursor-pointer rounded-md border border-zinc-200 bg-white px-2 py-0.5 text-[11px] font-medium transition-colors ${
-                            guideCopied === "code"
-                            ? "border-emerald-300 bg-emerald-50 text-emerald-600"
-                            : "text-zinc-600 hover:bg-zinc-100"
-                        }`}
-                        >
-                        {guideCopied === "code" ? "Copied" : "Copy"}
-                        </button>
-                    </div>
-                    <pre className="overflow-x-auto p-4 font-mono text-xs leading-relaxed text-zinc-950">
-                        <code>{guideMode === "direct" ? `import { ${getComponentExportName(guideSticker)} } from "stick-it-up";
-
-export default function Hero() {
-  return (
-    <${getComponentExportName(guideSticker)}
-      size={${guideSize}}${guidePeel ? "\n      peel" : ""}
-    />
-  );
-}` : `import { Sticker } from "stick-it-up";
-
-export default function Hero() {
-  return (
-    <Sticker
-      name="${guideSticker}"
-      size={${guideSize}}${guidePeel ? "\n      peel" : ""}
-    />
-  );
-}`}</code>
-                    </pre>
-                    </div>
-
-                    {/* Preview + controls */}
-                    <div className="flex flex-col rounded-xl border border-zinc-200 md:col-span-2">
-                    <div className="flex min-h-[160px] flex-1 items-center justify-center rounded-t-xl bg-zinc-50 p-6">
-                        <Sticker name={guideSticker} size={guideSize} peel={guidePeel} />
-                    </div>
-
-                    <dl className="divide-y divide-zinc-200 rounded-b-xl border-t border-zinc-200 bg-white text-[11px]">
-                        <div className="flex items-center justify-between gap-2 px-3 py-2">
-                        <dt className="text-zinc-500">Sticker</dt>
-                        <dd className="flex flex-wrap justify-end gap-1">
-                            {(
-                            [
-                                { id: "face", label: "face" },
-                                { id: "panda-bear-1", label: "panda-bear-1" },
-                                { id: "panda-bear-2", label: "panda-bear-2" },
-                                { id: "panda-garland", label: "panda-garland" },
-                                { id: "panda-sack", label: "panda-sack" },
-                                { id: "winter-doodle-4", label: "winter-doodle-4" },
-                                { id: "xmas-character-1", label: "xmas-character-1" },
-                                { id: "xmas-character-4", label: "xmas-character-4" },
-                                { id: "forest-animal-4", label: "forest-animal-4" },
-                                { id: "halloween-face-3", label: "halloween-face-3" },
-                                { id: "monster-face-1", label: "monster-face-1" },
-                                { id: "monster-face-2", label: "monster-face-2" },
-                                { id: "monster-face-3", label: "monster-face-3" },
-                                { id: "monster-face-4", label: "monster-face-4" },
-                                { id: "monster-face-5", label: "monster-face-5" },
-                                { id: "monster-face-7", label: "monster-face-7" },
-                                { id: "monster-face-8", label: "monster-face-8" },
-                                { id: "monster-face-9", label: "monster-face-9" },
-                                { id: "monster-icon-1", label: "monster-icon-1" },
-                                { id: "monster-icon-3", label: "monster-icon-3" },
-                                { id: "monster-icon-4", label: "monster-icon-4" },
-                                { id: "monster-icon-5", label: "monster-icon-5" },
-                                { id: "halloween-sketch-1", label: "halloween-sketch-1" },
-                                { id: "halloween-sketch-2", label: "halloween-sketch-2" },
-                                { id: "halloween-sketch-3", label: "halloween-sketch-3" },
-                                { id: "halloween-sketch-4", label: "halloween-sketch-4" },
-                                { id: "halloween-prop-1", label: "halloween-prop-1" },
-                                { id: "halloween-prop-2", label: "halloween-prop-2" },
-                                { id: "halloween-prop-3", label: "halloween-prop-3" },
-                                { id: "cute-monster-1", label: "cute-monster-1" },
-                                { id: "cute-monster-2", label: "cute-monster-2" },
-                                { id: "cute-monster-3", label: "cute-monster-3" },
-                                { id: "cute-monster-4", label: "cute-monster-4" },
-                                { id: "cute-monster-5", label: "cute-monster-5" },
-                                { id: "cute-monster-6", label: "cute-monster-6" },
-                                { id: "watercolor-character-1", label: "watercolor-character-1" },
-                                { id: "watercolor-character-2", label: "watercolor-character-2" },
-                                { id: "watercolor-character-3", label: "watercolor-character-3" },
-                                { id: "watercolor-character-4", label: "watercolor-character-4" },
-                                { id: "watercolor-character-5", label: "watercolor-character-5" },
-                                { id: "watercolor-character-6", label: "watercolor-character-6" },
-                                { id: "watercolor-kid-1", label: "watercolor-kid-1" },
-                                { id: "watercolor-kid-2", label: "watercolor-kid-2" },
-                                { id: "watercolor-kid-3", label: "watercolor-kid-3" },
-                                { id: "watercolor-kid-4", label: "watercolor-kid-4" },
-                                { id: "watercolor-kid-5", label: "watercolor-kid-5" },
-                                { id: "watercolor-kid-6", label: "watercolor-kid-6" },
-                                { id: "videogame-collection-1", label: "videogame-collection-1" },
-                                { id: "videogame-collection-2", label: "videogame-collection-2" },
-                                { id: "videogame-collection-3", label: "videogame-collection-3" },
-                                { id: "videogame-collection-4", label: "videogame-collection-4" },
-                                { id: "videogame-collection-5", label: "videogame-collection-5" },
-                                { id: "videogame-collection-6", label: "videogame-collection-6" },
-                                { id: "videogame-set-1", label: "videogame-set-1" },
-                                { id: "videogame-set-2", label: "videogame-set-2" },
-                                { id: "videogame-set-3", label: "videogame-set-3" },
-                                { id: "videogame-set-4", label: "videogame-set-4" },
-                                { id: "videogame-set-5", label: "videogame-set-5" },
-                                { id: "videogame-set-6", label: "videogame-set-6" },
-                                { id: "watercolor-halloween-1", label: "watercolor-halloween-1" },
-                                { id: "watercolor-halloween-2", label: "watercolor-halloween-2" },
-                                { id: "watercolor-halloween-3", label: "watercolor-halloween-3" },
-                                { id: "watercolor-halloween-4", label: "watercolor-halloween-4" },
-                                { id: "watercolor-halloween-5", label: "watercolor-halloween-5" },
-                                { id: "watercolor-halloween-6", label: "watercolor-halloween-6" },
-                                { id: "handdrawn-kid-1", label: "handdrawn-kid-1" },
-                                { id: "handdrawn-kid-2", label: "handdrawn-kid-2" },
-                                { id: "handdrawn-kid-3", label: "handdrawn-kid-3" },
-                                { id: "handdrawn-kid-4", label: "handdrawn-kid-4" },
-                                { id: "frankenstein-boy-1", label: "frankenstein-boy-1" },
-                                { id: "creepy-character-1", label: "creepy-character-1" },
-                                { id: "creepy-character-2", label: "creepy-character-2" },
-                                { id: "creepy-character-3", label: "creepy-character-3" },
-                                { id: "creepy-character-4", label: "creepy-character-4" },
-                                { id: "samurai-boy-1", label: "samurai-boy-1" },
-                                { id: "ninja-airbender-1", label: "ninja-airbender-1" },
-                                { id: "kimono-katana-boy-1", label: "kimono-katana-boy-1" },
-                                { id: "chinese-vampire-1", label: "chinese-vampire-1" },
-                                { id: "ninja-sitting-1", label: "ninja-sitting-1" },
-                                { id: "japanese-merchant-1", label: "japanese-merchant-1" },
-                                { id: "retro-game-hero-1", label: "retro-game-hero-1" },
-                                { id: "retro-game-hero-2", label: "retro-game-hero-2" },
-                                { id: "retro-game-hero-3", label: "retro-game-hero-3" },
-                                { id: "retro-game-hero-4", label: "retro-game-hero-4" },
-                                { id: "retro-game-hero-5", label: "retro-game-hero-5" },
-                                { id: "costume-kid-1", label: "costume-kid-1" },
-                                { id: "costume-kid-2", label: "costume-kid-2" },
-                                { id: "costume-kid-3", label: "costume-kid-3" },
-                                { id: "costume-kid-4", label: "costume-kid-4" },
-                                { id: "costume-kid-5", label: "costume-kid-5" },
-                                { id: "costume-kid-6", label: "costume-kid-6" },
-                                { id: "cute-halloween-buddy-1", label: "cute-halloween-buddy-1" },
-                                { id: "cute-halloween-buddy-2", label: "cute-halloween-buddy-2" },
-                                { id: "cute-halloween-buddy-3", label: "cute-halloween-buddy-3" },
-                                { id: "cute-halloween-buddy-4", label: "cute-halloween-buddy-4" },
-                                { id: "cute-halloween-buddy-5", label: "cute-halloween-buddy-5" },
-                                { id: "cute-halloween-buddy-6", label: "cute-halloween-buddy-6" },
-                            ] as const
-                            ).map((s) => (
-                            <button
-                                key={s.id}
-                                type="button"
-                                onClick={() => setGuideSticker(s.id)}
-                                className={`cursor-pointer rounded-md px-1.5 py-0.5 transition-colors ${
-                                guideSticker === s.id
-                                    ? "bg-zinc-900 text-white"
-                                    : "text-zinc-500 hover:text-zinc-900"
-                                }`}
-                            >
-                                {s.label}
-                            </button>
-                            ))}
-                        </dd>
-                        </div>
-
-                        <div className="flex items-center justify-between px-3 py-2">
-                        <dt className="text-zinc-500">Size</dt>
-                        <dd className="flex gap-1 font-mono">
-                            {[64, 96, 120].map((sz) => (
-                            <button
-                                key={sz}
-                                type="button"
-                                onClick={() => setGuideSize(sz)}
-                                className={`cursor-pointer rounded-md px-1.5 py-0.5 transition-colors ${
-                                guideSize === sz
-                                    ? "bg-zinc-900 text-white"
-                                    : "text-zinc-500 hover:text-zinc-900"
-                                }`}
-                            >
-                                {sz}
-                            </button>
-                            ))}
-                        </dd>
-                        </div>
-
-                        <div className="flex items-center justify-between px-3 py-2">
-                        <dt className="text-zinc-500">Peel on hover</dt>
-                        <dd>
-                            <button
-                            type="button"
-                            role="switch"
-                            aria-checked={guidePeel}
-                            aria-label="Peel on hover"
-                            onClick={() => setGuidePeel(!guidePeel)}
-                            className={`relative inline-flex h-4 w-7 cursor-pointer items-center rounded-full transition-colors ${
-                                guidePeel ? "bg-zinc-900" : "bg-zinc-300"
-                            }`}
-                            >
-                            <span
-                                className={`inline-block h-3 w-3 rounded-full bg-white transition-transform ${
-                                guidePeel ? "translate-x-3.5" : "translate-x-0.5"
-                                }`}
-                            />
-                            </button>
-                        </dd>
-                        </div>
-                    </dl>
-                    </div>
-                </div>
-                </div>
-
-                {/* 3. Props */}
-                <div>
-                <h3 className="text-sm font-medium text-zinc-900">
-                    <span className="mr-2 font-mono text-zinc-400">03</span>Props
-                </h3>
-
-                <dl className="mt-4 divide-y divide-zinc-200 border-y border-zinc-200">
-                    {[
-                    { name: "name", type: "string", desc: 'Sticker ID (for generic <Sticker />), e.g. "face". Not needed when using direct component imports.' },
-                    { name: "size", type: "number | string", desc: "Width and height in pixels. Default 96." },
-                    { name: "peel", type: "boolean", desc: "3D tilt and shadow on hover." },
-                    { name: "className", type: "string", desc: "Extra classes for rotation, margin, etc." },
-                    ].map((p) => (
-                    <div
-                        key={p.name}
-                        className="grid items-baseline gap-x-4 gap-y-1 py-3 text-xs sm:grid-cols-[7rem_9rem_1fr]"
-                    >
-                        <dt className="font-mono font-semibold text-zinc-900">{p.name}</dt>
-                        <dd className="font-mono text-zinc-400">{p.type}</dd>
-                        <dd className="text-zinc-600">{p.desc}</dd>
-                    </div>
-                    ))}
-                </dl>
-                </div>
-            </div>
-            ) : (
-            <div className="mt-10 space-y-4">
-                <p className="text-sm text-zinc-500">
-                Static vector files live in{" "}
-                <code className="font-mono text-xs text-zinc-800">/public/stickers/</code>. No
-                dependencies needed.
-                </p>
-
-                <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white">
-                <div className="flex items-center justify-between border-b border-zinc-200 bg-zinc-50 px-4 py-2">
-                    <div className="flex items-center gap-2">
-                    
-                    <span className="ml-1.5 font-mono text-[11px] text-zinc-500">index.html</span>
-                    </div>
-                    <button
-                    type="button"
-                    onClick={copyGuideCode}
-                    className={`cursor-pointer text-[11px] font-medium transition-colors ${
-                        guideCopied === "code"
-                        ? "text-emerald-400 font-semibold"
-                        : "text-zinc-400 hover:text-white"
-                    }`}
-                    >
-                    {guideCopied === "code" ? "Copied ✓" : "Copy"}
-                    </button>
-                </div>
-                <pre className="overflow-x-auto p-4 font-mono text-xs leading-relaxed text-zinc-900">
-                    <code>{`<img
-  src="/stickers/face.svg"
-  alt="Flame sticker"
-  width={${guideSize}}
-  height={${guideSize}}
-/>`}</code>
-                </pre>
-                </div>
-            </div>
-            )}
-        </div>
-        </section>
 
       {/* ------------------------------------------------------------------
           INSPECTOR / PREVIEW MODAL
@@ -2287,19 +2488,29 @@ export default function Hero() {
     const stickerName = activeItem.componentName || activeItem.name;
     const componentPascalName = getComponentExportName(stickerName);
     const isSvg = activeItem.format === "svg" && !!activeItem.svgSrc;
+    const isTrazo = activeItem.format === "trazo" && !!activeItem.trazoId;
+    const isPhoto = activeItem.format === "photo" && !!activeItem.photoSrc;
+    const trazoDef = isTrazo ? findSticker(activeItem.trazoId!) : undefined;
+    const trazoColorProp = isTrazo && inspectorColor && inspectorColor !== "mix" ? ` color="${inspectorColor}"` : "";
+    const trazoRotateProp = isTrazo && inspectorRotate !== 0 ? ` rotate={${inspectorRotate}}` : "";
     const svgCode = `<img src="${activeItem.svgSrc}" alt="${activeItem.title} sticker" width={${inspectorSize}} height={${inspectorSize}} />`;
+    const photoCode = `<img src="${activeItem.photoSrc}" alt="${activeItem.title} sticker" width={${inspectorSize}} height={${inspectorSize}} style={{ objectFit: "contain", filter: "drop-shadow(0 0 2px #fff) drop-shadow(0 0 4px rgba(255,255,255,.9)) drop-shadow(0 6px 10px rgba(0,0,0,.22))" }} />`;
 
-    const namedCode = isSvg
+    const namedCode = isPhoto
+      ? photoCode
+      : isSvg
       ? svgCode
-      : `import { ${componentPascalName} } from "stick-it-up";\n\n<${componentPascalName}\n  size={${inspectorSize}}${
-          inspectorPeel ? "\n  peel" : ""
-        }\n/>`;
+      : isTrazo
+      ? `import { ${componentPascalName} } from "stick-it-up";\n\n<${componentPascalName}\n  size={${inspectorSize}}${trazoColorProp}${trazoRotateProp}${inspectorPeel ? "\n  peel" : ""}\n/>`
+      : `import { ${componentPascalName} } from "stick-it-up";\n\n<${componentPascalName}\n  size={${inspectorSize}}${inspectorPeel ? "\n  peel" : ""}\n/>`;
 
-    const dynamicCode = isSvg
+    const dynamicCode = isPhoto
+      ? photoCode
+      : isSvg
       ? svgCode
-      : `import { Sticker } from "stick-it-up";\n\n<Sticker\n  name="${stickerName}"\n  size={${inspectorSize}}${
-          inspectorPeel ? "\n  peel" : ""
-        }\n/>`;
+      : isTrazo
+      ? (() => { const defName = componentPascalName.replace(/Sticker$/, ""); const varName = defName.charAt(0).toLowerCase() + defName.slice(1) + "Def"; return `import { Sticker, ${varName} } from "stick-it-up";\n\n<Sticker\n  def={${varName}}\n  size={${inspectorSize}}${trazoColorProp}${trazoRotateProp}${inspectorPeel ? "\n  peel" : ""}\n/>`; })()
+      : `import { Sticker } from "stick-it-up";\n\n<Sticker\n  name="${stickerName}"\n  size={${inspectorSize}}${inspectorPeel ? "\n  peel" : ""}\n/>`;
 
     const code = snippetTab === "named" ? namedCode : dynamicCode;
 
@@ -2315,13 +2526,22 @@ export default function Hero() {
     }
 
     function downloadSvg() {
+      if (activeItem?.format === "photo" && activeItem.photoSrc) {
+        const a = document.createElement("a");
+        a.href = activeItem.photoSrc; a.download = `${activeItem.name}.webp`; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        return;
+      }
+      if (activeItem?.format === "trazo" && trazoDef) {
+        const markup = toSvgString(trazoDef, { size: inspectorSize, color: inspectorColor === "mix" ? undefined : inspectorColor, rotate: inspectorRotate, title: trazoDef.name });
+        const blob = new Blob([markup], { type: "image/svg+xml;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url; a.download = `${trazoDef.id}.svg`; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+        return;
+      }
       if (activeItem?.svgSrc) {
         const a = document.createElement("a");
-        a.href = activeItem.svgSrc;
-        a.download = `${activeItem.name}.svg`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
+        a.href = activeItem.svgSrc; a.download = `${activeItem.name}.svg`; document.body.appendChild(a); a.click(); document.body.removeChild(a);
         return;
       }
       const stage = document.getElementById("inspector-sticker-stage");
@@ -2333,24 +2553,18 @@ export default function Hero() {
         const blob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
-        a.href = url;
-        a.download = `${activeItem?.name || "sticker"}.svg`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+        a.href = url; a.download = `${activeItem?.name || "sticker"}.svg`; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
       }
     }
 
     const backgrounds = [
-      { id: "white", label: "White", swatch: "bg-white border-zinc-300", stage: "bg-white" },
-      { id: "zinc", label: "Dark", swatch: "bg-zinc-900 border-zinc-700", stage: "bg-zinc-950" },
+      { id: "white", label: "White", swatch: "bg-white border-ink/30", stage: "bg-white" },
+      { id: "zinc", label: "Dark", swatch: "bg-ink border-ink", stage: "bg-ink" },
       { id: "warm", label: "Warm", swatch: "bg-amber-100 border-amber-300", stage: "bg-[#fff7ed]" },
       { id: "blue", label: "Cool", swatch: "bg-blue-100 border-blue-300", stage: "bg-[#eff6ff]" },
     ] as const;
 
     const stage = backgrounds.find((b) => b.id === inspectorBg) ?? backgrounds[0];
-    const dark = inspectorBg === "zinc";
 
     return (
       <div
@@ -2362,12 +2576,12 @@ export default function Hero() {
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          className="relative flex max-h-[92vh] w-full max-w-md flex-col overflow-y-auto rounded-3xl bg-white shadow-[0_1px_2px_rgba(0,0,0,0.08),0_24px_60px_rgba(0,0,0,0.18)] animate-in fade-in zoom-in-95 duration-200"
+          className="relative flex max-h-[92vh] w-full max-w-md flex-col overflow-y-auto rounded-[24px_16px_26px_16px/16px_26px_16px_24px] border-2 border-ink/40 bg-paper-card shadow-[5px_6px_0_rgba(36,36,42,0.12),0_24px_60px_rgba(0,0,0,0.18)] animate-in fade-in zoom-in-95 duration-200"
         >
           {/* Header */}
           <div className="flex items-start justify-between gap-4 px-6 pt-6">
             <div>
-              <h3 className="font-mono text-lg font-semibold tracking-tight text-zinc-900">
+              <h3 className="font-display text-xl font-[550] tracking-tight text-ink">
                 {activeItem.name}
               </h3>
             </div>
@@ -2375,7 +2589,7 @@ export default function Hero() {
               type="button"
               onClick={() => setActiveItem(null)}
               aria-label="Close"
-              className="-mr-2 -mt-1 shrink-0 cursor-pointer rounded-full p-2 text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-700"
+              className="-mr-2 -mt-1 shrink-0 cursor-pointer rounded-full p-2 text-ink-muted transition-colors hover:bg-paper-deep hover:text-ink-soft"
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4">
                 <path d="M18 6 6 18M6 6l12 12" />
@@ -2386,27 +2600,41 @@ export default function Hero() {
           {/* Preview */}
           <div className="px-6 pt-5">
             <div
-              className={`relative flex h-48 items-center justify-center rounded-2xl border border-zinc-200 transition-colors duration-300 ${stage.stage}`}
+              className={`relative flex h-48 items-center justify-center rounded-[18px_12px_20px_12px/12px_20px_12px_18px] border-2 border-ink/25 transition-colors duration-300 ${stage.stage}`}
             >
               <div id="inspector-sticker-stage" className="relative">
                 <StickerVisual
                   item={activeItem}
                   size={
-                    activeItem.previewSize
-                      ? Math.round(inspectorSize * (activeItem.previewSize / 74))
-                      : inspectorSize
+                    inspectorSize
                   }
                   peel={inspectorPeel}
+                  color={activeItem.format === "trazo" ? inspectorColor : undefined}
+                  rotate={activeItem.format === "trazo" ? inspectorRotate : undefined}
                 />
               </div>
-              
+
             </div>
+            {activeItem.attribution && (
+              <p className="mt-2 text-[11px] leading-relaxed text-ink-muted">
+                Photo source:{" "}
+                <a
+                  href={activeItem.attribution.filePageUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline decoration-ink/35 underline-offset-2 hover:text-ink-soft"
+                >
+                  {activeItem.attribution.sourceTitle.replace("File:", "")}
+                </a>{" "}
+                by {activeItem.attribution.author} ({activeItem.attribution.license}), via Wikimedia Commons.
+              </p>
+            )}
           </div>
 
           {/* Controls */}
           <div className="space-y-3.5 px-6 pt-5 text-xs">
             <div className="flex items-center gap-4">
-              <span className="w-20 shrink-0 font-medium text-zinc-500">Size</span>
+              <span className="w-20 shrink-0 font-medium text-ink-muted">Size</span>
               <input
                 type="range"
                 min="48"
@@ -2414,17 +2642,40 @@ export default function Hero() {
                 value={inspectorSize}
                 onChange={(e) => setInspectorSize(Number(e.target.value))}
                 aria-label="Sticker size"
-                className="h-1 flex-1 cursor-pointer accent-zinc-900"
+                className="h-1 flex-1 cursor-pointer accent-pen"
               />
-              <span className="w-11 text-right font-mono text-[11px] text-zinc-500">
+              <span className="w-11 text-right font-mono text-[11px] text-ink-muted">
                 {inspectorSize}px
               </span>
             </div>
 
+            {activeItem.format === "trazo" && (
+              <>
+                <div className="flex items-center gap-4">
+                  <span className="w-20 shrink-0 font-medium text-ink-muted">Color</span>
+                  <select value={inspectorColor} onChange={(e)=>setInspectorColor(e.target.value)} className="flex-1 rounded-lg border-2 border-ink/25 bg-paper-card px-2 py-1.5 text-sm">
+                    <option value="mix">Mix (original)</option>
+                    <option value="#1f1e1b">Ink</option>
+                    <option value="#ef4444">Coral</option>
+                    <option value="#f97316">Tangerine</option>
+                    <option value="#eab308">Sunny</option>
+                    <option value="#16a34a">Grass</option>
+                    <option value="#38bdf8">Sky</option>
+                    <option value="#2563eb">Cobalt</option>
+                    <option value="#ec4899">Pink</option>
+                  </select>
+                </div>
+                <div className="flex items-center gap-4">
+                  <span className="w-20 shrink-0 font-medium text-ink-muted">Rotate</span>
+                  <input type="range" min="-180" max="180" value={inspectorRotate} onChange={(e)=>setInspectorRotate(Number(e.target.value))} className="h-1 flex-1 cursor-pointer accent-pen" />
+                  <span className="w-11 text-right font-mono text-[11px] text-ink-muted">{inspectorRotate}°</span>
+                </div>
+              </>
+            )}
             {/* Background + Peel effect (same flex row, justify-between) */}
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-3">
-                <span className="font-medium text-zinc-500">Background</span>
+                <span className="font-medium text-ink-muted">Background</span>
                 <div className="flex items-center gap-2">
                   {backgrounds.map((b) => (
                     <button
@@ -2436,7 +2687,7 @@ export default function Hero() {
                       onClick={() => setInspectorBg(b.id)}
                       className={`h-5 w-5 cursor-pointer rounded-full border transition-transform ${b.swatch} ${
                         inspectorBg === b.id
-                          ? "scale-110 ring-2 ring-zinc-900 ring-offset-2"
+                          ? "scale-110 ring-2 ring-pen ring-offset-2"
                           : "hover:scale-110"
                       }`}
                     />
@@ -2445,7 +2696,7 @@ export default function Hero() {
               </div>
 
               <div className="flex items-center gap-3">
-                <span className="font-medium text-zinc-500">Peel effect</span>
+                <span className="font-medium text-ink-muted">Peel effect</span>
                 <button
                   type="button"
                   role="switch"
@@ -2453,7 +2704,7 @@ export default function Hero() {
                   aria-label="Peel effect on hover"
                   onClick={() => setInspectorPeel(!inspectorPeel)}
                   className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full transition-colors duration-200 ${
-                    inspectorPeel ? "bg-zinc-900" : "bg-zinc-300"
+                    inspectorPeel ? "bg-pen" : "bg-ink/25"
                   }`}
                 >
                   <span
@@ -2469,29 +2720,29 @@ export default function Hero() {
           {/* Usage */}
           <div className="px-6 pb-6 pt-6">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-zinc-900">Usage</span>
+              <span className="font-hand text-base text-ink">Usage</span>
               <button
                 type="button"
                 onClick={downloadSvg}
-                className="inline-flex cursor-pointer items-center gap-1.5 rounded-md bg-zinc-100 px-2.5 py-1 text-[11px] font-medium text-zinc-700 transition-colors hover:bg-zinc-200 hover:text-zinc-900 active:scale-95"
+                className="inline-flex cursor-pointer items-center gap-1.5 rounded-[8px_6px_9px_6px/6px_9px_6px_8px] border-2 border-ink/25 bg-paper-card px-2.5 py-1 font-hand text-[13px] text-ink-soft transition-colors hover:border-ink/45 hover:text-ink active:scale-95"
               >
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-3.5 w-3.5">
                   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
                 </svg>
-                Download SVG
+                Download {activeItem.format === "photo" ? "WebP" : "SVG"}
               </button>
             </div>
 
-            <div className="mt-2.5 overflow-hidden rounded-xl border border-zinc-200 bg-zinc-50">
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-200 bg-white px-3 py-2">
+            <div className="mt-2.5 overflow-hidden rounded-[14px_10px_16px_10px/10px_16px_10px_14px] border-2 border-ink/20 bg-paper">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b-2 border-ink/15 bg-paper-card px-3 py-2">
                 <div className="flex items-center gap-1.5">
                   <button
                     type="button"
                     onClick={() => setSnippetTab("named")}
                     className={`cursor-pointer rounded-lg px-2.5 py-1 text-[11px] font-medium transition-all ${
                       snippetTab === "named"
-                        ? "bg-zinc-900 text-white shadow-sm"
-                        : "text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800"
+                        ? "bg-pen text-white shadow-sm"
+                        : "text-ink-muted hover:bg-paper-deep hover:text-ink-soft"
                     }`}
                   >
                     Direct Import
@@ -2501,13 +2752,13 @@ export default function Hero() {
                     onClick={() => setSnippetTab("dynamic")}
                     className={`cursor-pointer rounded-lg px-2.5 py-1 text-[11px] font-medium transition-all ${
                       snippetTab === "dynamic"
-                        ? "bg-zinc-900 text-white shadow-sm"
-                        : "text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800"
+                        ? "bg-pen text-white shadow-sm"
+                        : "text-ink-muted hover:bg-paper-deep hover:text-ink-soft"
                     }`}
                   >
                     Dynamic
                   </button>
-                 
+
                 </div>
                 <button
                   type="button"
@@ -2515,7 +2766,7 @@ export default function Hero() {
                   className={`inline-flex h-[26px] items-center justify-center cursor-pointer rounded-md border px-2.5 text-[11px] font-medium leading-none transition-all active:scale-95 ${
                     copied
                       ? "border-emerald-200 bg-emerald-100 text-emerald-700"
-                      : "border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-100"
+                      : "border-ink/20 bg-white text-ink-soft hover:bg-paper-deep"
                   }`}
                 >
                   {copied ? (
@@ -2540,18 +2791,17 @@ export default function Hero() {
                   )}
                 </button>
               </div>
-              <pre className="overflow-x-auto p-4 font-mono text-xs leading-relaxed text-zinc-800">
+              <pre className="overflow-x-auto p-4 font-mono text-xs leading-relaxed text-ink-soft">
                 <code>{code}</code>
               </pre>
             </div>
 
-            
+
           </div>
         </div>
       </div>
     );
   })()}
-
 
       {/* ------------------------------------------------------------------
           FOOTER (shared from landing page)

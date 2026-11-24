@@ -186,7 +186,7 @@ function WebMock({ bg, url, brand, headline, cta, logo, stickers }: WebProps) {
           />
         ))}
         <span
-          className="truncate text-zinc-400"
+          className="truncate text-ink-muted"
           style={{
             marginLeft: "0.8em",
             fontSize: "0.9em",
@@ -203,7 +203,7 @@ function WebMock({ bg, url, brand, headline, cta, logo, stickers }: WebProps) {
       <div className="relative" style={{ background: bg, height: "100%", padding: "1.2em" }}>
         <div className="flex items-center" style={{ gap: "0.6em" }}>
           <img src={logo} alt="" draggable={false} style={{ width: "2em", height: "2em" }} />
-          <span className="font-semibold text-zinc-900" style={{ fontSize: "1.1em" }}>
+          <span className="font-semibold text-ink" style={{ fontSize: "1.1em" }}>
             {brand}
           </span>
           <span className="ml-auto flex" style={{ gap: "0.5em" }}>
@@ -217,7 +217,7 @@ function WebMock({ bg, url, brand, headline, cta, logo, stickers }: WebProps) {
         </div>
 
         <p
-          className="font-medium leading-[1.1] tracking-tight text-zinc-900"
+          className="font-medium leading-[1.1] tracking-tight text-ink"
           style={{ marginTop: "1.6em", maxWidth: "62%", fontSize: "2.1em" }}
         >
           {headline}
@@ -269,8 +269,8 @@ function PhoneMock({ bg, title, hero, heroBg, chips, tiles }: PhoneProps) {
   return (
     <div className="h-full w-full overflow-hidden bg-white" style={{ borderRadius: "2.6em", ...printFrame }}>
       <div className="relative h-full" style={{ background: bg, padding: "0.9em 1em" }}>
-        <div className="mx-auto bg-zinc-900" style={{ width: "4.4em", height: "1.2em", borderRadius: 999 }} />
-        <p className="font-semibold text-zinc-900" style={{ marginTop: "1em", fontSize: "1.3em" }}>
+        <div className="mx-auto bg-ink" style={{ width: "4.4em", height: "1.2em", borderRadius: 999 }} />
+        <p className="font-semibold text-ink" style={{ marginTop: "1em", fontSize: "1.3em" }}>
           {title}
         </p>
 
@@ -278,7 +278,7 @@ function PhoneMock({ bg, title, hero, heroBg, chips, tiles }: PhoneProps) {
           {chips.map((c, i) => (
             <span
               key={c}
-              className={i === 0 ? "bg-zinc-900 text-white" : "bg-white text-zinc-600"}
+              className={i === 0 ? "bg-ink text-paper-card" : "bg-white text-ink-muted"}
               style={{
                 fontSize: "0.85em",
                 padding: "0.25em 0.8em",
@@ -512,7 +512,7 @@ function Folder({ title, stamp, stampRot, cards, avatars }: FolderProps) {
 
       {/* letterpress title */}
       <h3
-        className="mt-8 max-w-[14rem] text-balance text-center text-3xl font-semibold leading-tight tracking-tight text-zinc-600"
+        className="mt-8 max-w-[14rem] text-balance text-center font-hand text-[1.7rem] leading-tight text-ink-soft"
         style={{ textShadow: "0 1px 0 #fff" }}
       >
         {title}
@@ -769,17 +769,17 @@ export default function FolderShowcase() {
     <section
       ref={sectionRef}
       id="stickers"
-      className="relative z-10 mx-4 mb-10 rounded-[40px] px-4 py-20 sm:px-8"
+      className="hand-panel relative z-10 mx-4 mb-10 px-4 py-20 sm:px-8"
     >
       <div className="mx-auto max-w-6xl w-full">
         <div className="mx-auto mb-16 flex max-w-2xl flex-col items-center text-center">
           <MotionBlur inView={inView} delay={0}>
-            <h2 className="mt-5 font-sans text-4xl font-normal leading-[1.1] tracking-tight text-zinc-900 sm:text-5xl">
-              See your brand, stickered.
+            <h2 className="mt-5 font-display text-[2rem] font-[550] leading-[1.18] tracking-tight text-ink sm:text-5xl">
+              See your brand, <span className="marker">stickered.</span>
             </h2>
           </MotionBlur>
           <MotionBlur inView={inView} delay={100}>
-            <p className="mt-4 text-base text-neutral-400">
+            <p className="mt-4 text-[15px] leading-relaxed text-ink-soft">
               Peek inside a folder to see how a website or an app feels once it has a little
               personality. Hover or tap to open.
             </p>

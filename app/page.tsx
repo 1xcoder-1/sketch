@@ -15,7 +15,7 @@ import HeroBackdrop from "../components/landing/hero-backdrop";
 const INSTALL_COMMAND = "npm i stick-it-up@latest";
 const NAV_LINKS = [
   { label: "Stickers", href: "/stickers" },
-  { label: "Docs", href: "/stickers#docs" },
+  { label: "Docs", href: "/usage" },
   { label: "npm", href: "https://www.npmjs.com/package/stick-it-up" },
 ];
 
@@ -71,7 +71,7 @@ export default function Home() {
   }
 
   return (
-    <main className="landing-page relative min-h-screen w-full overflow-x-clip bg-white">
+    <main className="landing-page sheet-margin relative min-h-screen w-full overflow-x-clip bg-paper">
       <div className="hero-surface">
         <HeroBackdrop />
         <header className="studio-header">
@@ -120,9 +120,26 @@ export default function Home() {
         </header>
 
         <section className="studio-hero" aria-labelledby="hero-heading">
-          <h1 id="hero-heading" className="studio-heading">
+          {/* pencil doodles: a star, a squiggle and a hand-lettered margin note */}
+          <div className="pointer-events-none absolute inset-0 -z-0 hidden lg:block" aria-hidden="true">
+            <svg viewBox="0 0 64 64" className="doodle left-[6%] top-[24%] h-14 w-14 rotate-[-10deg]">
+              <path d="M32 7c1.4 8.5 5 13.5 14 15.5-9 2-12.6 7-14 16-1.4-9-5.6-14-15-16 9.4-2 12.6-7 15-15.5z" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinejoin="round" strokeLinecap="round" />
+            </svg>
+            <svg viewBox="0 0 120 60" className="doodle right-[5%] top-[30%] h-16 w-32 rotate-[8deg]">
+              <path d="M4 34c22-16 42-14 62-6 12 4 20 2 34-4" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
+              <path d="M90 12c4 6 8 10 14 12-9 1-13 4-18 10" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <span className="doodle right-[12%] top-[52%] rotate-[6deg] font-hand text-[15px] text-ink-muted">
+              just peel &amp; stick
+            </span>
+          </div>
+
+          <h1 id="hero-heading" className="relative studio-heading">
             <span className="hero-heading-line">Give your site personality.<img src="/stickers/face.svg" alt="" width={64} height={64} /></span>
             <span className="hero-heading-line">Make people <span className="hero-highlight">stick around.</span><img src="/stickers/panda-bear-1.svg" alt="" width={64} height={64} /></span>
+            <svg viewBox="0 0 320 18" preserveAspectRatio="none" aria-hidden="true" className="hand-rule mx-auto mt-4 max-w-md">
+              <path d="M6 11c32-7 58 5 92-2s52-6 86 3 48 2 78-3 36-3 52 2" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+            </svg>
           </h1>
           <div className="hero-buttons">
             <button
@@ -138,7 +155,7 @@ export default function Home() {
               </span>
               {copyStatus === "copied" ? <Check size={16} aria-hidden="true" /> : <Copy size={16} aria-hidden="true" />}
             </button>
-            <Link href="/stickers#docs" className="hero-docs">Read docs<ArrowUpRight size={18} aria-hidden="true" /></Link>
+            <Link href="/usage" className="hero-docs">Read docs<ArrowUpRight size={18} aria-hidden="true" /></Link>
           </div>
           <p className={copyStatus === "error" ? "copy-feedback" : "sr-only"} role="status">
             {copyStatus === "error" ? `Couldn't copy. Select the command and copy it manually: ${INSTALL_COMMAND}` : copyStatus === "copied" ? "Install command copied to clipboard." : ""}

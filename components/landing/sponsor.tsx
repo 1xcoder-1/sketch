@@ -86,89 +86,6 @@ function MotionBlur({
 }
 
 /* ------------------------------------------------------------------
-   draggable sticker on the section sides
-------------------------------------------------------------------- */
-function DraggableSticker({
-  src,
-  size,
-  left,
-  right,
-  top,
-  bottom,
-  rot = 0,
-  inView,
-  delay = 0,
-}: {
-  src: string;
-  size: number;
-  left?: string;
-  right?: string;
-  top?: string;
-  bottom?: string;
-  rot?: number;
-  inView: boolean;
-  delay?: number;
-}) {
-  const [pos, setPos] = useState({ x: 0, y: 0 });
-  const [hover, setHover] = useState(false);
-  const [drag, setDrag] = useState(false);
-  const start = useRef({ px: 0, py: 0, x: 0, y: 0 });
-
-  return (
-    <div
-      className="pointer-events-auto absolute hidden xl:block select-none"
-      style={{
-        left,
-        right,
-        top,
-        bottom,
-        width: size,
-        zIndex: drag ? 40 : 20,
-        opacity: inView ? 1 : 0,
-        transform: inView ? "scale(1)" : "scale(0)",
-        transition: `transform 650ms ${SPRING} ${delay}ms, opacity 400ms ease-out ${delay}ms`,
-      }}
-    >
-      <div
-        data-sticker
-        onPointerDown={(e) => {
-          e.currentTarget.setPointerCapture(e.pointerId);
-          start.current = { px: e.clientX, py: e.clientY, x: pos.x, y: pos.y };
-          setDrag(true);
-        }}
-        onPointerMove={(e) => {
-          if (!drag) return;
-          setPos({
-            x: start.current.x + e.clientX - start.current.px,
-            y: start.current.y + e.clientY - start.current.py,
-          });
-        }}
-        onPointerUp={() => setDrag(false)}
-        onPointerCancel={() => setDrag(false)}
-        onPointerEnter={() => setHover(true)}
-        onPointerLeave={() => setHover(false)}
-        className="touch-none select-none cursor-grab active:cursor-grabbing"
-        style={{
-          translate: `${pos.x}px ${pos.y}px`,
-          rotate: `${rot + (drag ? -5 : hover ? 10 : 0)}deg`,
-          scale: drag ? 1.16 : hover ? 1.08 : 1,
-          filter: drag
-            ? "drop-shadow(0 16px 14px rgba(0,0,0,0.22))"
-            : hover
-            ? "drop-shadow(0 10px 10px rgba(0,0,0,0.12))"
-            : "drop-shadow(0 4px 6px rgba(0,0,0,0.06))",
-          transition: drag
-            ? "scale 150ms ease-out"
-            : `scale 400ms ${SPRING}, rotate 400ms ${SPRING}, filter 250ms ease`,
-        }}
-      >
-        <img src={src} alt="" draggable={false} className="block h-auto w-full select-none" />
-      </div>
-    </div>
-  );
-}
-
-/* ------------------------------------------------------------------
    tooltip pill that pops above a tile on hover / keyboard focus
 ------------------------------------------------------------------- */
 function Tip({ label, sublabel }: { label: string; sublabel?: string }) {
@@ -176,7 +93,7 @@ function Tip({ label, sublabel }: { label: string; sublabel?: string }) {
     <span
       role="tooltip"
       className="pointer-events-none absolute bottom-full left-1/2 z-30 mb-2.5 -translate-x-1/2
-        scale-75 whitespace-nowrap rounded-2xl bg-zinc-950 px-3.5 py-1.5 text-center
+        scale-75 whitespace-nowrap rounded-2xl bg-ink px-3.5 py-1.5 text-center
         text-xs font-medium text-white opacity-0 shadow-[0_8px_20px_rgba(0,0,0,0.28)]
         group-hover:scale-100 group-hover:opacity-100
         group-focus-visible:scale-100 group-focus-visible:opacity-100"
@@ -187,11 +104,11 @@ function Tip({ label, sublabel }: { label: string; sublabel?: string }) {
     >
       <span className="block font-semibold leading-tight text-white">{label}</span>
       {sublabel && (
-        <span className="mt-0.5 block text-[10px] font-normal text-zinc-400">
+        <span className="mt-0.5 block text-[10px] font-normal text-ink-muted">
           {sublabel}
         </span>
       )}
-      <span className="absolute left-1/2 top-full h-2 w-2 -translate-x-1/2 -translate-y-1 rotate-45 rounded-[2px] bg-zinc-950" />
+      <span className="absolute left-1/2 top-full h-2 w-2 -translate-x-1/2 -translate-y-1 rotate-45 rounded-[2px] bg-ink" />
     </span>
   );
 }
@@ -225,10 +142,10 @@ function FaviconTile({
       >
         {/* Inner visual box: ONLY this translates on group-hover to prevent edge flickering */}
         <div
-          className="relative flex h-full w-full items-center justify-center rounded-[24px] group-hover:-translate-y-1.5 active:scale-95"
+          className="relative flex h-full w-full items-center justify-center rounded-[18px_12px_20px_12px/12px_20px_12px_18px] group-hover:-translate-y-1.5 active:scale-95"
           style={{
             background: "#ecfccb", // light lime matching logo (#B5EE0A / #CEFF65)
-            
+
             boxShadow: "inset 0 1px 0 #fff, 0 2px 8px rgba(181,238,10,0.22), 0 1px 2px rgba(0,0,0,0.04)",
             transition: `transform 350ms ${SPRING}, box-shadow 250ms ease, border-color 150ms`,
           }}
@@ -237,7 +154,7 @@ function FaviconTile({
             src="/logo.svg"
             alt="Sketch Up logo"
             draggable={false}
-            className="h-full w-full select-none rounded-[24px] transition-[rotate,scale] duration-300 group-hover:scale-105 border border-[#d9f99d]"
+            className="h-full w-full select-none rounded-[18px_12px_20px_12px/12px_20px_12px_18px] transition-[rotate,scale] duration-300 group-hover:scale-105 border-2 border-ink/25"
             style={{
               rotate: hover ? "-8deg" : "0deg",
               transitionTimingFunction: SPRING,
@@ -276,15 +193,15 @@ function EmptySlotTile({
         target="_blank"
         rel="noreferrer"
         aria-label="Empty sponsor slot — Click to sponsor"
-        className="group relative block h-[76px] w-[76px] cursor-pointer outline-none sm:h-24 sm:w-24 focus-visible:ring-2 focus-visible:ring-zinc-400 focus-visible:ring-offset-2 rounded-[24px]"
+        className="group relative block h-[76px] w-[76px] cursor-pointer outline-none sm:h-24 sm:w-24 focus-visible:ring-2 focus-visible:ring-pen focus-visible:ring-offset-2 rounded-[18px_12px_20px_12px/12px_20px_12px_18px]"
       >
         {/* Inner visual box: ONLY this translates on group-hover to prevent edge flickering */}
         <div
-          className="relative flex h-full w-full items-center justify-center rounded-[24px] group-hover:-translate-y-1.5 active:scale-95"
+          className="relative flex h-full w-full items-center justify-center rounded-[18px_12px_20px_12px/12px_20px_12px_18px] group-hover:-translate-y-1.5 active:scale-95"
           style={{
-            background: "#f4f4f5", // empty grey div box
-            border: "1px solid #e4e4e7",
-            boxShadow: "inset 0 1px 0 #fff, 0 1px 2px rgba(0,0,0,0.04)",
+            background: "var(--paper-card)", // empty grey div box
+            border: "2px solid rgba(36,36,42,0.28)",
+            boxShadow: "3px 3px 0 rgba(36,36,42,0.08)",
             transition: `transform 350ms ${SPRING}, box-shadow 250ms ease, border-color 150ms`,
           }}
         >
@@ -294,7 +211,7 @@ function EmptySlotTile({
             stroke="currentColor"
             strokeWidth="2.2"
             strokeLinecap="round"
-            className="h-7 w-7 sm:h-8 sm:w-8 text-zinc-400 transition-[transform,color] duration-300 group-hover:rotate-90 group-hover:text-zinc-800"
+            className="h-7 w-7 sm:h-8 sm:w-8 text-ink-muted transition-[transform,color] duration-300 group-hover:rotate-90 group-hover:text-ink-soft"
             style={{ transitionTimingFunction: SPRING }}
           >
             <path d="M12 5v14M5 12h14" />
@@ -334,14 +251,14 @@ function GitHubTile({
         aria-label="Sponsor on GitHub"
         onPointerEnter={() => setHover(true)}
         onPointerLeave={() => setHover(false)}
-        className="group relative block h-[76px] w-[76px] cursor-pointer outline-none sm:h-24 sm:w-24 focus-visible:ring-2 focus-visible:ring-zinc-400 focus-visible:ring-offset-2 rounded-[24px]"
+        className="group relative block h-[76px] w-[76px] cursor-pointer outline-none sm:h-24 sm:w-24 focus-visible:ring-2 focus-visible:ring-pen focus-visible:ring-offset-2 rounded-[18px_12px_20px_12px/12px_20px_12px_18px]"
       >
         {/* Inner visual box: ONLY this translates on group-hover to prevent edge flickering */}
         <div
-          className="relative flex h-full w-full items-center justify-center rounded-[24px] group-hover:-translate-y-1.5 active:scale-95"
+          className="relative flex h-full w-full items-center justify-center rounded-[18px_12px_20px_12px/12px_20px_12px_18px] group-hover:-translate-y-1.5 active:scale-95"
           style={{
-            background: "#f4f4f5", // light grey background from GitHub
-            border: "1px solid #e4e4e7",
+            background: "var(--paper-card)", // light grey background from GitHub
+            border: "2px solid rgba(36,36,42,0.28)",
             boxShadow: "inset 0 1px 0 #fff, 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px -2px rgba(0,0,0,0.04)",
             transition: `transform 350ms ${SPRING}, box-shadow 250ms ease, border-color 150ms`,
           }}
@@ -349,7 +266,7 @@ function GitHubTile({
           <svg
             viewBox="0 0 24 24"
             fill="currentColor"
-            className="h-8 w-8 sm:h-9 sm:w-9 text-zinc-900 transition-[transform,color] duration-300 group-hover:scale-110 group-hover:text-black"
+            className="h-8 w-8 sm:h-9 sm:w-9 text-ink transition-[transform,color] duration-300 group-hover:scale-110 group-hover:text-black"
             style={{
               rotate: hover ? "-6deg" : "0deg",
               transitionTimingFunction: SPRING,
@@ -363,7 +280,7 @@ function GitHubTile({
           </svg>
 
           {/* Mini Plus Badge */}
-          <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-zinc-900 text-white shadow-xs transition-transform duration-300 group-hover:scale-125">
+          <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-ink text-white shadow-xs transition-transform duration-300 group-hover:scale-125">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="h-3 w-3">
               <path d="M12 5v14M5 12h14" />
             </svg>
@@ -403,15 +320,15 @@ function CoffeeTile({
         aria-label="Buy me a coffee"
         onPointerEnter={() => setHover(true)}
         onPointerLeave={() => setHover(false)}
-        className="group relative block h-[76px] w-[76px] cursor-pointer outline-none sm:h-24 sm:w-24 focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-[24px]"
+        className="group relative block h-[76px] w-[76px] cursor-pointer outline-none sm:h-24 sm:w-24 focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 rounded-[18px_12px_20px_12px/12px_20px_12px_18px]"
       >
         {/* Inner visual box: ONLY this translates on group-hover to prevent edge flickering */}
         <div
-          className="relative flex h-full w-full items-center justify-center rounded-[24px] group-hover:-translate-y-1.5 active:scale-95"
+          className="relative flex h-full w-full items-center justify-center rounded-[18px_12px_20px_12px/12px_20px_12px_18px] group-hover:-translate-y-1.5 active:scale-95"
           style={{
-            background: "#fef9c3", // light yellow background from Buy Me a Coffee
-            border: "1px solid #fde047",
-            boxShadow: "inset 0 1px 0 #fff, 0 1px 3px rgba(202,138,4,0.12), 0 4px 12px -2px rgba(202,138,4,0.06)",
+            background: "#fdf6d4", // light yellow background from Buy Me a Coffee
+            border: "2px solid rgba(36,36,42,0.24)",
+            boxShadow: "3px 3px 0 rgba(36,36,42,0.08)",
             transition: `transform 350ms ${SPRING}, box-shadow 250ms ease, border-color 150ms`,
           }}
         >
@@ -476,13 +393,13 @@ function TwitterTile({
         aria-label="Talk in DM on X"
         onPointerEnter={() => setHover(true)}
         onPointerLeave={() => setHover(false)}
-        className="group relative block h-[76px] w-[76px] cursor-pointer outline-none sm:h-24 sm:w-24 focus-visible:ring-2 focus-visible:ring-zinc-400 focus-visible:ring-offset-2 rounded-[24px]"
+        className="group relative block h-[76px] w-[76px] cursor-pointer outline-none sm:h-24 sm:w-24 focus-visible:ring-2 focus-visible:ring-pen focus-visible:ring-offset-2 rounded-[18px_12px_20px_12px/12px_20px_12px_18px]"
       >
         {/* Inner visual box: ONLY this translates on group-hover to prevent edge flickering */}
         <div
-          className="relative flex h-full w-full items-center justify-center rounded-[24px] group-hover:-translate-y-1.5 active:scale-95"
+          className="relative flex h-full w-full items-center justify-center rounded-[18px_12px_20px_12px/12px_20px_12px_18px] group-hover:-translate-y-1.5 active:scale-95"
           style={{
-            background: "#e4e4e7", // light blackish / graphite to match the other 2
+            background: "#ece6d8", // light blackish / graphite to match the other 2
             border: "1px solid #d4d4d8",
             boxShadow: "inset 0 1px 0 #fff, 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px -2px rgba(0,0,0,0.05)",
             transition: `transform 350ms ${SPRING}, box-shadow 250ms ease, border-color 150ms`,
@@ -576,12 +493,12 @@ export default function Sponsor() {
         }
       `}</style>
 
-     
+
       {/* Clean section content without border or shadow */}
       <div className="relative mx-auto max-w-3xl sm:max-w-4xl px-2 sm:px-4">
         {/* Heading: Geist font, normal font weight font-sans */}
         <MotionBlur inView={inView} delay={0}>
-          <h2 className="flex items-center gap-3 font-sans text-4xl sm:text-4xl md:text-6xl font-normal tracking-tight text-zinc-900">
+          <h2 className="flex items-center gap-3 font-display text-[2.25rem] font-[550] tracking-tight text-ink sm:text-5xl md:text-6xl">
             Sponsors.
             <img
               src="/stickers/face.svg"
@@ -599,7 +516,7 @@ export default function Sponsor() {
 
         {/* Narrative paragraph */}
         <MotionBlur inView={inView} delay={100}>
-          <p className="mt-5 text-lg sm:text-xl md:text-[22px] leading-relaxed text-zinc-600 max-w-3xl">
+          <p className="mt-5 max-w-3xl text-[17px] leading-relaxed text-ink-soft sm:text-xl">
             You just scrolled to the good part of the page. Sketch Up is built by
             one student, for everyone, and it keeps going because of kind sponsors like you.
           </p>
@@ -607,8 +524,8 @@ export default function Sponsor() {
 
         {/* "Slots are empty" text note */}
         <MotionBlur inView={inView} delay={160}>
-          <div className="mt-7 sm:mt-8 flex items-center gap-2 text-sm sm:text-base font-normal text-zinc-500">
-           
+          <div className="mt-7 flex items-center gap-2 font-hand text-[15px] text-ink-muted sm:mt-8 sm:text-base">
+
             <span>Slots are empty, click any slot to add your logo</span>
           </div>
         </MotionBlur>
@@ -626,14 +543,14 @@ export default function Sponsor() {
 
         {/* Sign-off linking to portfolio */}
         <MotionBlur inView={inView} delay={450}>
-          <p className="mt-10 sm:mt-12 text-lg sm:text-xl md:text-[22px] font-normal leading-snug text-zinc-700">
+          <p className="mt-10 font-display text-xl leading-snug text-ink-soft sm:mt-12 sm:text-2xl">
             Thank you all.
             <br />
             <a
               href="https://samworks.vercel.app/"
               target="_blank"
               rel="noreferrer"
-              className="inline-block text-zinc-900 transition-colors hover:text-black hover:underline underline-offset-4"
+              className="inline-block text-ink underline decoration-pen decoration-2 underline-offset-4 transition-colors hover:text-pen"
             >
               Sam.
             </a>

@@ -108,7 +108,7 @@ const COLUMNS: FooterColumn[] = [
     title: "Product",
     links: [
       { label: "Stickers", href: "/stickers", sticker: "/stickers/face.svg", rot: 12 },
-      { label: "Docs", href: "/stickers#docs", sticker: "/stickers/panda-bear-1.svg", rot: -8 },
+      { label: "Docs", href: "/usage", sticker: "/stickers/panda-bear-1.svg", rot: -8 },
       { label: "npm", href: "https://www.npmjs.com/package/stick-it-up", sticker: "/stickers/panda-bear-1.svg", rot: 6 },
       { label: "Releases", href: "https://github.com/Sam721166/stick-it-up/releases", sticker: "/stickers/panda-bear-2.svg", rot: -10 },
     ],
@@ -271,10 +271,12 @@ export default function Footer() {
     <>
       <footer
         ref={ref}
-        className="relative z-10 -mx-5 overflow-hidden px-6 pt-14 sm:px-12 sm:pt-16"
+        className="relative z-10 w-full overflow-hidden px-6 pt-14 sm:px-12 sm:pt-16"
         style={{
-          background:
-            "linear-gradient(180deg, #ffffff 0%, #e6f2ff 26%, #8cc7fb 62%, #52aef9 100%)",
+          backgroundColor: "var(--paper-deep)",
+          backgroundImage:
+            "radial-gradient(circle at 50% -20%, rgba(255,255,255,0.85), transparent 60%), repeating-linear-gradient(to bottom, transparent 0 31px, rgba(219,228,242,0.9) 31px 32px)",
+          borderTop: "2px solid rgba(36,36,42,0.28)",
         }}
       >
         {/* paper grain */}
@@ -286,7 +288,7 @@ export default function Footer() {
         {/* top: tagline + links */}
         <div className="relative z-10 mx-auto grid max-w-5xl gap-12 lg:grid-cols-[1fr_1.85fr] lg:gap-14">
           <MotionBlur inView={inView} delay={0} className="text-center lg:text-left">
-            <p className="font-sans text-3xl font-normal leading-[1.1] tracking-tight text-zinc-900 sm:text-4xl">
+            <p className="font-display text-[1.9rem] font-[550] leading-[1.15] tracking-tight text-ink sm:text-4xl">
               Stick it on.
               <br />
               Ship it fun
@@ -302,7 +304,7 @@ export default function Footer() {
                 delay={140 + ci * 80}
                 className={["sm:mt-0", "sm:mt-10", "sm:mt-3", "sm:mt-14"][ci]}
               >
-                <h3 className="text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-400">
+                <h3 className="font-hand text-[13px] uppercase tracking-[0.16em] text-ink-muted">
                   {col.title}
                 </h3>
                 <ul className="mt-4 space-y-2.5">
@@ -312,7 +314,7 @@ export default function Footer() {
                         <button
                           type="button"
                           onClick={() => setModalTab(link.action!)}
-                          className="group relative inline-flex cursor-pointer items-center py-0.5 text-sm font-medium text-zinc-500 transition-colors duration-200 hover:text-zinc-900 text-left"
+                          className="group relative inline-flex cursor-pointer items-center py-0.5 text-[15px] text-ink-muted transition-colors duration-200 hover:text-ink text-left"
                         >
                           <span>{link.label}</span>
                           <span
@@ -337,7 +339,7 @@ export default function Footer() {
                           href={link.href}
                           target="_blank"
                           rel="noreferrer"
-                          className="group relative inline-flex items-center py-0.5 text-sm font-medium text-zinc-500 transition-colors duration-200 hover:text-zinc-900"
+                          className="group relative inline-flex items-center py-0.5 text-[15px] text-ink-muted transition-colors duration-200 hover:text-ink"
                         >
                           <span>{link.label}</span>
                           <span
@@ -360,17 +362,7 @@ export default function Footer() {
                       ) : (
                         <Link
                           href={link.href || "#"}
-                          onClick={(e) => {
-                            if (link.href?.includes("#docs") && window.location.pathname === "/stickers") {
-                              const el = document.getElementById("docs");
-                              if (el) {
-                                e.preventDefault();
-                                el.scrollIntoView({ behavior: "smooth" });
-                                window.history.pushState(null, "", "#docs");
-                              }
-                            }
-                          }}
-                          className="group relative inline-flex items-center py-0.5 text-sm font-medium text-zinc-500 transition-colors duration-200 hover:text-zinc-900"
+                          className="group relative inline-flex items-center py-0.5 text-[15px] text-ink-muted transition-colors duration-200 hover:text-ink"
                         >
                           <span>{link.label}</span>
                           <span
@@ -403,17 +395,17 @@ export default function Footer() {
         <MotionBlur
           inView={inView}
           delay={380}
-          className="relative z-10 -mx-6 mt-14 sm:-mx-12 sm:mt-20"
+          className="relative z-10 mt-14 sm:mt-20"
         >
           <div className="relative select-none" style={{ containerType: "inline-size" }}>
             <div
               aria-hidden
-              className="overflow-hidden whitespace-nowrap text-center font-bold leading-[0.8] tracking-[-0.055em] text-white"
+              className="overflow-hidden whitespace-nowrap text-center font-display font-[600] leading-[0.8] tracking-[-0.04em] text-ink"
               style={{
                 fontSize: "21cqw",
                 height: "14.5cqw",
                 marginBottom: "-2cqw",
-                textShadow: "0 0.02em 0 rgba(20,90,190,0.25)",
+                textShadow: "0 0.02em 0 rgba(36,36,42,0.12)",
               }}
             >
               Sketch Up
@@ -441,10 +433,10 @@ export default function Footer() {
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative flex max-h-[85vh] w-full max-w-xl flex-col rounded-3xl border border-zinc-200/80 bg-white shadow-2xl transition-transform duration-200"
+            className="relative flex max-h-[85vh] w-full max-w-xl flex-col rounded-[22px_14px_24px_14px/14px_24px_14px_22px] border-2 border-ink/45 bg-paper-card shadow-[5px_6px_0_rgba(36,36,42,0.14),0_24px_60px_rgba(0,0,0,0.2)] transition-transform duration-200"
           >
             {/* Modal Header */}
-            <div className="flex items-center justify-between border-b border-zinc-100 px-6 py-4">
+            <div className="flex items-center justify-between border-b-2 border-ink/15 px-6 py-4">
               <div className="flex flex-wrap items-center gap-1.5">
                 {[
                   { id: "privacy", label: "Privacy Policy" },
@@ -458,8 +450,8 @@ export default function Footer() {
                     onClick={() => setModalTab(tab.id as LegalModalTab)}
                     className={`cursor-pointer rounded-xl px-3 py-1.5 text-xs font-medium transition-all duration-150 ${
                       modalTab === tab.id
-                        ? "bg-zinc-900 text-white shadow-xs"
-                        : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"
+                        ? "bg-pen text-paper-card"
+                        : "text-ink-muted hover:bg-paper-deep hover:text-ink"
                     }`}
                   >
                     {tab.label}
@@ -470,7 +462,7 @@ export default function Footer() {
               <button
                 type="button"
                 onClick={() => setModalTab(null)}
-                className="ml-3 inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-700"
+                className="ml-3 inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-ink-muted transition-colors hover:bg-paper-deep hover:text-ink"
                 title="Close (Esc)"
                 aria-label="Close"
               >
@@ -482,29 +474,29 @@ export default function Footer() {
             </div>
 
             {/* Modal Scrollable Content */}
-            <div className="max-h-[calc(85vh-72px)] overflow-y-auto px-6 py-6 text-sm text-zinc-600">
+            <div className="max-h-[calc(85vh-72px)] overflow-y-auto px-6 py-6 text-[15px] text-ink-soft">
               {modalTab === "privacy" && (
                 <div className="space-y-5">
                   <div>
-                    <h3 className="text-base font-semibold tracking-tight text-zinc-900">
+                    <h3 className="font-display text-lg font-[550] tracking-tight text-ink">
                       Privacy Policy
                     </h3>
-                    <p className="mt-1 text-xs text-zinc-400">
+                    <p className="mt-1 font-hand text-[13px] text-ink-muted">
                       Zero tracking, zero ads, zero data selling.
                     </p>
                   </div>
-                  <p className="text-xs leading-relaxed text-zinc-600">
+                  <p className="text-[13.5px] leading-relaxed text-ink-soft">
                     Sketch Up is built with a minimal, privacy-first mindset. We do not track you across the web, use advertising cookies, or collect personal identifiers.
                   </p>
-                  <div className="divide-y divide-zinc-100 border-y border-zinc-100 text-xs text-zinc-600">
+                  <div className="divide-y divide-ink/10 border-y-2 border-ink/12 text-[13.5px] text-ink-soft">
                     <div className="py-2.5">
-                      <span className="font-medium text-zinc-900">Zero Personal Data:</span> We do not collect names, emails, passwords, phone numbers, or payment info. No account registration is required to use the package or site.
+                      <span className="font-medium text-ink">Zero Personal Data:</span> We do not collect names, emails, passwords, phone numbers, or payment info. No account registration is required to use the package or site.
                     </div>
                     <div className="py-2.5">
-                      <span className="font-medium text-zinc-900">Anonymous Visitor Counter:</span> When a visitor loads the site, an anonymous aggregate numeric counter increments. We do not record IP addresses, device fingerprints, or locations.
+                      <span className="font-medium text-ink">Anonymous Visitor Counter:</span> When a visitor loads the site, an anonymous aggregate numeric counter increments. We do not record IP addresses, device fingerprints, or locations.
                     </div>
                     <div className="py-2.5">
-                      <span className="font-medium text-zinc-900">Local Storage Only:</span> Browser storage is strictly used on your own device for client-side UI states (such as remembering copied snippets or active preview preferences).
+                      <span className="font-medium text-ink">Local Storage Only:</span> Browser storage is strictly used on your own device for client-side UI states (such as remembering copied snippets or active preview preferences).
                     </div>
                   </div>
                 </div>
@@ -513,14 +505,14 @@ export default function Footer() {
               {modalTab === "disclaimer" && (
                 <div className="space-y-5">
                   <div>
-                    <h3 className="text-base font-semibold tracking-tight text-zinc-900">
+                    <h3 className="font-display text-lg font-[550] tracking-tight text-ink">
                       Art &amp; Copyright Notice
                     </h3>
-                    <p className="mt-1 text-xs text-zinc-400">
+                    <p className="mt-1 font-hand text-[13px] text-ink-muted">
                       Curated for open-source &amp; educational fun.
                     </p>
                   </div>
-                  <div className="space-y-2.5 text-xs leading-relaxed text-zinc-600">
+                  <div className="space-y-2.5 text-[13.5px] leading-relaxed text-ink-soft">
                     <p>
                       Stickers in this library are vector decals curated and adapted from creative hubs across the internet (such as Pinterest, community showcases, and open packs) for educational, personal, and open-source UI experimentation.
                     </p>
@@ -528,7 +520,7 @@ export default function Footer() {
                       <strong>We do not claim copyright or ownership</strong> over original character illustrations or art styles. All original copyrights remain strictly with their respective creators and rights holders.
                     </p>
                   </div>
-                  <div className="border-t border-zinc-100 pt-3.5 text-xs text-zinc-600">
+                  <div className="border-t-2 border-ink/12 pt-3.5 text-[13.5px] text-ink-soft">
                     <p>
                       If you are an artist or rights holder and see your artwork here, please reach out before filing strikes. We will gladly add full attribution with links to your shop/portfolio, or remove it within a few days with zero friction.
                     </p>
@@ -536,7 +528,7 @@ export default function Footer() {
                       <button
                         type="button"
                         onClick={() => setModalTab("takedown")}
-                        className="cursor-pointer text-xs font-medium text-zinc-900 underline underline-offset-4 hover:text-zinc-600"
+                        className="cursor-pointer text-xs font-medium text-ink underline underline-offset-4 hover:text-ink-soft"
                       >
                         View takedown request options &rarr;
                       </button>
@@ -548,22 +540,22 @@ export default function Footer() {
               {modalTab === "takedown" && (
                 <div className="space-y-5">
                   <div>
-                    <h3 className="text-base font-semibold tracking-tight text-zinc-900">
+                    <h3 className="font-display text-lg font-[550] tracking-tight text-ink">
                       Takedown &amp; Attribution Request
                     </h3>
-                    <p className="mt-1 text-xs text-zinc-400">
+                    <p className="mt-1 font-hand text-[13px] text-ink-muted">
                       Prompt removal or backlink attribution for rights holders.
                     </p>
                   </div>
-                  <p className="text-xs leading-relaxed text-zinc-600">
+                  <p className="text-[13.5px] leading-relaxed text-ink-soft">
                     If you own the rights to any artwork featured in this project, we want to respect your wishes. Send a message and we will handle it within a few days:
                   </p>
-                  <div className="divide-y divide-zinc-100 border-y border-zinc-100 text-xs text-zinc-600">
+                  <div className="divide-y divide-ink/10 border-y-2 border-ink/12 text-[13.5px] text-ink-soft">
                     <div className="py-2.5">
-                      <span className="font-medium text-zinc-900">Want attribution?</span> We will gladly add your name, portfolio link, store, or social handles directly to the sticker&apos;s catalog entry.
+                      <span className="font-medium text-ink">Want attribution?</span> We will gladly add your name, portfolio link, store, or social handles directly to the sticker&apos;s catalog entry.
                     </div>
                     <div className="py-2.5">
-                      <span className="font-medium text-zinc-900">Want it removed?</span> No paperwork or legal notices needed. Send a message and we will remove the file within a few days.
+                      <span className="font-medium text-ink">Want it removed?</span> No paperwork or legal notices needed. Send a message and we will remove the file within a few days.
                     </div>
                   </div>
                   <div className="flex flex-wrap items-center gap-2.5 pt-1">
@@ -571,7 +563,7 @@ export default function Footer() {
                       href="https://github.com/Sam721166/stick-it-up/issues/new?labels=takedown&title=[Artwork+Takedown+Request]:+"
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center gap-1.5 rounded-xl bg-zinc-900 px-3.5 py-2 text-xs font-medium text-white shadow-xs transition-colors hover:bg-zinc-800"
+                      className="inline-flex items-center gap-1.5 rounded-[10px_7px_11px_7px/7px_11px_7px_10px] border-2 border-ink bg-ink px-3.5 py-2 text-[13px] font-medium text-paper-card shadow-[2px_2px_0_rgba(36,36,42,0.2)] transition-colors"
                     >
                       Open GitHub Request &rarr;
                     </a>
@@ -579,7 +571,7 @@ export default function Footer() {
                       href="https://x.com/samirande_"
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center gap-1.5 rounded-xl border border-zinc-200 bg-white px-3.5 py-2 text-xs font-medium text-zinc-800 shadow-xs transition-colors hover:bg-zinc-50"
+                      className="inline-flex items-center gap-1.5 rounded-[10px_7px_11px_7px/7px_11px_7px_10px] border-2 border-ink/30 bg-paper-card px-3.5 py-2 text-[13px] font-medium text-ink transition-colors hover:border-ink/55"
                     >
                       DM on X / Twitter (@samirande_) &rarr;
                     </a>
@@ -590,34 +582,34 @@ export default function Footer() {
               {modalTab === "license" && (
                 <div className="space-y-5">
                   <div>
-                    <h3 className="text-base font-semibold tracking-tight text-zinc-900">
+                    <h3 className="font-display text-lg font-[550] tracking-tight text-ink">
                       Community &amp; Fair-Use License
                     </h3>
-                    <p className="mt-1 text-xs text-zinc-400">
+                    <p className="mt-1 font-hand text-[13px] text-ink-muted">
                       Free to use, learn, and contribute. No paywalls or repackaged clones.
                     </p>
                   </div>
-                  <p className="text-xs leading-relaxed text-zinc-600">
+                  <p className="text-[13.5px] leading-relaxed text-ink-soft">
                     Sketch Up is an open project built to make web UI more expressive and fun. You are free to use it, explore the code, and contribute, subject to simple community fair-use terms:
                   </p>
-                  <div className="divide-y divide-zinc-100 border-y border-zinc-100 text-xs text-zinc-600">
+                  <div className="divide-y divide-ink/10 border-y-2 border-ink/12 text-[13.5px] text-ink-soft">
                     <div className="py-2.5">
-                      <span className="font-medium text-zinc-900">Free to Use:</span> You are welcome to use these stickers and components freely in your personal projects, open-source apps, developer blogs, and documentation.
+                      <span className="font-medium text-ink">Free to Use:</span> You are welcome to use these stickers and components freely in your personal projects, open-source apps, developer blogs, and documentation.
                     </div>
                     <div className="py-2.5">
-                      <span className="font-medium text-zinc-900">Learn &amp; Explore:</span> You can freely fork, clone, and inspect the repository to learn how the peel shaders, physics hooks, and React components are crafted.
+                      <span className="font-medium text-ink">Learn &amp; Explore:</span> You can freely fork, clone, and inspect the repository to learn how the peel shaders, physics hooks, and React components are crafted.
                     </div>
                     <div className="py-2.5">
-                      <span className="font-medium text-zinc-900">Contribute:</span> You are encouraged to submit bug fixes, improvements, and new stickers directly to the official upstream repository.
+                      <span className="font-medium text-ink">Contribute:</span> You are encouraged to submit bug fixes, improvements, and new stickers directly to the official upstream repository.
                     </div>
                     <div className="py-2.5">
-                      <span className="font-medium text-zinc-900">No Paywalls or Reselling:</span> You may NOT sell, license, or lock this library, its sticker graphics, or derivative components behind a paid paywall or paid subscription.
+                      <span className="font-medium text-ink">No Paywalls or Reselling:</span> You may NOT sell, license, or lock this library, its sticker graphics, or derivative components behind a paid paywall or paid subscription.
                     </div>
                     <div className="py-2.5">
-                      <span className="font-medium text-zinc-900">No Repackaged Clones:</span> You may NOT make minor or trivial modifications and publicly re-host or deploy this project as your own competing sticker catalog or competing package.
+                      <span className="font-medium text-ink">No Repackaged Clones:</span> You may NOT make minor or trivial modifications and publicly re-host or deploy this project as your own competing sticker catalog or competing package.
                     </div>
                   </div>
-                  <div className="rounded-2xl border border-zinc-200/80 bg-zinc-50/60 p-4 font-mono text-[11px] leading-relaxed text-zinc-600 select-all whitespace-pre-wrap">
+                  <div className="whitespace-pre-wrap rounded-[14px_10px_16px_10px/10px_16px_10px_14px] border-2 border-ink/20 bg-paper p-4 font-mono text-[11px] leading-relaxed text-ink-soft select-all">
                     {`Sketch Up Fair-Use & Community License
 Version 1.0 (2026)
 
