@@ -2103,7 +2103,7 @@ export default function StickersCatalogPage() {
   }, []);
 
   return (
-    <div className="relative min-h-screen overflow-x-clip w-full bg-white text-zinc-900 antialiased selection:bg-amber-100 selection:text-amber-900">
+    <div className="relative min-h-screen w-full overflow-x-clip bg-paper text-ink antialiased">
       <style>{`
         @keyframes headerRise {
           from { opacity: 0; transform: translateY(-10px); filter: blur(6px); }
@@ -2125,8 +2125,8 @@ export default function StickersCatalogPage() {
       <header
         className={`fixed top-0 left-0 right-0 z-50 w-full px-4 py-2 transition-[background-color,border-color,box-shadow] duration-200 ${
           isAtTop
-            ? "backdrop-blur-md bg-white/80 border-b border-zinc-100"
-            : "backdrop-blur-md bg-white/90 border-b border-zinc-200/80 shadow-[0_2px_8px_-2px_rgba(0,0,0,0.05),0_1px_2px_rgba(0,0,0,0.02)]"
+            ? "backdrop-blur-md bg-paper/85 border-b-2 border-ink/15"
+            : "backdrop-blur-md bg-paper/95 border-b-2 border-ink/25 shadow-[0_4px_0_rgba(36,36,42,0.06)]"
         }`}
         style={{
           transform: navVisible ? "translate3d(0, 0, 0)" : "translate3d(0, -100%, 0)",
@@ -2144,7 +2144,7 @@ export default function StickersCatalogPage() {
               alt="Sketch Up logo"
               className="h-9 w-9 rounded-lg transition-transform duration-200 group-hover:-rotate-6 group-hover:scale-110"
             />
-            <span className="text-lg font-semibold tracking-tight text-zinc-900">
+            <span className="font-hand text-xl text-ink">
               Sketch Up
             </span>
           </Link>
@@ -2154,7 +2154,7 @@ export default function StickersCatalogPage() {
             <li>
               <Link
                 href="/"
-                className="rounded-lg px-3.5 py-2 text-sm font-medium text-zinc-600 transition-colors duration-150 hover:bg-zinc-100 hover:text-zinc-900"
+                className="rounded-[10px_7px_11px_7px/7px_11px_7px_10px] px-3.5 py-2 text-[15px] text-ink-soft transition-colors duration-150 hover:bg-paper-deep hover:text-ink"
               >
                 Home
               </Link>
@@ -2162,10 +2162,10 @@ export default function StickersCatalogPage() {
             <li>
               <Link
                 href="/stickers"
-                className="rounded-lg bg-zinc-100 px-3.5 py-2 text-sm font-medium text-zinc-900 transition-colors duration-150"
+                className="rounded-[10px_7px_11px_7px/7px_11px_7px_10px] border-2 border-ink/25 bg-paper-card px-3.5 py-2 text-[15px] text-ink"
               >
                 Stickers
-                <span className="ml-1.5 rounded-full bg-zinc-900 px-1.5 py-0.5 text-[10px] font-semibold text-white">
+                <span className="ml-1.5 rounded-full bg-pen px-1.5 py-0.5 font-mono text-[10px] font-semibold text-white">
                   {CATALOG.length}
                 </span>
               </Link>
@@ -2173,7 +2173,7 @@ export default function StickersCatalogPage() {
             <li>
               <Link
                 href="/usage"
-                className="rounded-lg px-3.5 py-2 text-sm font-medium text-zinc-600 transition-colors duration-150 hover:bg-zinc-100 hover:text-zinc-900"
+                className="rounded-[10px_7px_11px_7px/7px_11px_7px_10px] px-3.5 py-2 text-[15px] text-ink-soft transition-colors duration-150 hover:bg-paper-deep hover:text-ink"
               >
                 Usage
               </Link>
@@ -2183,7 +2183,7 @@ export default function StickersCatalogPage() {
                 href="https://www.npmjs.com/package/stick-it-up"
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-lg px-3.5 py-2 text-sm font-medium text-zinc-600 transition-colors duration-150 hover:bg-zinc-100 hover:text-zinc-900"
+                className="rounded-[10px_7px_11px_7px/7px_11px_7px_10px] px-3.5 py-2 text-[15px] text-ink-soft transition-colors duration-150 hover:bg-paper-deep hover:text-ink"
               >
                 npm
               </a>
@@ -2389,9 +2389,9 @@ export default function StickersCatalogPage() {
       ------------------------------------------------------------------- */}
       <main className="mx-auto max-w-6xl px-6 pb-24">
         {filteredStickers.length === 0 ? (
-          <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-zinc-200 py-20 text-center">
-            <p className="font-sans text-xl font-medium text-zinc-700">No stickers found</p>
-            <p className="mt-1 text-sm text-zinc-400">
+          <div className="flex flex-col items-center justify-center rounded-[20px_14px_22px_14px/14px_22px_14px_20px] border-2 border-dashed border-ink/30 py-20 text-center">
+            <p className="font-sans text-xl font-medium text-ink-soft">No stickers found</p>
+            <p className="mt-1 text-sm text-ink-muted">
               Try searching for &ldquo;face&rdquo;, &ldquo;metal&rdquo;, or &ldquo;sparkles&rdquo;.
             </p>
             <button
@@ -2399,7 +2399,7 @@ export default function StickersCatalogPage() {
                 setSelectedCategory("all");
                 setSearchQuery("");
               }}
-              className="mt-4 cursor-pointer rounded-xl bg-zinc-900 px-4 py-2 text-xs font-medium text-white transition-all hover:bg-zinc-800"
+              className="mt-4 cursor-pointer rounded-xl bg-pen px-4 py-2 text-xs font-medium text-white transition-all hover:bg-pen-deep"
             >
               Reset Filters
             </button>
@@ -2417,7 +2417,7 @@ export default function StickersCatalogPage() {
                       contentVisibility: "auto",
                       containIntrinsicSize: "168px",
                     }}
-                    className="group relative flex min-h-[168px] flex-col items-center justify-between rounded-2xl border border-zinc-200/80 bg-white p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-zinc-300 hover:shadow-[0_6px_20px_rgba(0,0,0,0.04)] cursor-pointer"
+                    className="hand-card group relative flex min-h-[168px] cursor-pointer flex-col items-center justify-between p-4 hover:-translate-y-1"
                   >
                     {/* Subtle top-right copy button on hover */}
                     <button
@@ -2427,13 +2427,13 @@ export default function StickersCatalogPage() {
                       className={`absolute right-2.5 top-2.5 rounded-lg p-1.5 transition-all ${
                         isCopied
                           ? "opacity-100 bg-emerald-50 text-emerald-600"
-                          : "opacity-0 group-hover:opacity-100 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700"
+                          : "opacity-0 group-hover:opacity-100 text-ink-muted hover:bg-paper-deep hover:text-ink-soft"
                       }`}
                     >
                       {isCopied ? (
                         <LuCopyCheck className="h-3.5 w-3.5 text-emerald-600" />
                       ) : (
-                        <LuCopy className="h-3.5 w-3.5 text-zinc-400 group-hover:text-zinc-600" />
+                        <LuCopy className="h-3.5 w-3.5 text-ink-muted group-hover:text-ink-soft" />
                       )}
                     </button>
 
@@ -2450,7 +2450,7 @@ export default function StickersCatalogPage() {
                     </div>
 
                     {/* Name matches code prop */}
-                    <span className="w-full truncate text-center font-sans text-xs font-medium text-zinc-600  transition-colors duration-150 group-hover:text-zinc-950">
+                    <span className="w-full truncate text-center font-hand text-[15px] text-ink-soft transition-colors duration-150 group-hover:text-ink">
                       {item.name}
                     </span>
                   </div>
@@ -2462,9 +2462,9 @@ export default function StickersCatalogPage() {
             {visibleCount < filteredStickers.length && (
               <div
                 ref={loadMoreRef}
-                className="mt-8 flex items-center justify-center py-4 text-xs text-zinc-400"
+                className="mt-8 flex items-center justify-center py-4 text-xs text-ink-muted"
               >
-                <span className="inline-flex items-center gap-2 rounded-full border border-zinc-200/80 bg-zinc-50 px-3.5 py-1.5 font-medium text-zinc-600 shadow-sm">
+                <span className="inline-flex items-center gap-2 rounded-full border-2 border-ink/20 bg-paper-card px-3.5 py-1.5 text-[15px] text-ink-soft">
                   <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
                   Showing {visibleStickers.length} of {filteredStickers.length} stickers — scroll for more
                 </span>
@@ -2558,14 +2558,13 @@ export default function StickersCatalogPage() {
     }
 
     const backgrounds = [
-      { id: "white", label: "White", swatch: "bg-white border-zinc-300", stage: "bg-white" },
-      { id: "zinc", label: "Dark", swatch: "bg-zinc-900 border-zinc-700", stage: "bg-zinc-950" },
+      { id: "white", label: "White", swatch: "bg-white border-ink/30", stage: "bg-white" },
+      { id: "zinc", label: "Dark", swatch: "bg-ink border-ink", stage: "bg-ink" },
       { id: "warm", label: "Warm", swatch: "bg-amber-100 border-amber-300", stage: "bg-[#fff7ed]" },
       { id: "blue", label: "Cool", swatch: "bg-blue-100 border-blue-300", stage: "bg-[#eff6ff]" },
     ] as const;
 
     const stage = backgrounds.find((b) => b.id === inspectorBg) ?? backgrounds[0];
-    const dark = inspectorBg === "zinc";
 
     return (
       <div
@@ -2577,12 +2576,12 @@ export default function StickersCatalogPage() {
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          className="relative flex max-h-[92vh] w-full max-w-md flex-col overflow-y-auto rounded-3xl bg-white shadow-[0_1px_2px_rgba(0,0,0,0.08),0_24px_60px_rgba(0,0,0,0.18)] animate-in fade-in zoom-in-95 duration-200"
+          className="relative flex max-h-[92vh] w-full max-w-md flex-col overflow-y-auto rounded-[24px_16px_26px_16px/16px_26px_16px_24px] border-2 border-ink/40 bg-paper-card shadow-[5px_6px_0_rgba(36,36,42,0.12),0_24px_60px_rgba(0,0,0,0.18)] animate-in fade-in zoom-in-95 duration-200"
         >
           {/* Header */}
           <div className="flex items-start justify-between gap-4 px-6 pt-6">
             <div>
-              <h3 className="font-mono text-lg font-semibold tracking-tight text-zinc-900">
+              <h3 className="font-display text-xl font-[550] tracking-tight text-ink">
                 {activeItem.name}
               </h3>
             </div>
@@ -2590,7 +2589,7 @@ export default function StickersCatalogPage() {
               type="button"
               onClick={() => setActiveItem(null)}
               aria-label="Close"
-              className="-mr-2 -mt-1 shrink-0 cursor-pointer rounded-full p-2 text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-700"
+              className="-mr-2 -mt-1 shrink-0 cursor-pointer rounded-full p-2 text-ink-muted transition-colors hover:bg-paper-deep hover:text-ink-soft"
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4">
                 <path d="M18 6 6 18M6 6l12 12" />
@@ -2601,7 +2600,7 @@ export default function StickersCatalogPage() {
           {/* Preview */}
           <div className="px-6 pt-5">
             <div
-              className={`relative flex h-48 items-center justify-center rounded-2xl border border-zinc-200 transition-colors duration-300 ${stage.stage}`}
+              className={`relative flex h-48 items-center justify-center rounded-[18px_12px_20px_12px/12px_20px_12px_18px] border-2 border-ink/25 transition-colors duration-300 ${stage.stage}`}
             >
               <div id="inspector-sticker-stage" className="relative">
                 <StickerVisual
@@ -2614,16 +2613,16 @@ export default function StickersCatalogPage() {
                   rotate={activeItem.format === "trazo" ? inspectorRotate : undefined}
                 />
               </div>
-              
+
             </div>
             {activeItem.attribution && (
-              <p className="mt-2 text-[11px] leading-relaxed text-zinc-500">
+              <p className="mt-2 text-[11px] leading-relaxed text-ink-muted">
                 Photo source:{" "}
                 <a
                   href={activeItem.attribution.filePageUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="underline decoration-zinc-300 underline-offset-2 hover:text-zinc-800"
+                  className="underline decoration-ink/35 underline-offset-2 hover:text-ink-soft"
                 >
                   {activeItem.attribution.sourceTitle.replace("File:", "")}
                 </a>{" "}
@@ -2635,7 +2634,7 @@ export default function StickersCatalogPage() {
           {/* Controls */}
           <div className="space-y-3.5 px-6 pt-5 text-xs">
             <div className="flex items-center gap-4">
-              <span className="w-20 shrink-0 font-medium text-zinc-500">Size</span>
+              <span className="w-20 shrink-0 font-medium text-ink-muted">Size</span>
               <input
                 type="range"
                 min="48"
@@ -2643,9 +2642,9 @@ export default function StickersCatalogPage() {
                 value={inspectorSize}
                 onChange={(e) => setInspectorSize(Number(e.target.value))}
                 aria-label="Sticker size"
-                className="h-1 flex-1 cursor-pointer accent-zinc-900"
+                className="h-1 flex-1 cursor-pointer accent-pen"
               />
-              <span className="w-11 text-right font-mono text-[11px] text-zinc-500">
+              <span className="w-11 text-right font-mono text-[11px] text-ink-muted">
                 {inspectorSize}px
               </span>
             </div>
@@ -2653,8 +2652,8 @@ export default function StickersCatalogPage() {
             {activeItem.format === "trazo" && (
               <>
                 <div className="flex items-center gap-4">
-                  <span className="w-20 shrink-0 font-medium text-zinc-500">Color</span>
-                  <select value={inspectorColor} onChange={(e)=>setInspectorColor(e.target.value)} className="flex-1 rounded-lg border border-zinc-200 bg-white px-2 py-1.5 text-xs">
+                  <span className="w-20 shrink-0 font-medium text-ink-muted">Color</span>
+                  <select value={inspectorColor} onChange={(e)=>setInspectorColor(e.target.value)} className="flex-1 rounded-lg border-2 border-ink/25 bg-paper-card px-2 py-1.5 text-sm">
                     <option value="mix">Mix (original)</option>
                     <option value="#1f1e1b">Ink</option>
                     <option value="#ef4444">Coral</option>
@@ -2667,16 +2666,16 @@ export default function StickersCatalogPage() {
                   </select>
                 </div>
                 <div className="flex items-center gap-4">
-                  <span className="w-20 shrink-0 font-medium text-zinc-500">Rotate</span>
-                  <input type="range" min="-180" max="180" value={inspectorRotate} onChange={(e)=>setInspectorRotate(Number(e.target.value))} className="h-1 flex-1 cursor-pointer accent-zinc-900" />
-                  <span className="w-11 text-right font-mono text-[11px] text-zinc-500">{inspectorRotate}°</span>
+                  <span className="w-20 shrink-0 font-medium text-ink-muted">Rotate</span>
+                  <input type="range" min="-180" max="180" value={inspectorRotate} onChange={(e)=>setInspectorRotate(Number(e.target.value))} className="h-1 flex-1 cursor-pointer accent-pen" />
+                  <span className="w-11 text-right font-mono text-[11px] text-ink-muted">{inspectorRotate}°</span>
                 </div>
               </>
             )}
             {/* Background + Peel effect (same flex row, justify-between) */}
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-3">
-                <span className="font-medium text-zinc-500">Background</span>
+                <span className="font-medium text-ink-muted">Background</span>
                 <div className="flex items-center gap-2">
                   {backgrounds.map((b) => (
                     <button
@@ -2688,7 +2687,7 @@ export default function StickersCatalogPage() {
                       onClick={() => setInspectorBg(b.id)}
                       className={`h-5 w-5 cursor-pointer rounded-full border transition-transform ${b.swatch} ${
                         inspectorBg === b.id
-                          ? "scale-110 ring-2 ring-zinc-900 ring-offset-2"
+                          ? "scale-110 ring-2 ring-pen ring-offset-2"
                           : "hover:scale-110"
                       }`}
                     />
@@ -2697,7 +2696,7 @@ export default function StickersCatalogPage() {
               </div>
 
               <div className="flex items-center gap-3">
-                <span className="font-medium text-zinc-500">Peel effect</span>
+                <span className="font-medium text-ink-muted">Peel effect</span>
                 <button
                   type="button"
                   role="switch"
@@ -2705,7 +2704,7 @@ export default function StickersCatalogPage() {
                   aria-label="Peel effect on hover"
                   onClick={() => setInspectorPeel(!inspectorPeel)}
                   className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full transition-colors duration-200 ${
-                    inspectorPeel ? "bg-zinc-900" : "bg-zinc-300"
+                    inspectorPeel ? "bg-pen" : "bg-ink/25"
                   }`}
                 >
                   <span
@@ -2721,11 +2720,11 @@ export default function StickersCatalogPage() {
           {/* Usage */}
           <div className="px-6 pb-6 pt-6">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-zinc-900">Usage</span>
+              <span className="font-hand text-base text-ink">Usage</span>
               <button
                 type="button"
                 onClick={downloadSvg}
-                className="inline-flex cursor-pointer items-center gap-1.5 rounded-md bg-zinc-100 px-2.5 py-1 text-[11px] font-medium text-zinc-700 transition-colors hover:bg-zinc-200 hover:text-zinc-900 active:scale-95"
+                className="inline-flex cursor-pointer items-center gap-1.5 rounded-[8px_6px_9px_6px/6px_9px_6px_8px] border-2 border-ink/25 bg-paper-card px-2.5 py-1 font-hand text-[13px] text-ink-soft transition-colors hover:border-ink/45 hover:text-ink active:scale-95"
               >
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-3.5 w-3.5">
                   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
@@ -2734,16 +2733,16 @@ export default function StickersCatalogPage() {
               </button>
             </div>
 
-            <div className="mt-2.5 overflow-hidden rounded-xl border border-zinc-200 bg-zinc-50">
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-200 bg-white px-3 py-2">
+            <div className="mt-2.5 overflow-hidden rounded-[14px_10px_16px_10px/10px_16px_10px_14px] border-2 border-ink/20 bg-paper">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b-2 border-ink/15 bg-paper-card px-3 py-2">
                 <div className="flex items-center gap-1.5">
                   <button
                     type="button"
                     onClick={() => setSnippetTab("named")}
                     className={`cursor-pointer rounded-lg px-2.5 py-1 text-[11px] font-medium transition-all ${
                       snippetTab === "named"
-                        ? "bg-zinc-900 text-white shadow-sm"
-                        : "text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800"
+                        ? "bg-pen text-white shadow-sm"
+                        : "text-ink-muted hover:bg-paper-deep hover:text-ink-soft"
                     }`}
                   >
                     Direct Import
@@ -2753,13 +2752,13 @@ export default function StickersCatalogPage() {
                     onClick={() => setSnippetTab("dynamic")}
                     className={`cursor-pointer rounded-lg px-2.5 py-1 text-[11px] font-medium transition-all ${
                       snippetTab === "dynamic"
-                        ? "bg-zinc-900 text-white shadow-sm"
-                        : "text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800"
+                        ? "bg-pen text-white shadow-sm"
+                        : "text-ink-muted hover:bg-paper-deep hover:text-ink-soft"
                     }`}
                   >
                     Dynamic
                   </button>
-                 
+
                 </div>
                 <button
                   type="button"
@@ -2767,7 +2766,7 @@ export default function StickersCatalogPage() {
                   className={`inline-flex h-[26px] items-center justify-center cursor-pointer rounded-md border px-2.5 text-[11px] font-medium leading-none transition-all active:scale-95 ${
                     copied
                       ? "border-emerald-200 bg-emerald-100 text-emerald-700"
-                      : "border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-100"
+                      : "border-ink/20 bg-white text-ink-soft hover:bg-paper-deep"
                   }`}
                 >
                   {copied ? (
@@ -2792,12 +2791,12 @@ export default function StickersCatalogPage() {
                   )}
                 </button>
               </div>
-              <pre className="overflow-x-auto p-4 font-mono text-xs leading-relaxed text-zinc-800">
+              <pre className="overflow-x-auto p-4 font-mono text-xs leading-relaxed text-ink-soft">
                 <code>{code}</code>
               </pre>
             </div>
 
-            
+
           </div>
         </div>
       </div>
