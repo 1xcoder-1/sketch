@@ -1,6 +1,6 @@
 "use client";
 
-import React, {
+import {
   createContext,
   useContext,
   useEffect,
@@ -10,7 +10,7 @@ import React, {
   type ReactNode,
 } from "react";
 
-export const ShownCtx = createContext<boolean>(true);
+const ShownCtx = createContext<boolean>(true);
 
 /* ------------------------------------------------------------------
    tokens (same language as the folder section)
@@ -109,22 +109,19 @@ const GRAIN =
   "radial-gradient(rgba(0,0,0,0.18) 0.6px, transparent 0.7px)";
 
 const TONES = {
-  yellow: { from: "#fff0a0", to: "#ffd93d" },
-  red: { from: "#ff8a92", to: "#f2535f" },
-  green: { from: "#e6f9c9", to: "#b9ec8c" },
-  blue: { from: "#e8f0ff", to: "#cfe0ff" },
-  lilac: { from: "#f6ecff", to: "#e4d0ff" },
+  yellow: { from: "#fff6c2", to: "#ffdf59" },
+  red: { from: "#e8404e", to: "#cf2f3d" },
+  green: { from: "#effbd8", to: "#c6ee9a" },
+  blue: { from: "#eef4ff", to: "#cedeFF" },
+  lilac: { from: "#f8f0ff", to: "#e6d4ff" },
 } as const;
 
 type Tone = keyof typeof TONES;
 
 const cardShadow: CSSProperties = {
   boxShadow: [
-    "inset 0 1px 0 rgba(255,255,255,0.85)",
-    "inset 0 -2px 6px rgba(0,0,0,0.05)",
-    "0 1px 1px rgba(0,0,0,0.06)",
-    "0 6px 14px rgba(0,0,0,0.07)",
-    "0 18px 36px rgba(0,0,0,0.06)",
+    "4px 6px 0 rgba(36,36,42,0.10)",
+    "0 18px 36px -24px rgba(36,36,42,0.35)",
   ].join(","),
 };
 
@@ -143,10 +140,10 @@ function Card({
   const t = TONES[tone];
   return (
     <div
-      className={`relative flex flex-col overflow-hidden rounded-[32px] p-6 sm:p-8 ${className}`}
+      className={`relative flex flex-col overflow-hidden rounded-[26px_16px_28px_14px/16px_28px_14px_26px] border-2 p-6 sm:p-8 ${className}`}
       style={{
         background: `linear-gradient(180deg, ${t.from} 0%, ${t.to} 100%)`,
-        border: "1px solid rgba(255,255,255,0.65)",
+        borderColor: "rgba(36,36,42,0.42)",
         ...cardShadow,
       }}
     >
@@ -162,10 +159,10 @@ function Card({
 function Title({ children, light = false }: { children: ReactNode; light?: boolean }) {
   return (
     <h3
-      className={`font-sans text-2xl font-medium leading-[1.1] tracking-tight sm:text-[28px] ${
-        light ? "text-white" : "text-zinc-900"
+      className={`font-display text-2xl font-[550] leading-[1.15] tracking-tight sm:text-[28px] ${
+        light ? "text-white" : "text-ink"
       }`}
-      style={{ textShadow: light ? "0 1px 1px rgba(120,0,10,0.25)" : "0 1px 0 rgba(255,255,255,0.55)" }}
+      style={{ textShadow: light ? "0 1px 1px rgba(90,0,10,0.35)" : "none" }}
     >
       {children}
     </h3>
@@ -175,8 +172,8 @@ function Title({ children, light = false }: { children: ReactNode; light?: boole
 function Lead({ children, light = false }: { children: ReactNode; light?: boolean }) {
   return (
     <p
-      className={`mt-3 max-w-[18rem] text-sm leading-relaxed ${
-        light ? "text-white/85" : "text-zinc-600/80"
+      className={`mt-3 max-w-[18rem] text-[15px] leading-relaxed ${
+        light ? "text-white/90" : "text-ink-soft"
       }`}
     >
       {children}
@@ -401,9 +398,9 @@ function Phone() {
         }}
       >
         {/* side buttons */}
-        <span className="absolute -left-[3px] top-[84px] h-8 w-[3px] rounded-l bg-zinc-700" />
-        <span className="absolute -left-[3px] top-[130px] h-12 w-[3px] rounded-l bg-zinc-700" />
-        <span className="absolute -right-[3px] top-[110px] h-16 w-[3px] rounded-r bg-zinc-700" />
+        <span className="absolute -left-[3px] top-[84px] h-8 w-[3px] rounded-l bg-ink/70" />
+        <span className="absolute -left-[3px] top-[130px] h-12 w-[3px] rounded-l bg-ink/70" />
+        <span className="absolute -right-[3px] top-[110px] h-16 w-[3px] rounded-r bg-ink/70" />
 
         {/* screen */}
         <div
@@ -414,20 +411,20 @@ function Phone() {
           }}
         >
           {/* island + status */}
-          <span className="absolute left-1/2 top-2 z-20 h-[20px] w-[68px] -translate-x-1/2 rounded-full bg-zinc-950" />
-          <span className="absolute left-5 top-[11px] text-[10px] font-semibold text-zinc-900">9:41</span>
+          <span className="absolute left-1/2 top-2 z-20 h-[20px] w-[68px] -translate-x-1/2 rounded-full bg-ink" />
+          <span className="absolute left-5 top-[11px] text-[10px] font-semibold text-ink">9:41</span>
           <span className="absolute right-5 top-[13px] flex items-end  gap-[3px]">
-            <span className="h-[7px] w-[3px] rounded-sm bg-zinc-900" />
-            <span className="h-[9px] w-[3px] rounded-sm bg-zinc-900" />
-            <span className="h-[11px] w-[3px] rounded-sm bg-zinc-900" />
+            <span className="h-[7px] w-[3px] rounded-sm bg-ink" />
+            <span className="h-[9px] w-[3px] rounded-sm bg-ink" />
+            <span className="h-[11px] w-[3px] rounded-sm bg-ink" />
           </span>
 
           <div className="px-4 pt-11">
             {/* header */}
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-[10px] font-medium text-zinc-400">Hello,</p>
-                <p className="text-[17px] font-semibold leading-tight tracking-tight text-zinc-900">
+                <p className="text-[10px] font-medium text-ink-muted">Hello,</p>
+                <p className="text-[17px] font-semibold leading-tight tracking-tight text-ink">
                   Good vibes only
                 </p>
               </div>
@@ -459,15 +456,15 @@ function Phone() {
   }}
 >
   <div className="absolute left-4 top-4">
-    <p className="text-[10px] font-medium text-zinc-500">
+    <p className="text-[10px] font-medium text-ink-muted">
       Today&rsquo;s pack
     </p>
-    <p className="mt-0.5 text-[18px] font-semibold leading-tight text-zinc-900">
+    <p className="mt-0.5 text-[18px] font-semibold leading-tight text-ink">
       12 new
       <br />
       stickers
     </p>
-    <span className="mt-2.5 inline-block rounded-full bg-zinc-900 px-2.5 py-1 text-[10px] font-medium text-white shadow-sm">
+    <span className="mt-2.5 inline-block rounded-full bg-ink px-2.5 py-1 text-[10px] font-medium text-white shadow-sm">
       Open
     </span>
   </div>
@@ -489,7 +486,7 @@ function Phone() {
                   style={{
                     borderRadius: 18,
                     background: t.bg,
-                    
+
                   }}
                 >
                   <img
@@ -558,14 +555,14 @@ function UiStack() {
   const shown = useContext(ShownCtx) ?? true;
   const [open, setOpen] = useState(false);
   const [ready, setReady] = useState(false);
- 
+
   /* after the entrance finishes, hover responses stop using the entrance delays */
   useEffect(() => {
     if (!shown) return;
     const t = setTimeout(() => setReady(true), 1500);
     return () => clearTimeout(t);
   }, [shown]);
- 
+
   const layers = [
     {
       y: open ? 0 : 12,
@@ -574,8 +571,8 @@ function UiStack() {
         <Glass>
           <Tile src="/stickers/panda-bear-2.svg" bg="#ffeed9" />
           <div className="min-w-0 flex-1">
-            <p className="text-[13.5px] font-semibold text-zinc-800">Daily streak</p>
-            <p className="truncate text-[11.5px] text-zinc-400">12 days in a row</p>
+            <p className="text-[13.5px] font-semibold text-ink-soft">Daily streak</p>
+            <p className="truncate text-[11.5px] text-ink-muted">12 days in a row</p>
           </div>
           <span className="rounded-full bg-amber-100/90 px-2.5 py-0.5 text-[10.5px] font-semibold text-amber-700">
             +1
@@ -590,10 +587,10 @@ function UiStack() {
         <Glass>
           <Tile src="/stickers/panda-garland.svg" bg="#ffe3ec" />
           <div className="min-w-0 flex-1">
-            <p className="text-[13.5px] font-semibold text-zinc-800">Mochi replied</p>
-            <p className="truncate text-[11.5px] text-zinc-400">this site has so much personality</p>
+            <p className="text-[13.5px] font-semibold text-ink-soft">Mochi replied</p>
+            <p className="truncate text-[11.5px] text-ink-muted">this site has so much personality</p>
           </div>
-          <span className="text-[11px] font-medium text-zinc-300">now</span>
+          <span className="text-[11px] font-medium text-ink/50">now</span>
         </Glass>
       ),
     },
@@ -604,8 +601,8 @@ function UiStack() {
         <Glass style={{ height: 76 }}>
           <Tile src="/stickers/panda-bear-1.svg" bg="#fff0b3" />
           <div className="min-w-0 flex-1">
-            <p className="text-[14px] font-semibold text-zinc-900">Welcome back</p>
-            <p className="truncate text-[11.5px] text-zinc-400">3 new stickers are waiting</p>
+            <p className="text-[14px] font-semibold text-ink">Welcome back</p>
+            <p className="truncate text-[11.5px] text-ink-muted">3 new stickers are waiting</p>
           </div>
           <button
             type="button"
@@ -671,7 +668,7 @@ function UiStack() {
     </div>
   );
 }
-  
+
 
 /* ------------------------------------------------------------------
    section
@@ -701,15 +698,15 @@ export default function Bento() {
       <section
         ref={sectionRef}
         id="showcase"
-        className="relative z-10 mx-4 mb-10 overflow-hidden rounded-[40px] border border-zinc-200/70 px-4 py-20 sm:px-8"
+        className="hand-panel mx-4 mb-10 overflow-hidden px-4 py-20 sm:px-8"
       >
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 opacity-70"
           style={{
             backgroundImage:
-              "linear-gradient(to right, rgba(24,24,27,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(24,24,27,0.05) 1px, transparent 1px)",
-            backgroundSize: "56px 56px",
+              "linear-gradient(to right, rgba(36,36,42,0.07) 1px, transparent 1px), linear-gradient(to bottom, rgba(36,36,42,0.07) 1px, transparent 1px)",
+            backgroundSize: "28px 28px",
             maskImage: "radial-gradient(ellipse 90% 80% at 50% 20%, black 15%, transparent 72%)",
             WebkitMaskImage: "radial-gradient(ellipse 90% 80% at 50% 20%, black 15%, transparent 72%)",
           }}
@@ -718,12 +715,12 @@ export default function Bento() {
           {/* heading */}
           <div className="mx-auto mb-14 flex max-w-3xl flex-col items-center text-center">
             <MotionBlur inView={inView} delay={0}>
-              <h2 className="mt-5 font-display text-4xl font-bold leading-[1.1] tracking-[-0.03em] text-zinc-900 sm:text-5xl">
-                Everything you need to stick around.
+              <h2 className="mt-5 font-display text-[2rem] font-[550] leading-[1.18] tracking-tight text-ink sm:text-5xl">
+                Everything you need to <span className="marker">stick around.</span>
               </h2>
             </MotionBlur>
             <MotionBlur inView={inView} delay={100}>
-              <p className="mt-4 text-base text-neutral-400">
+              <p className="mt-4 text-[15px] leading-relaxed text-ink-soft">
                 Grab, drag and drop. Every sticker below is live, so go ahead and play.
               </p>
             </MotionBlur>
@@ -741,7 +738,7 @@ export default function Bento() {
                     "Drag, tilt and pop built in",
                     "One npm install",
                   ].map((t) => (
-                    <li key={t} className="flex items-center gap-3 text-[15px] font-medium text-zinc-800">
+                    <li key={t} className="flex items-center gap-3 text-[15px] font-medium text-ink-soft">
                       <Check />
                       {t}
                     </li>
@@ -840,17 +837,16 @@ export default function Bento() {
                     <button
                       onClick={copyCommand}
                       aria-label={copied ? "Copied to clipboard" : "Copy npm i stick-it-up@latest"}
-                      className={`group relative mt-6 inline-flex cursor-pointer items-center gap-3 rounded-xl
-                        border bg-gradient-to-b
-                        py-3 pl-4 pr-5 font-mono text-sm
-                        shadow-[inset_0_1px_0_white,0_1px_2px_#0000000a]
+                      className={`group relative mt-6 inline-flex cursor-pointer items-center gap-3
+                        border-2 py-3 pl-4 pr-5 font-mono text-sm
                         transition-all duration-300 ease-out
-                        hover:-translate-y-px active:translate-y-px active:shadow-inner
+                        hover:-translate-y-px active:translate-y-px
                         ${
                           copied
-                            ? "border-emerald-200 from-emerald-50 to-emerald-100/70 text-emerald-800"
-                            : "border-zinc-200 from-white to-zinc-50 text-zinc-800 hover:border-zinc-300 hover:shadow-[inset_0_1px_0_white,0_2px_4px_#0000000a]"
+                            ? "border-[#8fbf6a] bg-[#eefbd8] text-[#2f5a12]"
+                            : "border-ink/45 bg-[#1b1c21] text-[#f4f1e8] hover:border-ink/70"
                         }`}
+                      style={{ borderRadius: "14px 10px 16px 10px / 10px 16px 10px 14px" }}
                     >
                       {/* Text swap */}
                       <span className="relative grid" aria-live="polite">
