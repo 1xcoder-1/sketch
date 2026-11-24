@@ -1,11 +1,24 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist_Mono, Patrick_Hand, Shantell_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+/* Hand-lettered display + body face. The extra axes carry the bounce/ink wobble
+   that makes the sketchbook look, and next/font self-hosts it so there is no
+   external request or layout shift while it swaps in. */
+const shantell = Shantell_Sans({
+  variable: "--font-shantell",
   subsets: ["latin"],
+  axes: ["BNCE", "INFM", "SPAC"],
+  display: "swap",
+});
+
+/* Second hand: all-caps marker labels, stamps and doodle captions. */
+const patrickHand = Patrick_Hand({
+  variable: "--font-patrick",
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
@@ -140,21 +153,15 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full scroll-smooth antialiased`}
+      className={`${shantell.variable} ${patrickHand.variable} ${geistMono.variable} h-full scroll-smooth antialiased`}
     >
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Geist+Pixel&family=Instrument+Serif&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Patrick+Hand&family=Shantell+Sans:BNCE,INFM,wght@-100..100,0..100,400..700&display=swap"
-          rel="stylesheet"
-        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-full flex flex-col font-sans selection:bg-amber-100 selection:text-amber-900">
+      <body className="flex min-h-full flex-col font-sans selection:bg-marker selection:text-ink">
         {children}
         <Analytics />
       </body>
