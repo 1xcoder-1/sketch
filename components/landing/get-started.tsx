@@ -157,7 +157,7 @@ export default function GetStarted() {
     <section
       ref={sectionRef}
       id="get-started"
-      className="relative z-10 mx-4 mb-10 overflow-hidden rounded-[40px] px-6 py-20 sm:px-12 sm:py-24 text-center"
+      className="hand-panel relative z-10 mx-4 mb-10 overflow-hidden px-6 py-20 text-center sm:px-12 sm:py-24"
       
     >
       {/* Paper grain */}
@@ -173,12 +173,12 @@ export default function GetStarted() {
       <DraggableSticker src="/stickers/panda-bear-2.svg" size={56} left="86%" top="68%" rot={-10} />
 
       <div
-        className="get-sheet relative z-10 mx-auto max-w-3xl rounded-[32px] px-6 py-12 sm:px-12 sm:py-16"
+        className="get-sheet tape relative z-10 mx-auto max-w-3xl border-2 border-ink/40 px-6 py-12 sm:px-12 sm:py-16"
         style={{
-          background: "linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(255,248,230,0.96) 100%)",
+          background: "var(--paper-card)",
+          borderRadius: "26px 16px 28px 14px / 16px 28px 14px 26px",
           boxShadow:
-            "inset 0 1px 0 rgba(255,255,255,0.9), 0 18px 40px rgba(0,0,0,0.06)",
-          border: "1px solid rgba(255,255,255,0.8)",
+            "5px 6px 0 rgba(36,36,42,0.09), 0 20px 44px -28px rgba(36,36,42,0.45)",
         }}
       >
         <style>{`
@@ -190,13 +190,13 @@ export default function GetStarted() {
         
 
         <MotionBlur inView={inView} delay={80}>
-          <h2 className="mt-5 font-sans text-4xl font-normal leading-[1.1] tracking-tight text-zinc-900 sm:text-5xl md:text-6xl">
-            Ready to give your UI some personality?
+          <h2 className="mt-5 font-display text-[2rem] font-[550] leading-[1.18] tracking-tight text-ink sm:text-5xl">
+            Ready to give your UI some <span className="marker">personality?</span>
           </h2>
         </MotionBlur>
 
         <MotionBlur inView={inView} delay={160}>
-          <p className="mx-auto mt-4 max-w-xl text-base text-neutral-400">
+          <p className="mx-auto mt-4 max-w-xl text-[15px] leading-relaxed text-ink-soft">
             Install once, drop stickers anywhere, and make every empty state, card, and hero unforgettable.
           </p>
         </MotionBlur>
@@ -207,13 +207,12 @@ export default function GetStarted() {
             {/* Get started button */}
             <a
                href="/stickers"
-              className="group inline-flex cursor-pointer items-center gap-2.5 rounded-xl
-                border border-zinc-800 bg-gradient-to-b from-zinc-800 to-zinc-900
-                px-6 py-3.5 text-sm font-medium text-white
-                shadow-[inset_0_1px_0_#ffffff18,0_1px_2px_#00000015]
+              className="group inline-flex cursor-pointer select-none items-center gap-2.5 rounded-[14px_10px_16px_10px/10px_16px_10px_14px]
+                border-2 border-ink bg-ink px-6 py-3.5 text-[15px] font-medium text-paper-card
+                shadow-[3px_4px_0_rgba(36,36,42,0.22)]
                 transition-all duration-150
-                hover:-translate-y-px hover:from-zinc-700 hover:to-zinc-800
-                active:translate-y-px active:shadow-inner select-none"
+                hover:-translate-y-px hover:bg-[#101015]
+                active:translate-y-px"
             >
               <span>Get started with Sketch Up</span>
               <svg
@@ -231,16 +230,14 @@ export default function GetStarted() {
             <button
               onClick={copyCommand}
               aria-label={copied ? "Copied to clipboard" : "Copy npm i stick-it-up@latest"}
-              className={`group relative inline-flex cursor-pointer items-center gap-3 rounded-xl
-                border bg-gradient-to-b
-                py-3.5 pl-4 pr-5 font-mono text-sm
-                shadow-[inset_0_1px_0_white,0_1px_2px_#0000000a]
+              className={`group relative inline-flex cursor-pointer items-center gap-3 rounded-[14px_10px_16px_10px/10px_16px_10px_14px]
+                border-2 py-3.5 pl-4 pr-5 font-mono text-sm
                 transition-all duration-300 ease-out
-                hover:-translate-y-px active:translate-y-px active:shadow-inner
+                hover:-translate-y-px active:translate-y-px
                 ${
                   copied
-                    ? "border-emerald-200 from-emerald-50 to-emerald-100/70 text-emerald-800"
-                    : "border-zinc-200 from-white to-zinc-50 text-zinc-800 hover:border-zinc-300 hover:shadow-[inset_0_1px_0_white,0_2px_4px_#0000000a]"
+                    ? "border-[#8fbf6a] bg-[#eefbd8] text-[#2f5a12]"
+                    : "border-ink/45 bg-paper-card text-ink hover:border-ink/70"
                 }`}
             >
               <span className="relative grid" aria-live="polite">
