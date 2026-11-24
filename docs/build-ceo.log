@@ -1,0 +1,168 @@
+  FAIL elon-musk pose 1: Download HTTP 429: https://upload.wikimedia.org/wikipedia/commons/8/8b/Elon_Musk_laughs_while_President_Donald_Trump_holds_the_first_cabinet_meeting_of_his_second_term_on_February_26%2C_2025_at_the_White_House_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled
+  ok  elon-musk-pose-2.webp  <-  File:SpaceX CEO Elon Musk visits N&NC and AFSPC (190416-F-ZZ999-006) (cropped).jpg
+  ok  steve-jobs-pose-1.webp  <-  File:Steve Jobs and Macintosh computer, January 1984, by Bernard Gotfryd - edited.jpg
+  ok  steve-jobs-pose-2.webp  <-  File:Macintosh 128k computer, January 1984, by Bernard Gotfryd - (cropped to remove individual).jpg
+  ok  jensen-huang-pose-1.webp  <-  File:Jensen Huang - Nvidia Keynote - CES 2025 Las Vegas (1).jpg
+  ok  jensen-huang-pose-2.webp  <-  File:Jensen Huang - RTX 5070 Laptop - Nvidia Keynote - CES 2025 Las Vegas.jpg
+  ok  mark-zuckerberg-pose-1.webp  <-  File:Mark Zuckerberg F8 2018 Keynote (cropped).jpg
+  ok  mark-zuckerberg-pose-2.webp  <-  File:MarkZuckerberg.jpg
+  ok  satya-nadella-pose-1.webp  <-  File:Satya Nadella Gears of War 4 Gold Master.jpg
+  ok  satya-nadella-pose-2.webp  <-  File:MS-Exec-Nadella-Satya-2017-08-31-22 (cropped).jpg
+  ok  sundar-pichai-pose-1.webp  <-  File:Sundar Pichai, on stage at Google's 2014 Google I-O Conference (15054334835).jpg
+  ok  sundar-pichai-pose-2.webp  <-  File:Sundar Pichai at Google IO 2017 Keynote.jpg
+  ok  bill-gates-pose-1.webp  <-  File:Bill Gates July 2014.jpg
+  ok  bill-gates-pose-2.webp  <-  File:Bill Gates 2018.jpg
+  ok  sam-altman-pose-1.webp  <-  File:Sam Altman speaking at TED (cropped).jpg
+  ok  sam-altman-pose-2.webp  <-  File:Sam Altman CropEdit James Tamim.jpg
+  ok  dario-amodei.webp  <-  File:Dario Amodei at TechCrunch Disrupt 2023 03.jpg
+  ok  tim-cook-pose-1.webp  <-  File:Tim Cook March 2026.jpg
+  ok  tim-cook-pose-2.webp  <-  File:Tim Cook Waving.jpg
+  ok  jeff-bezos-pose-1.webp  <-  File:Jeff Bezos' iconic laugh.jpg
+  ok  jeff-bezos-pose-2.webp  <-  File:Hot off the press ΓÇö the latest D-Wave wafer of quantum processors and TIME cover story.jpg
+  FAIL larry-page pose 1: Download HTTP 429: https://upload.wikimedia.org/wikipedia/commons/e/ec/Larry_Page_in_the_European_Parliament%2C_17.06.2009_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled
+  FAIL larry-page pose 2: Download HTTP 429: https://upload.wikimedia.org/wikipedia/commons/9/9f/Lucilita_Bhreatnach%2C_Gerry_Adams%2C_and_Larry_O%27Toole%2C_1994.png?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled
+  ok  sergey-brin-pose-1.webp  <-  File:Sergey Brin Ted 2010.jpg
+  ok  sergey-brin-pose-2.webp  <-  File:Schmidt-Brin-Page-20080520.jpg
+  ok  neal-mohan-pose-1.webp  <-  File:Neal Mohan at Brandcast in May 2026.png
+  FAIL neal-mohan pose 2: Download HTTP 429: https://upload.wikimedia.org/wikipedia/commons/8/8c/TechCrunch_Disrupt_NY_2013_Day_Two_ft_Neal_Mohan_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled
+  ok  larry-ellison-pose-1.webp  <-  File:Rc-44-San-Diego-skippers.jpg
+  ok  larry-ellison-pose-2.webp  <-  File:Ellison-Spithill-Ford.jpg
+  ok  andy-jassy-pose-1.webp  <-  File:Andy Jassy.jpg
+  ok  andy-jassy-pose-2.webp  <-  File:Andy Jassy in 2016.jpg
+
+Built 31 CEO photo stickers -> public\stickers\ceo
+Catalog  -> app\stickers\ceo-catalog.generated.ts
+
+4 failure(s):
+  - elon-musk pose 1: Download HTTP 429: https://upload.wikimedia.org/wikipedia/commons/8/8b/Elon_Musk_laughs_while_President_Donald_Trump_holds_the_first_cabinet_meeting_of_his_second_term_on_February_26%2C_2025_at_the_White_House_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled
+  - larry-page pose 1: Download HTTP 429: https://upload.wikimedia.org/wikipedia/commons/e/ec/Larry_Page_in_the_European_Parliament%2C_17.06.2009_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled
+  - larry-page pose 2: Download HTTP 429: https://upload.wikimedia.org/wikipedia/commons/9/9f/Lucilita_Bhreatnach%2C_Gerry_Adams%2C_and_Larry_O%27Toole%2C_1994.png?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled
+  - neal-mohan pose 2: Download HTTP 429: https://upload.wikimedia.org/wikipedia/commons/8/8c/TechCrunch_Disrupt_NY_2013_Day_Two_ft_Neal_Mohan_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled
+  FAIL elon-musk pose 1: Download HTTP 429: https://upload.wikimedia.org/wikipedia/commons/8/8b/Elon_Musk_laughs_while_President_Donald_Trump_holds_the_first_cabinet_meeting_of_his_second_term_on_February_26%2C_2025_at_the_White_House_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled
+  ok  elon-musk-pose-2.webp  <-  File:SpaceX CEO Elon Musk visits N&NC and AFSPC (190416-F-ZZ999-006) (cropped).jpg
+
+Built 31 CEO photo stickers -> public\stickers\ceo
+Catalog  -> app\stickers\ceo-catalog.generated.ts
+
+1 failure(s):
+  - elon-musk pose 1: Download HTTP 429: https://upload.wikimedia.org/wikipedia/commons/8/8b/Elon_Musk_laughs_while_President_Donald_Trump_holds_the_first_cabinet_meeting_of_his_second_term_on_February_26%2C_2025_at_the_White_House_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled
+  ok  steve-jobs-pose-1.webp  <-  File:Steve Jobs and Macintosh computer, January 1984, by Bernard Gotfryd - edited.jpg
+  FAIL steve-jobs pose 2: Download HTTP 429: https://upload.wikimedia.org/wikipedia/commons/8/8e/Macintosh_87_langues_21_%E2%81%84_23_Plus_de_d%C3%A9tails_Steve_Jobs_faisant_la_pr%C3%A9sentation_et_la_promotion_du_MacBook_Air_lors_de_la_Macworld_Expo_2008.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled
+
+Built 31 CEO photo stickers -> public\stickers\ceo
+Catalog  -> app\stickers\ceo-catalog.generated.ts
+
+1 failure(s):
+  - steve-jobs pose 2: Download HTTP 429: https://upload.wikimedia.org/wikipedia/commons/8/8e/Macintosh_87_langues_21_%E2%81%84_23_Plus_de_d%C3%A9tails_Steve_Jobs_faisant_la_pr%C3%A9sentation_et_la_promotion_du_MacBook_Air_lors_de_la_Macworld_Expo_2008.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled
+  ok  mark-zuckerberg-pose-1.webp  <-  File:Mark Zuckerberg F8 2018 Keynote (cropped 2).jpg
+  ok  mark-zuckerberg-pose-2.webp  <-  File:Cristina Kirchner and Mark Zuckerberg.jpg
+
+Built 31 CEO photo stickers -> public\stickers\ceo
+Catalog  -> app\stickers\ceo-catalog.generated.ts
+  FAIL larry-page pose 1: Download HTTP 429: https://upload.wikimedia.org/wikipedia/commons/e/ec/Larry_Page_in_the_European_Parliament%2C_17.06.2009_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled
+  FAIL larry-page pose 2: Download HTTP 429: https://upload.wikimedia.org/wikipedia/commons/7/77/Larry_Page_in_the_European_Parliament%2C_17.06.2009_%28cropped1%29.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled
+
+Built 31 CEO photo stickers -> public\stickers\ceo
+Catalog  -> app\stickers\ceo-catalog.generated.ts
+
+2 failure(s):
+  - larry-page pose 1: Download HTTP 429: https://upload.wikimedia.org/wikipedia/commons/e/ec/Larry_Page_in_the_European_Parliament%2C_17.06.2009_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled
+  - larry-page pose 2: Download HTTP 429: https://upload.wikimedia.org/wikipedia/commons/7/77/Larry_Page_in_the_European_Parliament%2C_17.06.2009_%28cropped1%29.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled
+  ok  neal-mohan-pose-1.webp  <-  File:Neal Mohan at Brandcast in May 2026.png
+  FAIL neal-mohan pose 2: Download HTTP 429: https://upload.wikimedia.org/wikipedia/commons/8/8c/TechCrunch_Disrupt_NY_2013_Day_Two_ft_Neal_Mohan_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled
+
+Built 31 CEO photo stickers -> public\stickers\ceo
+Catalog  -> app\stickers\ceo-catalog.generated.ts
+
+1 failure(s):
+  - neal-mohan pose 2: Download HTTP 429: https://upload.wikimedia.org/wikipedia/commons/8/8c/TechCrunch_Disrupt_NY_2013_Day_Two_ft_Neal_Mohan_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled
+  ok  larry-page-pose-1.webp  <-  File:Larry Page in the European Parliament, 17.06.2009 (cropped).jpg
+  FAIL larry-page pose 2: Download HTTP 429: https://upload.wikimedia.org/wikipedia/commons/7/77/Larry_Page_in_the_European_Parliament%2C_17.06.2009_%28cropped1%29.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled
+
+Built 32 CEO photo stickers -> public\stickers\ceo
+Catalog  -> app\stickers\ceo-catalog.generated.ts
+
+1 failure(s):
+  - larry-page pose 2: Download HTTP 429: https://upload.wikimedia.org/wikipedia/commons/7/77/Larry_Page_in_the_European_Parliament%2C_17.06.2009_%28cropped1%29.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled
+  FAIL elon-musk pose 1: Download HTTP 429: https://upload.wikimedia.org/wikipedia/commons/8/8b/Elon_Musk_laughs_while_President_Donald_Trump_holds_the_first_cabinet_meeting_of_his_second_term_on_February_26%2C_2025_at_the_White_House_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled
+  ok  elon-musk-pose-2.webp  <-  File:SpaceX CEO Elon Musk visits N&NC and AFSPC (190416-F-ZZ999-006) (cropped).jpg
+
+Built 32 CEO photo stickers -> public\stickers\ceo
+Catalog  -> app\stickers\ceo-catalog.generated.ts
+
+1 failure(s):
+  - elon-musk pose 1: Download HTTP 429: https://upload.wikimedia.org/wikipedia/commons/8/8b/Elon_Musk_laughs_while_President_Donald_Trump_holds_the_first_cabinet_meeting_of_his_second_term_on_February_26%2C_2025_at_the_White_House_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled
+  ok  neal-mohan-pose-1.webp  <-  File:Neal Mohan at Brandcast in May 2026.png
+  FAIL neal-mohan pose 2: Download HTTP 429: https://upload.wikimedia.org/wikipedia/commons/8/8c/TechCrunch_Disrupt_NY_2013_Day_Two_ft_Neal_Mohan_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled
+
+Built 32 CEO photo stickers -> public\stickers\ceo
+Catalog  -> app\stickers\ceo-catalog.generated.ts
+
+1 failure(s):
+  - neal-mohan pose 2: Download HTTP 429: https://upload.wikimedia.org/wikipedia/commons/8/8c/TechCrunch_Disrupt_NY_2013_Day_Two_ft_Neal_Mohan_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled
+  ok  steve-jobs-pose-1.webp  <-  File:Steve Jobs and Macintosh computer, January 1984, by Bernard Gotfryd - edited.jpg
+  ok  steve-jobs-pose-2.webp  <-  File:Macintosh 87 langues 21 Γüä 23 Plus de d├⌐tails Steve Jobs faisant la pr├⌐sentation et la promotion du MacBook Air lors de la Macworld Expo 2008.jpg
+
+Built 32 CEO photo stickers -> public\stickers\ceo
+Catalog  -> app\stickers\ceo-catalog.generated.ts
+  ok  mark-zuckerberg-pose-1.webp  <-  File:Mark Zuckerberg F8 2018 Keynote (cropped 2).jpg
+  ok  mark-zuckerberg-pose-2.webp  <-  File:Mark Zuckerberg in Prague 2013.jpg
+
+Built 32 CEO photo stickers -> public\stickers\ceo
+Catalog  -> app\stickers\ceo-catalog.generated.ts
+  ok  larry-page-pose-1.webp  <-  File:Larry Page in the European Parliament, 17.06.2009 (cropped).jpg
+  ok  larry-page-pose-2.webp  <-  File:Visit of Larry Page, Co-Founder of Google, to the EC.jpg
+
+Built 33 CEO photo stickers -> public\stickers\ceo
+Catalog  -> app\stickers\ceo-catalog.generated.ts
+  FAIL elon-musk pose 1: Download HTTP 429: https://upload.wikimedia.org/wikipedia/commons/8/8b/Elon_Musk_laughs_while_President_Donald_Trump_holds_the_first_cabinet_meeting_of_his_second_term_on_February_26%2C_2025_at_the_White_House_%28cropped%29.jpg
+  ok  elon-musk-pose-2.webp  <-  File:SpaceX CEO Elon Musk visits N&NC and AFSPC (190416-F-ZZ999-006) (cropped).jpg
+
+Built 33 CEO photo stickers -> public\stickers\ceo
+Catalog  -> app\stickers\ceo-catalog.generated.ts
+
+1 failure(s):
+  - elon-musk pose 1: Download HTTP 429: https://upload.wikimedia.org/wikipedia/commons/8/8b/Elon_Musk_laughs_while_President_Donald_Trump_holds_the_first_cabinet_meeting_of_his_second_term_on_February_26%2C_2025_at_the_White_House_%28cropped%29.jpg
+  ok  neal-mohan-pose-1.webp  <-  File:Neal Mohan at Brandcast in May 2026.png
+  FAIL neal-mohan pose 2: Download HTTP 429: https://upload.wikimedia.org/wikipedia/commons/8/8c/TechCrunch_Disrupt_NY_2013_Day_Two_ft_Neal_Mohan_%28cropped%29.jpg
+
+Built 33 CEO photo stickers -> public\stickers\ceo
+Catalog  -> app\stickers\ceo-catalog.generated.ts
+
+1 failure(s):
+  - neal-mohan pose 2: Download HTTP 429: https://upload.wikimedia.org/wikipedia/commons/8/8c/TechCrunch_Disrupt_NY_2013_Day_Two_ft_Neal_Mohan_%28cropped%29.jpg
+  ok  elon-musk-pose-1.webp  <-  File:SpaceX CEO Elon Musk visits N&NC and AFSPC (190416-F-ZZ999-006) (cropped).jpg
+  ok  elon-musk-pose-2.webp  <-  File:SpaceX Demo-2 Launch (NHQ202005300109).jpg
+
+Built 30 CEO photo stickers -> public\stickers\ceo
+Catalog  -> app\stickers\ceo-catalog.generated.ts
+  ok  neal-mohan-pose-1.webp  <-  File:Neal Mohan at Brandcast in May 2026.png
+  ok  neal-mohan-pose-2.webp  <-  File:Neal Mohan, in New York City on September 19, 2023 - 53199232941 (cropped).jpg
+
+Built 32 CEO photo stickers -> public\stickers\ceo
+Catalog  -> app\stickers\ceo-catalog.generated.ts
+  ok  jensen-huang-pose-1.webp  <-  File:Jensen Huang at GTC Japan 20161005.jpg
+  ok  jensen-huang-pose-2.webp  <-  File:Jensen Huang at Computex Taipei 20160531c.jpg
+
+Built 32 CEO photo stickers -> public\stickers\ceo
+Catalog  -> app\stickers\ceo-catalog.generated.ts
+  ok  larry-ellison-pose-1.webp  <-  File:Larry Ellison on stage (2).jpg
+  ok  larry-ellison-pose-2.webp  <-  File:Oracle Analytics Cloud Dashboard by Benjamin Arnulf presented by Larry Ellison.jpg
+
+Built 32 CEO photo stickers -> public\stickers\ceo
+Catalog  -> app\stickers\ceo-catalog.generated.ts
+  ok  mark-zuckerberg-pose-1.webp  <-  File:Mark Zuckerberg F8 2018 Keynote (cropped 2).jpg
+  ok  mark-zuckerberg-pose-2.webp  <-  File:Mark Zuckerberg (2025).jpg
+
+Built 32 CEO photo stickers -> public\stickers\ceo
+Catalog  -> app\stickers\ceo-catalog.generated.ts
+  ok  larry-ellison-pose-1.webp  <-  File:Larry Ellison on stage (2).jpg
+  ok  larry-ellison-pose-2.webp  <-  File:Oracle Analytics Cloud Dashboard by Benjamin Arnulf presented by Larry Ellison.jpg
+
+Built 32 CEO photo stickers -> public\stickers\ceo
+Catalog  -> app\stickers\ceo-catalog.generated.ts
+  ok  larry-ellison-pose-1.webp  <-  File:Larry Ellison on stage (3).jpg
+  ok  larry-ellison-pose-2.webp  <-  File:Larry Ellison in Oracle OpenWorld 2010.JPG
+
+Built 32 CEO photo stickers -> public\stickers\ceo
+Catalog  -> app\stickers\ceo-catalog.generated.ts

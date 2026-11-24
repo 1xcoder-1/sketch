@@ -108,7 +108,7 @@ const COLUMNS: FooterColumn[] = [
     title: "Product",
     links: [
       { label: "Stickers", href: "/stickers", sticker: "/stickers/face.svg", rot: 12 },
-      { label: "Docs", href: "/stickers#docs", sticker: "/stickers/panda-bear-1.svg", rot: -8 },
+      { label: "Docs", href: "/usage", sticker: "/stickers/panda-bear-1.svg", rot: -8 },
       { label: "npm", href: "https://www.npmjs.com/package/stick-it-up", sticker: "/stickers/panda-bear-1.svg", rot: 6 },
       { label: "Releases", href: "https://github.com/Sam721166/stick-it-up/releases", sticker: "/stickers/panda-bear-2.svg", rot: -10 },
     ],
@@ -360,16 +360,6 @@ export default function Footer() {
                       ) : (
                         <Link
                           href={link.href || "#"}
-                          onClick={(e) => {
-                            if (link.href?.includes("#docs") && window.location.pathname === "/stickers") {
-                              const el = document.getElementById("docs");
-                              if (el) {
-                                e.preventDefault();
-                                el.scrollIntoView({ behavior: "smooth" });
-                                window.history.pushState(null, "", "#docs");
-                              }
-                            }
-                          }}
                           className="group relative inline-flex items-center py-0.5 text-sm font-medium text-zinc-500 transition-colors duration-200 hover:text-zinc-900"
                         >
                           <span>{link.label}</span>

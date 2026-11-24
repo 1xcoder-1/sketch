@@ -15,7 +15,7 @@ import HeroBackdrop from "../components/landing/hero-backdrop";
 const INSTALL_COMMAND = "npm i stick-it-up@latest";
 const NAV_LINKS = [
   { label: "Stickers", href: "/stickers" },
-  { label: "Docs", href: "/stickers#docs" },
+  { label: "Docs", href: "/usage" },
   { label: "npm", href: "https://www.npmjs.com/package/stick-it-up" },
 ];
 
@@ -138,7 +138,7 @@ export default function Home() {
               </span>
               {copyStatus === "copied" ? <Check size={16} aria-hidden="true" /> : <Copy size={16} aria-hidden="true" />}
             </button>
-            <Link href="/stickers#docs" className="hero-docs">Read docs<ArrowUpRight size={18} aria-hidden="true" /></Link>
+            <Link href="/usage" className="hero-docs">Read docs<ArrowUpRight size={18} aria-hidden="true" /></Link>
           </div>
           <p className={copyStatus === "error" ? "copy-feedback" : "sr-only"} role="status">
             {copyStatus === "error" ? `Couldn't copy. Select the command and copy it manually: ${INSTALL_COMMAND}` : copyStatus === "copied" ? "Install command copied to clipboard." : ""}
